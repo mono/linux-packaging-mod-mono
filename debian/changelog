@@ -1,11 +1,11 @@
-mod-mono (1.0.4-0pre1) unstable; urgency=low
+mod-mono (1.0.5-0pre1) unstable; urgency=low
 
   * NEW Release
   + Pablo Fischer:
     * Fixed multiple virtualhost support for mono-server-{update,admin}.conf. 
       Now the user can have multiple virtulhosts running with mod_mono, the fault was
       using the vhosts as * and not as localhost (a realname) (closes: #267581)
-  + Fabian Fagerholm <fabbe@paniq.net>: (closes: #263257)
+  + Fabian Fagerholm <fabbe@paniq.net>: (closes: #263257, #296049)
     * debian/rules: Reworked the build process to be easier to understand
       and extend. Build the libapache2-mod-mono package.
     * debian/control: Build-depend on apache2-dev. Changed the long description
