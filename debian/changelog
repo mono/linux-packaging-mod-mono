@@ -1,5 +1,6 @@
 mod-mono (1.0.1-1) unstable; urgency=low
 
+  * NEW Release
   + Fabian Fagerholm <fabbe@paniq.net>:
     * debian/rules: Reworked the build process to be easier to understand
       and extend. Build the libapache2-mod-mono package.
