@@ -21,17 +21,17 @@ done
 
 }
 
-turnon_type() {
-                sed "s/#AddType/AddType/g" $modmono_conf > $tempfile
-                cp -f $tempfile $modmono_conf
-		rm -Rf $tempfile
+disable_module() {
+for i in apache apache-ssl; do
+        if [ -e $apachecfg ]; then
+            if [ -d /etc/$i ]; then
+                modules-config $i disable mod_mono
+            fi
+	fi
+done
+       
 }
 
-turnoff_type() {
-                sed "s/AddType/#AddType/g" $modmono_conf > $tempfile
-                cp -f $tempfile $modmono_conf
-		rm -Rf $tempfile
-}
 
 restart_apache() {
     #Apache is already running?
@@ -40,7 +40,7 @@ restart_apache() {
 	apache_pid=`cat /var/run/apache.pid`
 	apache_ps=`ps -p $apache_pid | wc -l`
  	# Are there any process running by that pid?
-	if [ $apache_ps != "1" ]; then
+	if [ "$apache_ps" != "1" ]; then
 	    /etc/init.d/apache restart
 	fi
     fi
@@ -62,18 +62,16 @@ case "$1" in
     db_get libapache-mod-mono/activate
     modmono_activate="$RET"
 
-    if [ "$modmono_activate" = "true" ]; then
+    if [ $modmono_activate = "true" ]; then
         activate_module
-        if `cat $modmono_conf | grep -xq "#AddType^"`; then
-            turnon_type
-        fi
-	restart_apache
-	restart_monoserver
     else
-        if `cat $modmono_conf | grep -xq "AddType^"`; then
-            turnoff_type
-        fi
+	disable_module
     fi
+
+    restart_apache
+    restart_monoserver
+    
+    rm -Rf $tempfile
 
     
     # Should we restart Apache?

@@ -1,6 +1,14 @@
 libapache-mod-mono for Debian
 -----------------------------
 
-<possible notes regarding this package - if none, delete this file>
+libapache-mod-mono contains the mod_mono module for Apache that is needed to run 
+asp.net applications in Apache.
 
- -- Pablo Fischer <pablo@pablo.com.mx>, Wed, 18 Feb 2004 20:18:38 -0600
+libapache-mod-mono depends on mono-server, cause mod_mono needs a socket to be connected, and
+mono-server (mod-mono-server) has it.
+
+If you want use apache as your webserver to run asp.net applications and want to test your
+own application, I suggest you to add a new alias in /etc/apache/conf.d/mono.conf and read the
+README.Debian of mono-server.
+
+ -- Pablo Fischer <pablo@pablo.com.mx>, Sat, 28 Feb 2004 14:55:56 -0600

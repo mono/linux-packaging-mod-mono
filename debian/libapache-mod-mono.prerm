@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-apachecfg="/etc/apache2"
+apachecfg="/etc/apache"
 
 turnoff_module() {
 for i in apache apache-ssl; do
@@ -21,7 +21,7 @@ restart_apache() {
 	apache_pid=`cat /var/run/apache.pid`
 	apache_ps=`ps -p $apache_pid | wc -l`
  	# Are there any process running by that pid?
-	if [ $apache_ps != "1" ]; then
+	if [ "$apache_ps" != "1" ]; then
 	    /etc/init.d/apache restart
 	fi
     fi
@@ -34,7 +34,7 @@ restart_monoserver() {
 	monoserver_pid=`cat /var/run/mono-server`
 	monoserver_ps=`ps -p $monoserver_pid | wc -l`
  	# Are there any process running by that pid?
-	if [ $xsp_ps != "1" ]; then
+	if [ "$xsp_ps" != "1" ]; then
 	    #Ok.. is recommended to start it, but, should we do this?, NO!
 	    /etc/init.d/mono-server stop
 	fi
