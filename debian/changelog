@@ -1,3 +1,15 @@
+libapache-mod-mono (0.11-1) unstable; urgency=low
+
+  * New release
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Thu, 17 Jun 2004 13:00:05 -0600
+	
+libapache-mod-mono (0.10-2) unstable; urgency=low
+
+  * Fixed a dependency bug
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Mon, 14 Jun 2004 19:49:19 -0600
+	
 libapache-mod-mono (0.10-1) unstable; urgency=low
 
   * New Release

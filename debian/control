@@ -6,8 +6,8 @@ Build-Depends: debhelper (>= 4.0.0), apache-dev, libmono-dev
 Standards-Version: 3.6.0
 
 Package: libapache-mod-mono
-Architecture: any
+Architecture: i386
 Section: web
-Depends: ${shlibs:Depends}, apache (>= 1.3.31), mono-jit (= 0.95-0pre1v2), mono-server (>= 0.14), wwwconfig-common
+Depends: ${shlibs:Depends}, apache (>= 1.3.31), mono-jit (>= 0.96), mono-server (>= 0.16), wwwconfig-common
 Description: Run ASP.NET Pages on UNIX with Apache and Mono
  Run ASP.NET pages on Unix with Apache and Mono!
