@@ -15,7 +15,7 @@ activate_module() {
 for i in apache apache-ssl; do
         if [ -e $apachecfg ]; then
             if [ -d /etc/$i ]; then
-                modules-config $i enable mod_mono
+                modules-config $i enable libmod_mono
             fi
         fi
 done
@@ -26,7 +26,7 @@ disable_module() {
 for i in apache apache-ssl; do
         if [ -e $apachecfg ]; then
             if [ -d /etc/$i ]; then
-                modules-config $i disable mod_mono
+                modules-config $i disable libmod_mono
             fi
 	fi
 done

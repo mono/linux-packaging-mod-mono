@@ -7,7 +7,7 @@ turnoff_module() {
 for i in apache apache-ssl; do
         if [ -e $apachecfg ]; then
             if [ -d /etc/$i ]; then
-                modules-config $i disable mod_mono quiet
+                modules-config $i disable libmod_mono quiet
             fi
         fi
 done
