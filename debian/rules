@@ -16,8 +16,8 @@ DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 #PKG_CONFIG = $(MONODIR)/libmono-dev/usr/lib/pkgconfig
 #MONO_LIBS = $(MONODIR)/libmono0/usr/lib
 
-APACHELIB = $(PWD)/debian/tmp/usr/lib/apache/1.3
-APACHEETC = $(PWD)/debian/tmp/etc/apache/conf.d
+APACHELIB = $(CURDIR)/debian/libapache-mod-mono/usr/lib/apache/1.3
+APACHEETC = $(CURDIR)/debian/libapache-mod-mono/etc/apache/conf.d
 
 CFLAGS = -Wall -g
 
@@ -71,7 +71,7 @@ install: build
 	dh_installdirs
 
 	# Add here commands to install the package into debian/libapache-mod-mono.
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/libapache-mod-mono-snapshot
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/libapache-mod-mono
 	install -m644 $(CURDIR)/debian/500mod_mono.info $(APACHELIB)/500mod_mono.info
 	install -m644 $(CURDIR)/debian/mono.conf $(APACHEETC)/mono.conf
 
@@ -89,7 +89,7 @@ binary-arch: build install
 	dh_installexamples
 #	dh_install
 #	dh_installmenu
-#	dh_installdebconf	
+	dh_installdebconf	
 #	dh_installlogrotate
 #	dh_installemacsen
 #	dh_installpam
