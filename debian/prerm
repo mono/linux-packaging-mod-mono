@@ -1,0 +1,29 @@
+#!/bin/sh -e
+
+apachecfg="/etc/apache2"
+
+turnoff_module() {
+for i in apache apache-ssl; do
+        if [ -e $apachecfg ]; then
+	    if [ -d /etc/$i ]; then
+                modules-config $i disable mod_mono quiet
+	    fi
+        fi
+done
+
+}
+
+case "$1" in
+  remove)
+        turnoff_module
+        ;;
+    upgrade | deconfigure | failed-upgrade)
+        :
+        ;;
+    *) 
+	echo "postinst failed \`$1'" >&2
+	exit 0
+	;;
+esac
+
+exit 0

@@ -1,0 +1,13 @@
+Template: libapache-mod-mono/wellcome
+Type: text
+Description: Wellcome to ModMono Configuration
+ During the configuration of mod_mono you will be asked for 
+ boolean questions. Once you finish it, you will be able to 
+ enjoy the power of viewing and creating ASP.NET website
+
+Template: libapache-mod-mono/activate
+Default: true
+Type: boolean
+Description: Activate Module
+ Would you like to me to activate the mono module?
+

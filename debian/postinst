@@ -1,0 +1,66 @@
+#!/bin/sh
+
+set -e
+
+. /usr/share/debconf/confmodule
+db_version 2.0
+
+
+apachecfg="/etc/apache"
+modmono_conf="$apachecfg/conf.d/mono.conf"
+tempfile=`/bin/tempfile`
+
+activate_module() {
+for i in apache apache-ssl; do
+        if [ -e $apachecfg ]; then
+	    if [ -d /etc/$i ]; then
+                modules-config $i enable mod_mono
+	    fi
+        fi
+done
+
+}
+
+turnon_type() {
+		sed "s/#AddType/AddType/g" $modmono_conf > $tempfile
+		cp -f $tempfile $modmono_conf
+
+}
+
+turnoff_type() {
+		sed "s/AddType/#AddType/g" $modmono_conf > $tempfile
+		cp -f $tempfile $modmono_conf
+}
+
+case "$1" in
+    configure)
+    db_get libapache-mod-mono/activate
+    modmono_activate="$RET"
+
+    if [ "$modmono_activate" = "true" ]; then
+	activate_module
+	if `cat $modmono_conf | grep -xq "#AddType^"`; then
+	    turnon_type
+	fi
+    else
+	if `cat $apachecfg/conf.d/mono.conf | grep -xq "AddType^"`; then
+	    turnoff_type
+	fi
+    fi
+
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+	#Do nothing..
+    ;;
+
+    *)
+	echo "postinst failed \`$1'" >&2
+	exit 0
+	;;
+esac
+
+exit 0
+
+
+
