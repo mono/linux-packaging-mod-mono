@@ -1,0 +1,5 @@
+22 ene 2004 22:15:15 (pablo)
+
+* I talked with Gonzalo and he told me that XSP is just a webserver. So a user can run any asp.net test without running the xsp webserver by just having mod_mono in apache, however, the only thing that is really needed is: mod-mono-server, in few words: a user can use xsp or apache (with mod_mono) to run asp.net samples, the only thing that is really needed for xsp or apache is: mod-mono-server.
+
+See ya!
