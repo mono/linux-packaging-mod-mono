@@ -13,9 +13,39 @@ done
 
 }
 
+
+restart_apache() {
+    #Apache is already running?
+    if [ -f /var/run/mono-server ]; then
+        # Are we really running apache?
+	apache_pid=`cat /var/run/apache.pid`
+	apache_ps=`ps -p $apache_pid | wc -l`
+ 	# Are there any process running by that pid?
+	if [ $apache_ps != "1" ]; then
+	    /etc/init.d/apache restart
+	fi
+    fi
+}
+
+restart_monoserver() {
+    #MonoServer is running?
+    if [ -f /var/run/mono-server ]; then
+        # Are we really running xsp?
+	monoserver_pid=`cat /var/run/mono-server`
+	monoserver_ps=`ps -p $monoserver_pid | wc -l`
+ 	# Are there any process running by that pid?
+	if [ $xsp_ps != "1" ]; then
+	    #Ok.. is recommended to start it, but, should we do this?, NO!
+	    /etc/init.d/mono-server stop
+	fi
+    fi
+}
+
 case "$1" in
   remove)
         turnoff_module
+	restart_apache
+	restart_monoserver
         ;;
     upgrade | deconfigure | failed-upgrade)
         :

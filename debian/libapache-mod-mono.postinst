@@ -32,6 +32,30 @@ turnoff_type() {
                 cp -f $tempfile $modmono_conf
 }
 
+restart_apache() {
+    #Apache is already running?
+    if [ -f /var/run/mono-server ]; then
+        # Are we really running apache?
+	apache_pid=`cat /var/run/apache.pid`
+	apache_ps=`ps -p $apache_pid | wc -l`
+ 	# Are there any process running by that pid?
+	if [ $apache_ps != "1" ]; then
+	    /etc/init.d/apache restart
+	fi
+    fi
+
+}
+
+restart_monoserver() {
+    #Can we start the mono-server?
+    start_monoserver=`grep start_boot /etc/default/mono-server | awk -F '=' '{ print $2}'`
+    if [ $start_monoserver = "true" ]; then
+        # Ok, start it..
+	/etc/init.d/mono-server start
+    fi    
+}
+
+
 case "$1" in
     configure)
     db_get libapache-mod-mono/activate
@@ -42,12 +66,16 @@ case "$1" in
         if `cat $modmono_conf | grep -xq "#AddType^"`; then
             turnon_type
         fi
+	restart_apache
+	restart_monoserver
     else
-        if `cat $apachecfg/conf.d/mono.conf | grep -xq "AddType^"`; then
+        if `cat $modmono_conf | grep -xq "AddType^"`; then
             turnoff_type
         fi
     fi
 
+    
+    # Should we restart Apache?
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
