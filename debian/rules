@@ -72,9 +72,9 @@ install: build
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/libapache-mod-mono APXS=/bin/true
 
 	mkdir -p $(APACHEETC)
-	install -m644 $(CURDIR)/debian/500mod_mono.info $(APACHELIB)/500mod_mono.info
+	install -m644 $(CURDIR)/debian/500mod_mono.info $(APACHELIB)/500libmod_mono.info
 #	install -m644 $(CURDIR)/debian/mono.conf $(APACHEETC)/mono.conf	
-	install -m755 $(CURDIR)/src/.libs/libmod_mono.so $(APACHELIB)/mod_mono.so
+	install -m755 $(CURDIR)/src/.libs/libmod_mono.so $(APACHELIB)/libmod_mono.so
 
 # Build architecture-independent files here.
 binary-indep: build install
