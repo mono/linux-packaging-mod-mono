@@ -1,9 +1,9 @@
-mod-mono (0.11-4) unstable; urgency=low
+mod-mono (1.0-1) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * NEW Release
 
- -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Fri, 2 Jul 2004 23:32:41 +0200
-
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sat, 3 Jul 2004 14:18:32 -0600
+	
 mod-mono (0.11-3) unstable; urgency=low
 
   * Prepared for the upload into the archiv (closes: #255129)
