@@ -1,3 +1,12 @@
+libapache-mod-mono (0.8-1) unstable; urgency=low
+
+  * NEW RELEASE
+  * Also, the /etc/init.d/mono-server calls should be removed, mono-server daemon dissapears in this version
+  * The mono.conf dissapear, we will manage the mono.conf with the mono-server package
+  * We'll use the wwwconfig scripts to add/remove configuration files from apache
+	
+ -- Pablo Fischer <pablo@pablo.com.mx>  Wed, 28 Apr 2004 07:30:11 -0600	
+
 libapache-mod-mono (0.7-4) unstable; urgency=low
 
   * Fixed inst and removal scripts, now we check if we should start the mono-server 
