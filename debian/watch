@@ -1,0 +1,2 @@
+version=2
+http://www.mono-project.com/downloads/ http://.*/mod_mono-(.*)\.tar\.gz
