@@ -9,7 +9,7 @@ db_version 2.0
 apachecfg="/etc/apache"
 modmono_conf="$apachecfg/conf.d/mono.conf"
 tempfile=`/bin/tempfile`
-virtual_dirs=`mono-server-reader.conf`
+restart=""
 
 activate_module() {
 for i in apache apache-ssl; do
@@ -33,53 +33,22 @@ done
        
 }
 
+add_monoserver_conf() {
+   webservers="apache-ssl apache"
+
+    #wwwconfig way!, I love it!
+   for server in $webservers; do
+       includefile=/etc/apache/conf.d/demonmail.conf
+       conffile=/etc/apache/httpd.conf
+       . /usr/share/wwwconfig-common/apache-include.sh
+       [ "$status" = "uncomment" -o "$status" = "include" ] && restart="$server $restart"
+   done
+}
+
 
 restart_apache() {
-    #Apache is already running?
-    if [ -f /var/run/mono-server ]; then
-        # Are we really running apache?
-	apache_pid=`cat /var/run/apache.pid`
-	apache_ps=`ps -p $apache_pid | wc -l`
- 	# Are there any process running by that pid?
-	if [ "$apache_ps" != "1" ]; then
-	    /etc/init.d/apache restart
-	fi
-    fi
-
-}
-
-
-shouldrestart_monoserver() {
-    if [ -e "/etc/default/mono-server" ]; then
-        . "/etc/default/mono-server"
-        if [ "$start_boot" != "true" ]; then
-	    return 1
-        fi
-    fi
-
-    if [ ! -f /usr/lib/apache/1.3/500mod_mono.info ]; then
-	return 1
-    fi
-	
-    if [ ! -e "/etc/mono-server/mono-server-hosts.conf" ]; then
-	return 1
-    fi
-
-    if [[ $virtual_dirs = *Sorry* ]]; then
-	return 1
-    fi
-                                                                                                                              
-    if [[ -z $virtual_dirs ]]; then
-	return 1
-    fi
-    return 0
-}
-
-restart_monoserver() {
-    if shouldrestart_monoserver ; then
-	echo -n "Starting Mono Server, mono-server: mono-server"
-	/etc/init.d/mono-server start > /dev/null 2>&1 || true
-    fi
+    servers="apache-ssl apache"
+    . /usr/share/wwwconfig-common/restart.sh
 }
 
 
@@ -94,8 +63,8 @@ case "$1" in
 	disable_module
     fi
 
+    add_monoserver_conf
     restart_apache
-    restart_monoserver
     
     rm -Rf $tempfile
 

@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
 apachecfg="/etc/apache"
+restart=""
 
 turnoff_module() {
 for i in apache apache-ssl; do
@@ -14,46 +15,34 @@ done
 }
 
 
+remove_monoserver_conf() {
+   webservers="apache-ssl apache"
+
+    #wwwconfig way!, I love it!
+   for server in $webservers; do
+       includefile=/etc/apache/conf.d/demonmail.conf
+       conffile=/etc/apache/httpd.conf
+       . /usr/share/wwwconfig-common/apache-uninclude.sh
+       [ "$status" = "uncomment" -o "$status" = "include" ] && restart="$server $restart"
+   done
+}
+
 restart_apache() {
-    #Apache is already running?
-    if [ -f /var/run/mono-server ]; then
-        # Are we really running apache?
-	apache_pid=`cat /var/run/apache.pid`
-	apache_ps=`ps -p $apache_pid | wc -l`
- 	# Are there any process running by that pid?
-	if [ "$apache_ps" != "1" ]; then
-	    /etc/init.d/apache restart
-	fi
-    fi
-}
+    webservers="apache-ssl apache"
 
-shouldstop_monoserver() {
-    if [ -f "/var/run/mono-server" ]; then
-	# Are we really running monoserver?
-	monoserver_pid=`cat /var/run/mono-server`
-	monoserver_ps=`ps -p $monoserver_pid | wc -l`
-	# Are there any process running by that pid?
-	if [ "$monoserver_ps" = "2" ]; then
-	    return 0
-	else
-	    return 1
-	fi
-    fi  
-    return 0
-}
-
-restart_monoserver() {
-    if shouldstop_monoserver ; then
-	echo "Stopping Mono Server, mono-server: mono-server "
-	/etc/init.d/mono-server stop > /dev/null 2>&1 || true
-    fi
+    #wwwconfig way!, I love it!
+    for server in $webservers; do
+	restart="$server $restart"
+    done
+    servers="apache-ssl apache"
+    . /usr/share/wwwconfig-common/restart.sh
 }
 
 case "$1" in
   remove)
         turnoff_module
+	remove_monoserver_conf
 	restart_apache
-	restart_monoserver
         ;;
     upgrade | deconfigure | failed-upgrade)
         :

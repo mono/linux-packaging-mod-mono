@@ -67,11 +67,14 @@ install: build
 	dh_installdirs
 
 	# Add here commands to install the package into debian/libapache-mod-mono.
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/libapache-mod-mono
+	#We need APXS = /bin/true, a stupid trick or mod_mono will install everything in /usr 
+	# not in $(CURDIR)/debian/libapache-mod-mono	
+	$(MAKE) install DESTDIR=$(CURDIR)/debian/libapache-mod-mono APXS=/bin/true
 
 	mkdir -p $(APACHEETC)
-	cp -f $(CURDIR)/debian/500mod_mono.info $(APACHELIB)/500mod_mono.info
-	cp -f $(CURDIR)/debian/mono.conf $(APACHEETC)/mono.conf
+	install -m644 $(CURDIR)/debian/500mod_mono.info $(APACHELIB)/500mod_mono.info
+#	install -m644 $(CURDIR)/debian/mono.conf $(APACHEETC)/mono.conf	
+	install -m755 $(CURDIR)/src/.libs/libmod_mono.so $(APACHELIB)/mod_mono.so
 
 # Build architecture-independent files here.
 binary-indep: build install
