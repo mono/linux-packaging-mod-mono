@@ -1,4 +1,4 @@
-mod-mono (1.0.2-1) unstable; urgency=low
+mod-mono (1.0.4-0pre1) unstable; urgency=low
 
   * NEW Release
   + Pablo Fischer:
@@ -23,7 +23,7 @@ mod-mono (1.0.2-1) unstable; urgency=low
   + Martin Quinson:
     * po support / translation support
 
- -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 4 Aug 2004 17:04:12 -0600
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 9 Dec 2004 10:03:42 -0600
 
 mod-mono (1.0-1) unstable; urgency=low
 
