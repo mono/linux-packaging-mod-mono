@@ -1,9 +1,10 @@
-mod-mono (1.0.1-1) unstable; urgency=low
+mod-mono (1.0.2-1) unstable; urgency=low
 
   * NEW Release
   + Pablo Fischer:
-    * Multiple webapps in mod_mono is a problem that developers are trying to fix, 
-      in few words: it still (and will still) buggy. Hope to be fixed soon. (closes #267581)
+    * Fixed multiple virtualhost support for mono-server-{update,admin}.conf. 
+      Now the user can have multiple virtulhosts running with mod_mono, the fault was
+      using the vhosts as * and not as localhost (a realname) (closes: #267581)
   + Fabian Fagerholm <fabbe@paniq.net>: (closes: #263257)
     * debian/rules: Reworked the build process to be easier to understand
       and extend. Build the libapache2-mod-mono package.
