@@ -1,4 +1,4 @@
-libapache-mod-mono (0.7-4) usntable; urgency=low
+libapache-mod-mono (0.7-4) unstable; urgency=low
 
   * Fixed inst and removal scripts, now we check if we should start the mono-server 
     daemon, so we show the user a 'cleaner' way to install libapache-mod-mono :-)
