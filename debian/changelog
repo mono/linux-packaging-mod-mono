@@ -1,7 +1,10 @@
 mod-mono (1.0.1-1) unstable; urgency=low
 
   * NEW Release
-  + Fabian Fagerholm <fabbe@paniq.net>:
+  + Pablo Fischer:
+    * Multiple webapps in mod_mono is a problem that developers are trying to fix, 
+      in few words: it still (and will still) buggy. Hope to be fixed soon. (closes #267581)
+  + Fabian Fagerholm <fabbe@paniq.net>: (closes: #263257)
     * debian/rules: Reworked the build process to be easier to understand
       and extend. Build the libapache2-mod-mono package.
     * debian/control: Build-depend on apache2-dev. Changed the long description
