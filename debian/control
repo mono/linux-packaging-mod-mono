@@ -8,6 +8,6 @@ Standards-Version: 3.6.0
 Package: libapache-mod-mono
 Architecture: i386
 Section: web
-Depends: ${shlibs:Depends}, apache (>= 1.3.31), mono-jit (>= 0.96), mono-server (>= 0.16), wwwconfig-common
+Depends: ${shlibs:Depends}, apache (>= 1.3.31), mono-jit (>= 0.96), mono-apache-server (>= 0.15), wwwconfig-common
 Description: Run ASP.NET Pages on UNIX with Apache and Mono
  Run ASP.NET pages on Unix with Apache and Mono!

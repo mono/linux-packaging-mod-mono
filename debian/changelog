@@ -1,3 +1,9 @@
+libapache-mod-mono (0.11-2) unstable; urgency=low
+
+  * Fixed a dependency name, mono-server doesn't exists any more, it will be mono-apache-server
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Fri, 18 Jun 2004 09:27:43 -0600
+  	
 libapache-mod-mono (0.11-1) unstable; urgency=low
 
   * New release
