@@ -27,17 +27,25 @@ restart_apache() {
     fi
 }
 
-restart_monoserver() {
-    #MonoServer is running?
-    if [ -f /var/run/mono-server ]; then
-        # Are we really running xsp?
+shouldstop_monoserver() {
+    if [ -f "/var/run/mono-server" ]; then
+	# Are we really running monoserver?
 	monoserver_pid=`cat /var/run/mono-server`
 	monoserver_ps=`ps -p $monoserver_pid | wc -l`
- 	# Are there any process running by that pid?
-	if [ "$xsp_ps" != "1" ]; then
-	    #Ok.. is recommended to start it, but, should we do this?, NO!
-	    /etc/init.d/mono-server stop
+	# Are there any process running by that pid?
+	if [ "$monoserver_ps" = "2" ]; then
+	    return 0
+	else
+	    return 1
 	fi
+    fi  
+    return 0
+}
+
+restart_monoserver() {
+    if shouldstop_monoserver ; then
+	echo "Stopping Mono Server, mono-server: mono-server "
+	/etc/init.d/mono-server stop > /dev/null 2>&1 || true
     fi
 }
 
