@@ -1,7 +1,8 @@
 Source: mod-mono
 Section: web
 Priority: optional
-Maintainer: Pablo Fischer <pablo@pablo.com.mx>
+Maintainer: Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>
+Uploaders: Eduard Bloch <blade@debian.org>, Pablo Fischer <pablo@pablo.com.mx>
 Build-Depends: debhelper (>= 4.0.0), apache-dev, libmono-dev
 Standards-Version: 3.6.0
 
