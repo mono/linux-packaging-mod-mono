@@ -1,4 +1,4 @@
-Source: libapache-mod-mono
+Source: mod-mono
 Section: web
 Priority: optional
 Maintainer: Pablo Fischer <pablo@pablo.com.mx>

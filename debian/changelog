@@ -1,3 +1,10 @@
+mod-mono (0.11-3) unstable; urgency=low
+
+  * Prepared for the upload into the archiv (closes: #255129)
+  * renamed the source package to match the original source name better
+
+ -- Eduard Bloch <blade@debian.org>  Tue, 22 Jun 2004 00:21:47 +0200
+
 libapache-mod-mono (0.11-2) unstable; urgency=low
 
   * Fixed a dependency name, mono-server doesn't exists any more, it will be mono-apache-server
