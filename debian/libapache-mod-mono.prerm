@@ -14,26 +14,21 @@ done
 
 }
 
-
 remove_monoserver_conf() {
    webservers="apache-ssl apache"
 
-    #wwwconfig way!, I love it!
+    #wwwconfig way! I love it!
    for server in $webservers; do
-       includefile=/etc/apache/conf.d/demonmail.conf
+       includefile=/etc/mono-server/mono-server-hosts.conf
        conffile=/etc/apache/httpd.conf
        . /usr/share/wwwconfig-common/apache-uninclude.sh
-       [ "$status" = "uncomment" -o "$status" = "include" ] && restart="$server $restart"
+       if [ "$status" = "purge" ]; then
+	   restart="$restart $server"
+       fi
    done
 }
 
 restart_apache() {
-    webservers="apache-ssl apache"
-
-    #wwwconfig way!, I love it!
-    for server in $webservers; do
-	restart="$server $restart"
-    done
     servers="apache-ssl apache"
     . /usr/share/wwwconfig-common/restart.sh
 }

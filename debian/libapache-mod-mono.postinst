@@ -36,12 +36,14 @@ done
 add_monoserver_conf() {
    webservers="apache-ssl apache"
 
-    #wwwconfig way!, I love it!
+   # wwwconfig way! I love it!
    for server in $webservers; do
-       includefile=/etc/apache/conf.d/demonmail.conf
+       includefile=/etc/mono-server/mono-server-hosts.conf
        conffile=/etc/apache/httpd.conf
        . /usr/share/wwwconfig-common/apache-include.sh
-       [ "$status" = "uncomment" -o "$status" = "include" ] && restart="$server $restart"
+       if [ "$status" = "uncomment" -o "$status" = "include" ]; then
+	   restart="$restart $server"
+       fi
    done
 }
 
