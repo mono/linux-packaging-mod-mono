@@ -1,1 +1,1 @@
-LoadModule mono_module /usr/lib/apache2/modules/libmod_mono.so
+LoadModule mono_module /usr/lib/apache2/modules/mod_mono.so
