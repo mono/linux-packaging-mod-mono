@@ -1,3 +1,23 @@
+libapache-mod-mono (0.7-3) unstable; urgency=low
+
+  * libapache-mod-mono.prerm
+    + Fixed the apachecfg dir, I was using apache2.. and eww.. we are using apache 1.3, Fixed!
+  * control
+    + Removed libapache-mod-mono from the mono-server dependencies. When we are uninstalling 
+      mod_mono we need mono-server to stop the daemon, removing it, fixes the problem
+  * libapache-mod-mono.postinst: 
+    + A fix in the rules, in the != ones, I should do: "$var" != "cond", instead of 
+      $var != "cond"  
+    + Removed the turn on and turn off options, we don't need them, just with modules-config, and that's 
+      all what we need to activate the mod_mono module, and added a disable functiont to disable  
+      the module
+  * README.Debian  
+    + Added with a brief explanation of what is the package and what is mod_mono.
+  * mono.conf:     
+    + Added a new alias, /monodoc, for /monodoc application	
+	
+ -- Pablo Fischer <pablo@pablo.com.mx>  Tue, 16 Mar 2004 12:31:57 -0600
+
 libapache-mod-mono (0.7-2) unstable; urgency=low
 
   * Initial Release.
