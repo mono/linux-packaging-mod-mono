@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>
 Uploaders: Eduard Bloch <blade@debian.org>, Pablo Fischer <pablo@pablo.com.mx>
 Build-Depends: debhelper (>= 4.1.16), apache-dev, apache2-dev, libmono-dev
-Standards-Version: 3.6.0
+Standards-Version: 3.6.1
 
 Package: libapache-mod-mono
 Architecture: i386
