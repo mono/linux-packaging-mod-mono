@@ -1,4 +1,4 @@
-mod-mono (1.0-2) unstable; urgency=low
+mod-mono (1.0.1-1) unstable; urgency=low
 
   + Fabian Fagerholm <fabbe@paniq.net>:
     * debian/rules: Reworked the build process to be easier to understand
