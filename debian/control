@@ -3,7 +3,7 @@ Section: web
 Priority: optional
 Maintainer: Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>
 Uploaders: Eduard Bloch <blade@debian.org>, Pablo Fischer <pablo@pablo.com.mx>
-Build-Depends: debhelper (>= 4.0.0), apache-dev, libmono-dev
+Build-Depends: debhelper (>= 4.0.0), apache-dev, apache2-dev, libmono-dev
 Standards-Version: 3.6.0
 
 Package: libapache-mod-mono
@@ -11,4 +11,17 @@ Architecture: i386
 Section: web
 Depends: ${shlibs:Depends}, apache (>= 1.3.31), mono-jit (>= 0.96), mono-apache-server (>= 0.15), wwwconfig-common
 Description: Run ASP.NET Pages on UNIX with Apache and Mono
- Run ASP.NET pages on Unix with Apache and Mono!
+ mod_mono is a module for Apache that enables you to write ASP.NET web
+ applications, using the Mono .NET implementation.
+ .
+ This is the Apache 1.3 version.
+
+Package: libapache2-mod-mono
+Architecture: i386
+Section: web
+Depends: ${shlibs:Depends}, apache2 (>= 2.0.50), mono-jit (>= 0.96), mono-apache-server (>= 0.15)
+Description: Run ASP.NET Pages on UNIX with Apache 2 and Mono
+ mod_mono is a module for Apache that enables you to write ASP.NET web
+ applications, using the Mono .NET implementation.
+ .
+ This is the Apache 2.0 version.

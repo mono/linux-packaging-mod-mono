@@ -12,9 +12,6 @@ export DH_COMPAT=3
 DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
-APACHELIB = $(CURDIR)/debian/libapache-mod-mono/usr/lib/apache/1.3
-APACHEETC = $(CURDIR)/debian/libapache-mod-mono/etc/apache/conf.d
-
 CFLAGS = -Wall -g
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
@@ -26,53 +23,80 @@ ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
 	INSTALL_PROGRAM += -s
 endif
 
-config.status: configure
+COMMON_CONFIG=	--build=$(DEB_BUILD_GNU_TYPE) \
+		--host=$(DEB_HOST_GNU_TYPE) \
+		--prefix=/usr \
+		--mandir=\$${prefix}/share/man \
+		--infodir=\$${prefix}/share/info
+
+configure: configure-apache-stamp configure-apache2-stamp
+configure-apache-stamp:
 	dh_testdir
-
-	-$(MAKE) distclean
-ifneq "$(wildcard /usr/share/misc/config.sub)" ""
-	cp -f /usr/share/misc/config.sub config.sub
-endif
-ifneq "$(wildcard /usr/share/misc/config.guess)" ""
-	cp -f /usr/share/misc/config.guess config.guess
-endif
-
-	# Add here commands to configure the package.
-	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --with-apxs=/usr/bin/apxs
-
-
-build: build-stamp
-
-build-stamp:  config.status
+	if [ -d apache-build ]; then rm -rf apache-build; fi
+	-mkdir apache-build
+	cd apache-build && \
+		../configure $(COMMON_CONFIG) --with-apxs=/usr/bin/apxs
+	touch $@
+configure-apache2-stamp:
 	dh_testdir
+	if [ -d apache2-build ]; then rm -rf apache2-build; fi
+	-mkdir apache2-build
+	cd apache2-build && \
+		../configure $(COMMON_CONFIG) --with-apxs=/usr/bin/apxs2
+	touch $@
 
-	# Add here commands to compile the package.
-	$(MAKE)
-	#/usr/bin/docbook-to-man debian/libapache-mod-mono.sgml > libapache-mod-mono.1
-
-	touch build-stamp
+build: configure build-apache-stamp build-apache2-stamp
+build-apache-stamp: configure-apache-stamp
+	dh_testdir
+	cd apache-build && $(MAKE)
+	touch $@
+build-apache2-stamp: configure-apache2-stamp
+	dh_testdir
+	cd apache2-build && $(MAKE)
+	touch $@
 
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f build-stamp 
+	rm -f *-stamp *-stamp-*
+	rm -rf apache-build apache2-build
 	dh_clean 
 
-install: build
+install: build install-prereq install-apache install-apache2
+install-prereq: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k 
-	dh_installdirs
+	dh_clean -k
+install-apache:
+	dh_installdirs -plibapache-mod-mono
 
-	# Add here commands to install the package into debian/libapache-mod-mono.
-	#We need APXS = /bin/true, a stupid trick or mod_mono will install everything in /usr 
-	# not in $(CURDIR)/debian/libapache-mod-mono	
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/libapache-mod-mono APXS=/bin/true
+	# Install into debian/libapache-mod-mono.
+	# We need APXS = /bin/true, otherwise mod_mono will install everything
+	# in /usr instead of debian/libapache-mod-mono.
+	cd apache-build && $(MAKE) install \
+		DESTDIR=../debian/libapache-mod-mono \
+		APXS=/bin/true
+#	install -m644 debian/libapache-mod-mono.conf \
+#		debian/libapache-mod-mono/etc/apache/conf.d/mod_mono.conf
+	install -m755 apache-build/src/.libs/libmod_mono.so \
+		debian/libapache-mod-mono/`apxs -q LIBEXECDIR`
+	install -m644 debian/libapache-mod-mono.info \
+		debian/libapache-mod-mono/`apxs -q LIBEXECDIR`/500mod_mono.info
+install-apache2:
+	dh_installdirs -plibapache2-mod-mono
 
-	mkdir -p $(APACHEETC)
-	install -m644 $(CURDIR)/debian/500mod_mono.info $(APACHELIB)/500libmod_mono.info
-#	install -m644 $(CURDIR)/debian/mono.conf $(APACHEETC)/mono.conf	
-	install -m755 $(CURDIR)/src/.libs/libmod_mono.so $(APACHELIB)/libmod_mono.so
+	# Install into debian/libapache2-mod-mono.
+	# We need APXS = /bin/true, otherwise mod_mono will install everything
+	# in /usr instead of debian/libapache2-mod-mono.
+	cd apache2-build && $(MAKE) install \
+		DESTDIR=../debian/libapache2-mod-mono \
+		APXS=/bin/true
+	install -m755 apache2-build/src/.libs/libmod_mono.so \
+		debian/libapache2-mod-mono/`apxs2 -q LIBEXECDIR`
+	install -m644 debian/libapache2-mod-mono.load \
+		debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono.load
+	install -m644 debian/libapache2-mod-mono.conf \
+		debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono.conf
 
 # Build architecture-independent files here.
 binary-indep: build install
@@ -85,24 +109,12 @@ binary-arch: build install
 	dh_installchangelogs ChangeLog
 	dh_installdocs
 	dh_installexamples
-#	dh_install
-#	dh_installmenu
 	dh_installdebconf	
-#	dh_installlogrotate
-#	dh_installemacsen
-#	dh_installpam
-#	dh_installmime
-#	dh_installinit
-#	dh_installcron
-#	dh_installinfo
 	dh_installman
 	dh_link
 	dh_strip
 	dh_compress
 	dh_fixperms
-#	dh_perl
-#	dh_python
-#	dh_makeshlibs
 	dh_installdeb
 	dh_shlibdeps
 	dh_gencontrol

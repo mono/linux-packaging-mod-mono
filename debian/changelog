@@ -1,3 +1,23 @@
+mod-mono (1.0-2) unstable; urgency=low
+
+  + Fabian Fagerholm <fabbe@paniq.net>:
+    * debian/rules: Reworked the build process to be easier to understand
+      and extend. Build the libapache2-mod-mono package.
+    * debian/control: Build-depend on apache2-dev. Changed the long description
+      of libapache-mod-mono. Added the libapache2-mod-mono package.
+    * debian/docs: Remove a duplicated line.
+    * debian/TODO: Update with ideas that testers can work on.
+    * README.Debian: Cleaned up and changed wording of this text.
+    * debian/watch: Added.
+    * Rename some files:
+      - mono.conf to libapache-mod-mono.conf, installs as mod_mono.conf
+      - 500mod_mono.info to libapache-mod.mono.info, installs as 500mod_mono.info
+    * Added:
+      - libapache2-mod-mono.conf, installs as mod_mono.conf for apache2.
+    * A number of small changes in wording, spelling errors corrected, etc.
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 4 Aug 2004 17:04:12 -0600
+
 mod-mono (1.0-1) unstable; urgency=low
 
   * NEW Release
