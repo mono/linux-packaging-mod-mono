@@ -1,6 +1,19 @@
+libapache-mod-mono (0.7-2) unstable; urgency=low
+
+  * Initial Release.
+  * Pablo Fischer:	
+    + to the postinst: added two functions: restart_apache and 
+      restart_monoserver.
+    + mono.conf: Added the DirectoryIndex. If we are running apache 
+      with mod_mono, the best idea is to show first the index.aspx 
+      as the index page.	
+    + rules: We create the full parent directories to /etc/apache/conf.d.
+	
+ -- Pablo Fischer <pablo@pablo.com.mx>  Sun, 29 Feb 2004 03:35:16 -0600
+	
 libapache-mod-mono (0.7-1) unstable; urgency=low
 
   * Initial Release.
 
- -- Pablo Fischer <pablo@pablo.com.mx>  Wed, 18 Feb 2004 20:18:38 -0600
+ -- Pablo Fischer <pablo@pablo.com.mx>  Sat, 28 Feb 2004 14:55:56 -0600
 
