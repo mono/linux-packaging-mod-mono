@@ -10,4 +10,3 @@ Default: true
 Type: boolean
 Description: Activate Module
  Would you like to me to activate the mono module?
-

@@ -1,5 +1,5 @@
 Source: libapache-mod-mono
-Section: web
+Section: unknown
 Priority: optional
 Maintainer: Pablo Fischer <pablo@pablo.com.mx>
 Build-Depends: debhelper (>= 4.0.0), apache-dev, libmono-dev

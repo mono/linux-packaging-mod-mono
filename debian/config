@@ -10,24 +10,24 @@ apachecfg="/etc/apache"
 STATE=1
 while [ "$STATE"  != 0 -a "$STATE" != 3 ]; do
     case "$STATE" in
-	1) 
-	    db_input medium libapache-mod-mono/wellcome || true
-	    if db_go; then
-		db_get libapache-mod-mono/wellcome || true
-		STATE=2
-	    else
-		STATE=0
-	    fi
-	    ;;
-	2)
-	    db_input medium libapache-mod-mono/activate || true
-	    if db_go; then
-		db_get libapache-mod-mono/activate || true
-		STATE=3
-	    else
-		STATE=1
-	    fi
-	    ;;
+        1) 
+            db_input medium libapache-mod-mono/wellcome || true
+            if db_go; then
+                db_get libapache-mod-mono/wellcome || true
+                STATE=2
+            else
+                STATE=0
+            fi
+            ;;
+        2)
+            db_input medium libapache-mod-mono/activate || true
+            if db_go; then
+                db_get libapache-mod-mono/activate || true
+                STATE=3
+            else
+                STATE=1
+            fi
+            ;;
     esac
 done
 
