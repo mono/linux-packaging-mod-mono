@@ -24,12 +24,13 @@ done
 turnon_type() {
                 sed "s/#AddType/AddType/g" $modmono_conf > $tempfile
                 cp -f $tempfile $modmono_conf
-
+		rm -Rf $tempfile
 }
 
 turnoff_type() {
                 sed "s/AddType/#AddType/g" $modmono_conf > $tempfile
                 cp -f $tempfile $modmono_conf
+		rm -Rf $tempfile
 }
 
 restart_apache() {
