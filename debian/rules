@@ -79,7 +79,7 @@ install-apache:
 		APXS=/bin/true
 #	install -m644 debian/libapache-mod-mono.conf \
 #		debian/libapache-mod-mono/etc/apache/conf.d/mod_mono.conf
-	install -m755 apache-build/src/.libs/libmod_mono.so \
+	install -m755 apache-build/src/.libs/mod_mono.so \
 		debian/libapache-mod-mono/`apxs -q LIBEXECDIR`
 	install -m644 debian/libapache-mod-mono.info \
 		debian/libapache-mod-mono/`apxs -q LIBEXECDIR`/500mod_mono.info
@@ -92,7 +92,7 @@ install-apache2:
 	cd apache2-build && $(MAKE) install \
 		DESTDIR=../debian/libapache2-mod-mono \
 		APXS=/bin/true
-	install -m755 apache2-build/src/.libs/libmod_mono.so \
+	install -m755 apache2-build/src/.libs/mod_mono.so \
 		debian/libapache2-mod-mono/`apxs2 -q LIBEXECDIR`
 	install -m644 debian/libapache2-mod-mono.load \
 		debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono.load
