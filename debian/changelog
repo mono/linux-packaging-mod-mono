@@ -15,6 +15,8 @@ mod-mono (1.0-2) unstable; urgency=low
     * Added:
       - libapache2-mod-mono.conf, installs as mod_mono.conf for apache2.
     * A number of small changes in wording, spelling errors corrected, etc.
+  + Martin Quinson:
+    * po support / translation support
 
  -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 4 Aug 2004 17:04:12 -0600
 

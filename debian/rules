@@ -60,6 +60,7 @@ clean:
 	dh_testroot
 	rm -f *-stamp *-stamp-*
 	rm -rf apache-build apache2-build
+	debconf-updatepo
 	dh_clean 
 
 install: build install-prereq install-apache install-apache2
