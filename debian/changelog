@@ -1,4 +1,10 @@
-libapache-mod-mono-snapshot (0.5-1) unstable; urgency=low
+libapache-mod-mono (0.7) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Pablo Fischer <pablo@pablo.com.mx>  Wed, 17 Feb 2004 21:17:39 -0600
+	
+libapache-mod-mono (0.5-1) unstable; urgency=low
 
   * Initial Release.
 
