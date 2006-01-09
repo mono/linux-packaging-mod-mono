@@ -1,27 +1,43 @@
-mod-mono (1.0.5-1) unstable; urgency=low
+mod-mono (1.1.10-1) unstable; urgency=low
 
-  * New upstream release
-  * Pablo Fischer:
-    + Fixed multiple virtualhost support for mono-server-{update,admin}.conf. 
+  * NEW upstream release
+  * Dylan R. E. Moonfire <debian@mfgames.com>
+    - debian/control: Changed to Architecture: any
+    - debian/copyright: Copied the Apache 2.0 license from ./COPYING and
+      expanded the details to conform more to the template.
+    - Working on getting this working with apache-perl and
+      apache-ssl. (Closes: #311313)
+    - Cleaned up all warnings and errors for lintian.
+    - Added AMD64 to the architectures list.
+    - Working on getting the XSP and XSP 2 stuff working better together. At
+      this point, editing the files appears to be "best" approach.
+
+ -- Dylan R. E. Moonfire <debian@mfgames.com>  Wed, 07 Dec 2005 09:52:51 -0600
+
+mod-mono (1.0.5-0pre1) unstable; urgency=low
+
+  * NEW Release
+  + Pablo Fischer:
+    * Fixed multiple virtualhost support for mono-server-{update,admin}.conf. 
       Now the user can have multiple virtulhosts running with mod_mono, the fault was
       using the vhosts as * and not as localhost (a realname) (closes: #267581)
-  * Fabian Fagerholm <fabbe@paniq.net>: (closes: #263257, #296049)
-    + debian/rules: Reworked the build process to be easier to understand
+  + Fabian Fagerholm <fabbe@paniq.net>: (closes: #263257, #296049)
+    * debian/rules: Reworked the build process to be easier to understand
       and extend. Build the libapache2-mod-mono package.
-    + debian/control: Build-depend on apache2-dev. Changed the long description
+    * debian/control: Build-depend on apache2-dev. Changed the long description
       of libapache-mod-mono. Added the libapache2-mod-mono package.
-    + debian/docs: Remove a duplicated line.
-    + debian/TODO: Update with ideas that testers can work on.
-    + README.Debian: Cleaned up and changed wording of this text.
-    + debian/watch: Added.
-    + Rename some files:
+    * debian/docs: Remove a duplicated line.
+    * debian/TODO: Update with ideas that testers can work on.
+    * README.Debian: Cleaned up and changed wording of this text.
+    * debian/watch: Added.
+    * Rename some files:
       - mono.conf to libapache-mod-mono.conf, installs as mod_mono.conf
       - 500mod_mono.info to libapache-mod.mono.info, installs as 500mod_mono.info
-    + Added:
+    * Added:
       - libapache2-mod-mono.conf, installs as mod_mono.conf for apache2.
-    + A number of small changes in wording, spelling errors corrected, etc.
-  * Martin Quinson:
-    + po support / translation support
+    * A number of small changes in wording, spelling errors corrected, etc.
+  + Martin Quinson:
+    * po support / translation support
 
  -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 9 Dec 2004 10:03:42 -0600
 

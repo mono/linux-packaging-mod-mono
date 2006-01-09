@@ -17,3 +17,10 @@ want to test your own application, I suggest you to add a new alias in
 of mod-mono-server.
 
  -- Pablo Fischer <pablo@pablo.com.mx>, Sat, 28 Feb 2004 14:55:56 -0600
+
+For XSP 2, you'll need to edit file to point to /etc/mono-server2/
+instead of /etc/mono-server2. For Apache 2, this can be found in
+/etc/apache2/conf.d/mod_mono.conf while Apache 1.3 is located at
+/etc/apache/conf.d/mod_mono.conf.
+
+ -- Dylan R. E. Moonfire <debian@mfgames.com>  Tue, 06 Sep 2005 10:22:39 -0500
