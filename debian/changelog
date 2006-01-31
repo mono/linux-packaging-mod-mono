@@ -1,3 +1,13 @@
+mod-mono (1.1.13-1) unstable; urgency=low
+
+  * New upstream release
+  * Dylan R. E. Moonfire <debian@mfgames.com>
+    - Moved the AutoConfiguration stuff into the apache2/mods-available
+      so the user can use "a2enmod mod_mono_auto" instead of editing
+      files.
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 25 Jan 2006 14:22:11 -0600
+
 mod-mono (1.1.10-1) unstable; urgency=low
 
   * NEW upstream release

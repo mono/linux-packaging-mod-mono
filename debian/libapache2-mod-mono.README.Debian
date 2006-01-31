@@ -1,0 +1,15 @@
+As of mod-mono 1.1.10, there are two ways of configuring mod-mono. The
+first is to use the pseduo-automatic configuration that Debian uses
+and the second is to use the zero-configuration version. These are
+implemented as two different modules for Apache 2.
+
+To use the older-style, use the "mod_mono" module to install it.
+
+  # a2enmod mod_mono
+
+To use the auto-configuration, use "mod_mono_auto".
+
+  # a2enmod mod_mono_auto
+
+If both are enabled, the behavior is undefined (and probably doesn't
+work).

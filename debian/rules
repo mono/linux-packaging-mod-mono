@@ -99,6 +99,17 @@ install-apache2:
 	install -m644 debian/libapache2-mod-mono.conf \
 		debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono.conf
 
+#	Install a Debian version of the AutoConfiguration stuff that fits
+#	with the apache2 a2{en,dis}mod stuff. We use the existing version
+#	because of the autoconf substitutions.
+	grep LoadModule debian/libapache2-mod-mono/etc/apache2/mod_mono.conf \
+		> debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono_auto.load
+	chmod 0644 debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono_auto.load
+	cp debian/libapache2-mod-mono.conf_auto \
+		debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono_auto.conf
+	chmod 0644 debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono_auto.conf
+	rm -f debian/libapache2-mod-mono/etc/apache2/mod_mono.conf
+
 # Build architecture-independent files here.
 binary-indep: build install
 # We have nothing to do by default.
@@ -110,7 +121,7 @@ binary-arch: build install
 	dh_installchangelogs ChangeLog
 	dh_installdocs
 	dh_installexamples
-	dh_installdebconf	
+	dh_installdebconf
 	dh_installman
 	dh_link
 	dh_strip
