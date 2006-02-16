@@ -10,7 +10,7 @@ mod-mono (1.1.13-1) unstable; urgency=low
     + debian/rules
       - Added perl code to identify the version for tightening
         requirements between the various packages
-  * Added French translation. (Closes #351482)
+  * Added French translation. (Closes: #351482)
 
  -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 25 Jan 2006 14:22:11 -0600
 
