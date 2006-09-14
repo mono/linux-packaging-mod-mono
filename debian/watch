@@ -1,2 +1,2 @@
 version=2
-http://go-mono.com/sources-latest/ http://.*/mod_mono-(.*)\.tar\.gz
+http://go-mono.com/sources-latest/ .*/mod_mono-(.*)\.tar\.gz
