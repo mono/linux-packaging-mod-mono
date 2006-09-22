@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-05 10:31-0500\n"
+"Report-Msgid-Bugs-To: pkg-mono-group@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2006-09-21 19:18-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,12 +26,6 @@ msgstr ""
 
 #. Type: boolean
 #. Description
-#: ../libapache-mod-mono.templates:3
-msgid "Activate Module"
-msgstr ""
-
-#. Type: boolean
-#. Description
-#: ../libapache-mod-mono.templates:3
-msgid "Would you like to me to activate the mono module?"
+#: ../libapache-mod-mono.templates:1001
+msgid "Activate module?"
 msgstr ""

@@ -1,0 +1,26 @@
+# Italian (it) translation of debconf templates for mod-mono
+# Copyright (C) 2006 Software in the Public Interest
+# This file is distributed under the same license as the mod-mono package.
+# Luca Monducci <luca.mo@tiscali.it>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mod-mono 1.1.13 italian debconf templates\n"
+"Report-Msgid-Bugs-To: pkg-mono-group@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2006-09-21 19:18-0500\n"
+"PO-Revision-Date: 2006-05-21 11:28+0200\n"
+"Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
+"Language-Team: Italian <tp@lists.linux.it>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../libapache-mod-mono.templates:1001
+#, fuzzy
+msgid "Activate module?"
+msgstr "Attivazione del modulo"
+
+#~ msgid "Would you like to me to activate the mono module?"
+#~ msgstr "Si vuole attivare il modulo mono?"
