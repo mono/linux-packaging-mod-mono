@@ -1,3 +1,10 @@
+mod-mono (1.1.17-3) unstable; urgency=low
+
+  * Mirco 'meebey' Bauer
+    + Fixed debconf templates. (Closes: #389024)
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 24 Sep 2006 01:28:16 +0200
+
 mod-mono (1.1.17-2) unstable; urgency=low
 
   * Dylan R. E. Moonfire <debian@mfgames.com>

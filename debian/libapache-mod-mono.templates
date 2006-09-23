@@ -1,4 +1,4 @@
 Template: libapache-mod-mono/activate
 Type: boolean
 _Description: Activate module?
-If this is true, then the module will be activated as apache starts.
+ If this is true, then the module will be activated as apache starts.
