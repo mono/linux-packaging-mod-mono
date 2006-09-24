@@ -59,7 +59,7 @@ case "$1" in
     db_get libapache-mod-mono/activate
     modmono_activate="$RET"
 
-    if [ $modmono_activate = "true" ]; then
+    if [ "$modmono_activate" = "true" ]; then
         activate_module
     else
 	disable_module
