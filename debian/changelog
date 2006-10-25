@@ -1,3 +1,16 @@
+mod-mono (1.1.18-1) unstable; urgency=low
+
+  ! NOT READY FOR PRIME TIME !
+  * New upstream release.
+  * Dylan R. E. Moonfire
+    + debian/control: Added the 2.2 requirements for unstable
+      (Closes: #395132)
+    + Added Italian translation (Closes: #390297)
+    + Added Czech translation (Closes: #389221)
+    + Added French translation (Closes: #390981)
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 18 Oct 2006 11:33:25 -0500
+
 mod-mono (1.1.17-3) unstable; urgency=low
 
   * Mirco 'meebey' Bauer

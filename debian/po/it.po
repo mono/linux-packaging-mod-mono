@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: mod-mono 1.1.13 italian debconf templates\n"
+"Project-Id-Version: mod-mono 1.1.17 italian debconf templates\n"
 "Report-Msgid-Bugs-To: pkg-mono-group@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2006-09-21 19:18-0500\n"
-"PO-Revision-Date: 2006-05-21 11:28+0200\n"
+"POT-Creation-Date: 2006-09-24 12:22+0200\n"
+"PO-Revision-Date: 2006-09-30 10:28+0200\n"
 "Last-Translator: Luca Monducci <luca.mo@tiscali.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -18,9 +18,11 @@ msgstr ""
 #. Type: boolean
 #. Description
 #: ../libapache-mod-mono.templates:1001
-#, fuzzy
 msgid "Activate module?"
-msgstr "Attivazione del modulo"
+msgstr "Attivare il modulo?"
 
-#~ msgid "Would you like to me to activate the mono module?"
-#~ msgstr "Si vuole attivare il modulo mono?"
+#. Type: boolean
+#. Description
+#: ../libapache-mod-mono.templates:1001
+msgid "If this is true, then the module will be activated as apache starts."
+msgstr "Accettando, il modulo viene attivato all'avvio di apache."
