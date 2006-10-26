@@ -1,6 +1,5 @@
 mod-mono (1.1.18-1) unstable; urgency=low
 
-  ! NOT READY FOR PRIME TIME !
   * New upstream release.
   * Dylan R. E. Moonfire
     + debian/control: Added the 2.2 requirements for unstable
