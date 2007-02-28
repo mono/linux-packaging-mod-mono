@@ -24,4 +24,4 @@ Description: Run ASP.NET Pages on UNIX with Apache 2 and Mono
  mod_mono is a module for Apache that enables you to write ASP.NET web
  applications, using the Mono .NET implementation.
  .
- This is the Apache 2.0 version.
+ This is the Apache 2.2 version.

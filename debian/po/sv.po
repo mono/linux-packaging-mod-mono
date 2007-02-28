@@ -7,20 +7,28 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mod-mono 1.1.13-1\n"
 "Report-Msgid-Bugs-To: pkg-mono-group@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2006-09-21 19:18-0500\n"
-"PO-Revision-Date: 2006-09-14 21:04+0100\n"
-"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"POT-Creation-Date: 2006-12-11 22:16+0000\n"
+"PO-Revision-Date: 2007-01-21 22:24+0100\n"
+"Last-Translator: Andreas Henriksson <andreas@fatal.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: SWEDEN\n"
 
 #. Type: boolean
 #. Description
 #: ../libapache-mod-mono.templates:1001
-#, fuzzy
 msgid "Activate module?"
-msgstr "Aktivera modul"
+msgstr "Aktivera modul?"
+
+#. Type: boolean
+#. Description
+#: ../libapache-mod-mono.templates:1001
+msgid "If this is true, then the module will be activated as apache starts."
+msgstr "Om detta är sant, då kommer modulen bli aktiverad när apache startar."
 
 #~ msgid "Would you like to me to activate the mono module?"
 #~ msgstr "Vill du att jag aktiverar modulen mono?"
+

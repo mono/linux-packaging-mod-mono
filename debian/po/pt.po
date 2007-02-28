@@ -1,0 +1,28 @@
+# Portuguese translation for mod-mono's debconf messages
+# Copyright (C) 2007 Miguel Figueiredo
+# This file is distributed under the same license as the mod-mono package.
+# Miguel Figueiredo <elmig@debianpt.org>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mod-mono 1.2.1-1\n"
+"Report-Msgid-Bugs-To: pkg-mono-group@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2006-12-11 22:16+0000\n"
+"PO-Revision-Date: 2007-02-25 14:02+0000\n"
+"Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
+"Language-Team: Portuguese <traduz@debianpt.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: boolean
+#. Description
+#: ../libapache-mod-mono.templates:1001
+msgid "Activate module?"
+msgstr "Activar o módulo?"
+
+#. Type: boolean
+#. Description
+#: ../libapache-mod-mono.templates:1001
+msgid "If this is true, then the module will be activated as apache starts."
+msgstr "Se isto é verdade, então o módulo será activado assim que o apache iniciar."

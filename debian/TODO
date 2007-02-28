@@ -5,14 +5,14 @@ TODO for mod-mono
 	If you are a prospective beta tester, these are some of the things
 	that should be tested:
 
-	- Install on Apache 1.3 and Apache 2.0.
+	- Install on Apache 1.3 and Apache 2.2.
 	- Systems with a single Apache host and a single mod_mono application.
 	- Systems with multiple virtual hosts and multiple mod_mono
 	  applications.
 	- Userdir support -- allow people to install ASP.NET applications in
 	  their public_html directory.
-	- Test with different Apache 2.0 threading models.
-	- How well does Apache 1.3/2.0 manage to reload its config with
+	- Test with different Apache 2.2 threading models.
+	- How well does Apache 1.3/2.2 manage to reload its config with
 	  mod_mono activated (for example, mod_python will sometimes result
 	  in apache 2.0 freezing upon reload).
 	- Installation alongside other Apache modules (php, mod_perl,

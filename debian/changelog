@@ -1,3 +1,13 @@
+mod-mono (1.2.1-2) unstable; urgency=low
+
+  * Dylan R. E. Moonfire
+    + Added German, Swedish, Czech, Galician, Portuguese, and Japanese
+      translations (Closes: #400392, #407853, #412309, #412343, #412403,
+      #412501).
+    + debian/control: Corrected the Apache 2.2 reference (Closes: #400985)
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Tue, 27 Feb 2007 20:29:43 -0600
+
 mod-mono (1.2.1-1) unstable; urgency=low
 
   * New upstream release
