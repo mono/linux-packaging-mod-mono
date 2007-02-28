@@ -1,0 +1,7 @@
+Template: libapache2-mod-mono/mono-server
+Type: select
+Choices: mod-mono-server, mod-mono-server2
+_Description: Use mono-server:
+ This module, libapache2-mod-mono, can be used with one of two different
+ mono ASP backends. `mono-server' implements ASP 1.1 while `mono-server2'
+ enables some, but not all, ASP 2.0 features.

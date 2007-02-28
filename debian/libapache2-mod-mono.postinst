@@ -1,15 +1,20 @@
 #!/bin/sh -e
 
+# Set up the environment
 set -e
+
+. /usr/share/debconf/confmodule
+db_version 2.0
 
 #DEBHELPER#
 
+# If we aren't configuring, we don't do anything
 if [ "$1" != "configure" ]; then
     exit 0
 fi
 
+# We're upgrading, don't ask again
 if [ -n "$2" ]; then
-# we're upgrading, don't ask again
     exit 0
 fi
 
