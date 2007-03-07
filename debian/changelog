@@ -1,6 +1,5 @@
 mod-mono (1.2.1-2) unstable; urgency=low
 
-  * NOT READY FOR PRIMETIME.
   * Dylan R. E. Moonfire
     + Added German, Swedish, Czech, Galician, Portuguese, and Japanese
       translations (Closes: #400392, #407853, #412309, #412343, #412403,
