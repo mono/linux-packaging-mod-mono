@@ -12,7 +12,7 @@ msgstr ""
 "Last-Translator: Andreas Henriksson <andreas@fatal.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Swedish\n"
 "X-Poedit-Country: SWEDEN\n"
@@ -27,8 +27,7 @@ msgstr "Aktivera modul?"
 #. Description
 #: ../libapache-mod-mono.templates:1001
 msgid "If this is true, then the module will be activated as apache starts."
-msgstr "Om detta ‰r sant, dÂ kommer modulen bli aktiverad n‰r apache startar."
+msgstr "Om detta √§r sant, d√• kommer modulen bli aktiverad n√§r apache startar."
 
 #~ msgid "Would you like to me to activate the mono module?"
 #~ msgstr "Vill du att jag aktiverar modulen mono?"
-
