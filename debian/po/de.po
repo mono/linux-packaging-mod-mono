@@ -27,5 +27,5 @@ msgstr "Modul aktivieren?"
 #. Description
 #: ../libapache-mod-mono.templates:1001
 msgid "If this is true, then the module will be activated as apache starts."
-msgstr "Wenn Sie hier »Ja« sagen wird das Modul aktiviert wenn Apache gestartet wird."
-
+msgstr ""
+"Wenn Sie hier »Ja« sagen wird das Modul aktiviert wenn Apache gestartet wird."

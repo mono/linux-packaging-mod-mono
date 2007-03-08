@@ -16,16 +16,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: pkg-mono-group@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2006-09-21 19:18-0500\n"
+"POT-Creation-Date: 2007-03-08 09:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Type: boolean
 #. Description
 #: ../libapache-mod-mono.templates:1001
 msgid "Activate module?"
+msgstr ""
+
+#. Type: boolean
+#. Description
+#: ../libapache-mod-mono.templates:1001
+msgid "If this is true, then the module will be activated as apache starts."
 msgstr ""

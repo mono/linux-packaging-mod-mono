@@ -1,13 +1,16 @@
 mod-mono (1.2.1-2) unstable; urgency=low
 
   * Dylan R. E. Moonfire
-    + ACK NMU by Christian Perrier:
-      - Added German, Swedish, Czech, Galician, Portuguese, and Japanese
-        translations (Closes: #400392, #407853, #412309, #412343, #412403, #412501).
+    + Added Czech translation (Closes: #412309)
     + debian/control: Corrected the Apache 2.2 reference (Closes: #400985)
     + Added a debconf option to ask which version to use (Closes: #405164)
+  * Sebastian 'slomo' Dröge:
+    + ACK and merge NMU by Christian Perrier:
+     - Added German, Swedish, Czech, Galician, Portuguese, and Japanese
+       translations (Closes: #400392, #407853, #412343, #412403, #412501).
+     - Converted all translations to UTF-8
 
- -- Dylan R. E. Moonfire <debian@mfgames.com>  Tue, 27 Feb 2007 20:29:43 -0600
+ -- Dylan R. E. Moonfire <debian@mfgames.com>  Thu,  8 Mar 2007 09:02:45 +0100
 
 mod-mono (1.2.1-1.1) unstable; urgency=low
 
