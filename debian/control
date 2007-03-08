@@ -19,7 +19,7 @@ Description: Run ASP.NET Pages on UNIX with Apache and Mono
 Package: libapache2-mod-mono
 Architecture: any
 Section: web
-Depends: ${shlibs:Depends}, apache2 (>= 2.2), apache2.2-common, mono-jit (>= 1.0.1), mono-apache-server (>= ${current-version}) | mono-apache-server2 (>= ${current-version}), mono-apache-server (<< ${next-version}) | mono-apache-server2 (<< ${next-version})
+Depends: ${shlibs:Depends}, debconf (>= 1.2.0), apache2 (>= 2.2), apache2.2-common, mono-jit (>= 1.0.1), mono-apache-server (>= ${current-version}) | mono-apache-server2 (>= ${current-version}), mono-apache-server (<< ${next-version}) | mono-apache-server2 (<< ${next-version})
 Description: Run ASP.NET Pages on UNIX with Apache 2 and Mono
  mod_mono is a module for Apache that enables you to write ASP.NET web
  applications, using the Mono .NET implementation.
