@@ -40,7 +40,7 @@ configure-apache-stamp:
 	if [ -d apache-build ]; then rm -rf apache-build; fi
 	-mkdir apache-build
 	cd apache-build && \
-		../configure $(COMMON_CONFIG) --with-apxs=/usr/bin/apxs
+		../configure $(COMMON_CONFIG)
 	touch $@
 configure-apache2-stamp:
 	dh_testdir
