@@ -10,6 +10,13 @@ mod-mono (1.2.4-1) unstable; urgency=low
     + Realized libapache2-mod-mono templates were not included, added them
       to the translation files. Between this and the above entry, this
       effectively erases all translations.
+  * Mirco 'meebey' Bauer
+    + debian/libapache2-mod-mono.template:
+      - Fixed wording
+    + debian/watch:
+      - Updated
+    + debian/copyright:
+      - Added copyright holders
 
  -- Dylan R. E. Moonfire <debian@mfgames.com>  Thu, 21 Jun 2007 19:13:27 -0500
 

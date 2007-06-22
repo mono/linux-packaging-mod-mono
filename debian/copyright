@@ -1,14 +1,18 @@
 This package was debianized by Dylan R. E. Moonfire
 <debian@mfgames.com> on Wed, 07 Dec 2005 09:52:51 -0600.
 
-It was downloaded from http://www.mono-project.com/.
+It was downloaded from:
+http://www.mono-project.com/
 
 Upstream authors: 
-
-Gonzalo Paniagua Javier <gonzalo@ximian.com>
+Daniel Lopez Ridruejo <daniel@rawbyte.com>
+Gonzalo Paniagua Javuer <gonzalo@ximian.com>
 
 Copyright:
+(c) 2002 Daniel Lopez Ridruejo
+(c) 2002-2006 Novell, Inc.
 
+License:
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
