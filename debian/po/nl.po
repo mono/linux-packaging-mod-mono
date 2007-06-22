@@ -1,0 +1,30 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mod-mono\n"
+"Report-Msgid-Bugs-To: pkg-mono-group@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2007-03-08 09:09+0100\n"
+"PO-Revision-Date: 2007-05-01 23:05+0100\n"
+"Last-Translator: Bart Cornelis <cobaco@skolelinux.no>\n"
+"Language-Team: debian-l10n-dutch <debian-l10n-dutch@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Dutch\n"
+
+#. Type: boolean
+#. Description
+#: ../libapache-mod-mono.templates:1001
+msgid "Activate module?"
+msgstr "Wilt u de module activeren?"
+
+#. Type: boolean
+#. Description
+#: ../libapache-mod-mono.templates:1001
+msgid "If this is true, then the module will be activated as apache starts."
+msgstr "Als u dit aanvaard wordt deze module geactiveerd wanneer apache gestart wordt."
+

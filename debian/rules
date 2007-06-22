@@ -68,26 +68,11 @@ clean:
 	debconf-updatepo
 	dh_clean 
 
-install: build install-prereq install-apache install-apache2
+install: build install-prereq install-apache2
 install-prereq: build
 	dh_testdir
 	dh_testroot
 	dh_clean -k
-install-apache:
-	dh_installdirs -plibapache-mod-mono
-
-	# Install into debian/libapache-mod-mono.
-	# We need APXS = /bin/true, otherwise mod_mono will install everything
-	# in /usr instead of debian/libapache-mod-mono.
-	cd apache-build && $(MAKE) install \
-		DESTDIR=../debian/libapache-mod-mono \
-		APXS=/bin/true
-#	install -m644 debian/libapache-mod-mono.conf \
-#		debian/libapache-mod-mono/etc/apache/conf.d/mod_mono.conf
-	install -m755 apache-build/src/.libs/mod_mono.so \
-		debian/libapache-mod-mono/`apxs -q LIBEXECDIR`
-	install -m644 debian/libapache-mod-mono.info \
-		debian/libapache-mod-mono/`apxs -q LIBEXECDIR`/500mod_mono.info
 install-apache2:
 	dh_installdirs -plibapache2-mod-mono
 
