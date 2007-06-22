@@ -34,23 +34,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mod-mono 1.2.1-1\n"
 "Report-Msgid-Bugs-To: pkg-mono-group@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2006-12-11 22:16+0000\n"
+"POT-Creation-Date: 2007-06-21 19:50-0500\n"
 "PO-Revision-Date: 2007-03-16 14:36+0100\n"
 "Last-Translator: Steve Lord Flaubert <stonescenter@gmail.com>\n"
 "Language-Team: Debian Spanish <debian-l10n-spanish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
-#. Type: boolean
+#. Type: select
 #. Description
-#: ../libapache-mod-mono.templates:1001
-msgid "Activate module?"
-msgstr "¿Desea activar el módulo?"
+#: ../libapache2-mod-mono.templates:1001
+msgid "Use mono-server:"
+msgstr ""
 
-#. Type: boolean
+#. Type: select
 #. Description
-#: ../libapache-mod-mono.templates:1001
-msgid "If this is true, then the module will be activated as apache starts."
-msgstr "Si está activado, el módulo se activará al inicio de apache."
+#: ../libapache2-mod-mono.templates:1001
+msgid ""
+"This module, libapache2-mod-mono, can be used with one of two different mono "
+"ASP backends. `mod-mono-server' implements ASP 1.1 while `mod-mono-server2' "
+"enables some, but not all, ASP 2.0 features."
+msgstr ""
 
+#~ msgid "Activate module?"
+#~ msgstr "¿Desea activar el módulo?"
+
+#~ msgid "If this is true, then the module will be activated as apache starts."
+#~ msgstr "Si está activado, el módulo se activará al inicio de apache."
