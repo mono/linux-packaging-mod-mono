@@ -34,14 +34,7 @@ COMMON_CONFIG=	--build=$(DEB_BUILD_GNU_TYPE) \
 		--mandir=\$${prefix}/share/man \
 		--infodir=\$${prefix}/share/info
 
-configure: configure-apache-stamp configure-apache2-stamp
-configure-apache-stamp:
-	dh_testdir
-	if [ -d apache-build ]; then rm -rf apache-build; fi
-	-mkdir apache-build
-	cd apache-build && \
-		../configure $(COMMON_CONFIG)
-	touch $@
+configure: configure-apache2-stamp
 configure-apache2-stamp:
 	dh_testdir
 	if [ -d apache2-build ]; then rm -rf apache2-build; fi
@@ -50,11 +43,7 @@ configure-apache2-stamp:
 		../configure $(COMMON_CONFIG) --with-apxs=/usr/bin/apxs2
 	touch $@
 
-build: configure build-apache-stamp build-apache2-stamp
-build-apache-stamp: configure-apache-stamp
-	dh_testdir
-	cd apache-build && $(MAKE)
-	touch $@
+build: configure build-apache2-stamp
 build-apache2-stamp: configure-apache2-stamp
 	dh_testdir
 	cd apache2-build && $(MAKE)
