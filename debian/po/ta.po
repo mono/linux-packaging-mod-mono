@@ -1,0 +1,37 @@
+# translation of modmono.po to TAMIL
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Dr.T.Vasudevan <agnihot3@gmail.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: modmono\n"
+"Report-Msgid-Bugs-To: pkg-mono-group@lists.alioth.debian.org\n"
+"POT-Creation-Date: 2007-07-23 07:43+0200\n"
+"PO-Revision-Date: 2007-07-23 21:34+0530\n"
+"Last-Translator: Dr.T.Vasudevan <agnihot3@gmail.com>\n"
+"Language-Team: TAMIL <ubuntu-l10n-tam@lists.ubuntu.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#. Type: select
+#. Description
+#: ../libapache2-mod-mono.templates:2001
+msgid "Mono server to use:"
+msgstr "பயன்படுத்தவேண்டிய மோனோ சேவையகம்."
+
+#. Type: select
+#. Description
+#: ../libapache2-mod-mono.templates:2001
+msgid ""
+"The libapache2-mod-mono module can be used with one of two different Mono "
+"ASP.NET backends:\n"
+" - mod-mono-server : implements ASP.NET 1.1 features;\n"
+" - mod-mono-server2: implements ASP.NET 2.0 features."
+msgstr ""
+"libapache2-mod-mono கூறை இரண்டு வெவ்வேறு மோனோ ASP.NET பின்புலத்துடன் "
+"பயன்படுத்தலாம்:\n"
+" - mod-mono-server :  ASP.NET 1.1 சிறப்பு அம்சங்களை செயல்படுத்துகிறது.;\n"
+" - mod-mono-server2: ASP.NET 2.0 சிறப்பு அம்சங்களை செயல்படுத்துகிறது.."

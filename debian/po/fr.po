@@ -1,22 +1,13 @@
-# translation of fr.po to French
+# translation of mod-mono debconf templates to French
+# This file is licensed under the same license as the mod-mono package
 #
-#    Translators, if you are not familiar with the PO format, gettext
-#    documentation is worth reading, especially sections dedicated to
-#    this format, e.g. by running:
-#         info -n '(gettext)PO Files'
-#         info -n '(gettext)Header Entry'
-#    Some information specific to po-debconf are available at
-#            /usr/share/doc/po-debconf/README-trans
-#         or http://www.debian.org/intl/l10n/po-debconf/README-trans#
-#    Developers do not need to manually edit POT or PO files.
-#
-# Christian Perrier <bubulle@debian.org>, 2006.
+# Copyright: Christian Perrier <bubulle@debian.org>, 2006, 2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: fr\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: pkg-mono-group@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2007-06-22 18:32+0200\n"
-"PO-Revision-Date: 2006-09-28 06:34+0200\n"
+"POT-Creation-Date: 2007-07-23 07:43+0200\n"
+"PO-Revision-Date: 2007-07-23 07:46+0200\n"
 "Last-Translator: Christian Perrier <bubulle@debian.org>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,23 +17,20 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../libapache2-mod-mono.templates:1001
-msgid "Use mono-server:"
-msgstr ""
+#: ../libapache2-mod-mono.templates:2001
+msgid "Mono server to use:"
+msgstr "Serveur Mono à utiliser :"
 
 #. Type: select
 #. Description
-#: ../libapache2-mod-mono.templates:1001
+#: ../libapache2-mod-mono.templates:2001
 msgid ""
-"This module, libapache2-mod-mono, can be used with one of two different Mono "
-"ASP.NET backends. `mod-mono-server' implements ASP.NET 1.1 while `mod-mono-"
-"server2' implementes ASP.NET 2.0 features."
+"The libapache2-mod-mono module can be used with one of two different Mono "
+"ASP.NET backends:\n"
+" - mod-mono-server : implements ASP.NET 1.1 features;\n"
+" - mod-mono-server2: implements ASP.NET 2.0 features."
 msgstr ""
-
-#~ msgid "Activate module?"
-#~ msgstr "Faut-il activer le module ?"
-
-#~ msgid "If this is true, then the module will be activated as apache starts."
-#~ msgstr ""
-#~ "Si vous choisissez cette option, le module sera activé au démarrage "
-#~ "d'Apache."
+"Le module libapache2-mod-mono peut être utilisé avec deux modes différents "
+"de gestion de ASP.NET :\n"
+" - mod-mono-server  : compatible avec ASP.NET 1.1 ;\n"
+" - mod-mono-server2 : compatible avec ASP.NET 2.0."

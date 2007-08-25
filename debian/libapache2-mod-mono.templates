@@ -1,7 +1,17 @@
+# These templates have been reviewed by the debian-l10n-english
+# team
+#
+# If modifications/additions/rewording are needed, please ask
+# debian-l10n-english@lists.debian.org for advice.
+#
+# Even minor modifications require translation updates and such
+# changes should be coordinated with translators and reviewers.
+
 Template: libapache2-mod-mono/mono-server
 Type: select
 Choices: mod-mono-server, mod-mono-server2
-_Description: Use mono-server:
- This module, libapache2-mod-mono, can be used with one of two different
- Mono ASP.NET backends. `mod-mono-server' implements ASP.NET 1.1 while
- `mod-mono-server2' implements ASP.NET 2.0 features.
+_Description: Mono server to use:
+ The libapache2-mod-mono module can be used with one of two different
+ Mono ASP.NET backends:
+  - mod-mono-server : implements ASP.NET 1.1 features;
+  - mod-mono-server2: implements ASP.NET 2.0 features.

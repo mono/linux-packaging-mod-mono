@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mod-mono 1.2.1-1\n"
 "Report-Msgid-Bugs-To: pkg-mono-group@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2007-06-22 18:32+0200\n"
-"PO-Revision-Date: 2007-02-25 14:02+0000\n"
+"POT-Creation-Date: 2007-07-23 07:43+0200\n"
+"PO-Revision-Date: 2007-07-23 18:29+0100\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,18 +17,23 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../libapache2-mod-mono.templates:1001
-msgid "Use mono-server:"
-msgstr ""
+#: ../libapache2-mod-mono.templates:2001
+msgid "Mono server to use:"
+msgstr "Servidor Mono a utilizar:"
 
 #. Type: select
 #. Description
-#: ../libapache2-mod-mono.templates:1001
+#: ../libapache2-mod-mono.templates:2001
 msgid ""
-"This module, libapache2-mod-mono, can be used with one of two different Mono "
-"ASP.NET backends. `mod-mono-server' implements ASP.NET 1.1 while `mod-mono-"
-"server2' implementes ASP.NET 2.0 features."
+"The libapache2-mod-mono module can be used with one of two different Mono "
+"ASP.NET backends:\n"
+" - mod-mono-server : implements ASP.NET 1.1 features;\n"
+" - mod-mono-server2: implements ASP.NET 2.0 features."
 msgstr ""
+"O módulo libapache2-mod-mono pode ser utilizado com um dos dois 'backends' "
+"distintos de ASP.NET:\n"
+" - mod-mono-server : implementa funcionalidades ASP.NET 1.1;\n"
+" - mod-mono-server2: implementa funcionalidades ASP.NET 2.0."
 
 #~ msgid "Activate module?"
 #~ msgstr "Activar o módulo?"

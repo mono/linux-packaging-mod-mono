@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mod-mono\n"
 "Report-Msgid-Bugs-To: pkg-mono-group@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2007-06-22 18:32+0200\n"
-"PO-Revision-Date: 2006-09-24 18:21+0200\n"
+"POT-Creation-Date: 2007-07-23 07:43+0200\n"
+"PO-Revision-Date: 2007-07-29 11:46+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,21 +25,19 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../libapache2-mod-mono.templates:1001
-msgid "Use mono-server:"
-msgstr ""
+#: ../libapache2-mod-mono.templates:2001
+msgid "Mono server to use:"
+msgstr "Mono server, který se má použít:"
 
 #. Type: select
 #. Description
-#: ../libapache2-mod-mono.templates:1001
+#: ../libapache2-mod-mono.templates:2001
 msgid ""
-"This module, libapache2-mod-mono, can be used with one of two different Mono "
-"ASP.NET backends. `mod-mono-server' implements ASP.NET 1.1 while `mod-mono-"
-"server2' implementes ASP.NET 2.0 features."
+"The libapache2-mod-mono module can be used with one of two different Mono "
+"ASP.NET backends:\n"
+" - mod-mono-server : implements ASP.NET 1.1 features;\n"
+" - mod-mono-server2: implements ASP.NET 2.0 features."
 msgstr ""
-
-#~ msgid "Activate module?"
-#~ msgstr "Aktivovat modul?"
-
-#~ msgid "Would you like to me to activate the mono module?"
-#~ msgstr "Má se aktivovat modul mono?"
+"Modul libapache2-mod-mono se dá použít s různými backendy pro Mono ASP.NET:\n"
+" - mod-mono-server : implementuje ASP.NET 1.1;\n"
+" - mod-mono-server2: implementuje ASP.NET 2.0."
