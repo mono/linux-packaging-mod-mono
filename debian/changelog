@@ -1,26 +1,27 @@
 mod-mono (1.2.4-2) unstable; urgency=low
 
-  * Debconf templates and debian/control reviewed by the debian-l10n-
-    english team as part of the Smith review project. Closes: #433711
-  * Debconf translation updates:
-    - Remove useless English "translation"
-    - French
-    - Japanese. Closes: #434320
-    - Galician. Closes: #434321
-    - Tamil. Closes: #434403
-    - German. Closes: #434407
-    - Russian. Closes: #434408
-    - Portuguese. Closes: #434436
-    - French. Closes: #434476
-    - Basque. Closes: #434498
-    - Italian. Closes: #434513
-    - Vietnamese. Closes: #434759
-    - Spanish. Closes: #435906
-    - Czech. Closes: #436281
-    - Dutch. Closes: #436854
-    - Swedish. Closes: #436413
+  * Christian Perrier
+    + Debconf templates and debian/control reviewed by the debian-l10n-
+      english team as part of the Smith review project. Closes: #433711
+    + Debconf translation updates:
+      - Remove useless English "translation"
+      - French
+      - Japanese. Closes: #434320
+      - Galician. Closes: #434321
+      - Tamil. Closes: #434403
+      - German. Closes: #434407
+      - Russian. Closes: #434408
+      - Portuguese. Closes: #434436
+      - French. Closes: #434476
+      - Basque. Closes: #434498
+      - Italian. Closes: #434513
+      - Vietnamese. Closes: #434759
+      - Spanish. Closes: #435906
+      - Czech. Closes: #436281
+      - Dutch. Closes: #436854
+      - Swedish. Closes: #436413
 
- -- Christian Perrier <bubulle@debian.org>  Thu, 19 Jul 2007 06:11:36 +0200
+ -- Dylan R. E. Moonfire <debian@mfgames.com>  Thu, 19 Jul 2007 06:11:36 +0200
 
 mod-mono (1.2.4-1) unstable; urgency=low
 
