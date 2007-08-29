@@ -9,7 +9,7 @@ mod-mono (1.2.4-2) unstable; urgency=low
       - Japanese. Closes: #434320
       - Galician. Closes: #434321
       - Tamil. Closes: #434403
-      - German. Closes: #434407
+      - German. Closes: #434407, #433201
       - Russian. Closes: #434408
       - Portuguese. Closes: #434436
       - French. Closes: #434476
