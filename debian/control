@@ -1,16 +1,19 @@
 Source: mod-mono
 Section: web
 Priority: optional
+Homepage: http://www.mono-project.com/Mod_mono
+Vcs-Browser: http://svn.debian.org/wsvn/pkg-mono/mod-mono/trunk/
+Vcs-Svn: svn://svn.debian.org/pkg-mono/mod-mono/trunk
 Maintainer: Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>
-Uploaders: Eduard Bloch <blade@debian.org>, Pablo Fischer <pablo@pablo.com.mx>, Dylan R. E. Moonfire <debian@mfgames.com>
-Build-Depends: debhelper (>= 4.1.16), apache2-dev (>= 2.2) | apache2-threaded-dev (>= 2.2), libmono-dev, po-debconf
+Uploaders: Dylan R. E. Moonfire <debian@mfgames.com>, Mirco Bauer <meebey@debian.org>
+Build-Depends: debhelper (>= 4.1.16), apache2-threaded-dev (>= 2.2), libmono-dev, po-debconf
 Standards-Version: 3.7.2
 
 Package: libapache2-mod-mono
 Architecture: any
 Section: web
-Depends: ${shlibs:Depends}, debconf (>= 1.2.0), apache2 (>= 2.2), apache2.2-common, mono-jit (>= 1.0.1), mono-apache-server (>= ${current-version}) | mono-apache-server2 (>= ${current-version}), mono-apache-server (<< ${next-version}) | mono-apache-server2 (<< ${next-version})
-Description: Apache module for running ASP.NET applications via Mono
+Depends: ${shlibs:Depends}, debconf (>= 1.2.0), apache2-mpm-worker (>= 2.2), apache2.2-common, mono-jit (>= 1.0.1), mono-apache-server (>= ${current-version}) | mono-apache-server2 (>= ${current-version}), mono-apache-server (<< ${next-version}) | mono-apache-server2 (<< ${next-version})
+Description: Apache module for running ASP.NET applications on Mono
  The mod_mono module for Apache allows ASP.NET web applications to be
  run with the Mono .NET implementation.
  .

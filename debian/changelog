@@ -1,3 +1,19 @@
+mod-mono (1.2.5-2) unstable; urgency=low
+
+  * Replaced build-dependency apache2-dev || apache2-threaded-dev with only
+    apache2-threaded-dev.
+    The buildds stopped to compile the source package, as AutoDepWait only
+    honors the first package (like sbuild) while the conventional (old) way
+    just tried to build it and installed apache2-threaded-dev automaticly.
+  * Replaced apache2 binary dependency with apache2-mpm-worker, as the built
+    module for threaded apache will not work with prefork apache.
+  * Added Homepage, Vcs-Browser and Vcs-Svn fields to debian/control.
+  * Added myself to Uploaders.
+  * Removed Eduard Bloch and Pablo Fischer from Uploaders, as they haven't touch
+    the package over 2 years anymore.
+
+ -- Mirco Bauer <meebey@debian.org>  Sat, 01 Dec 2007 00:19:32 +0100
+
 mod-mono (1.2.5-1) unstable; urgency=low
 
   * New upstream release
