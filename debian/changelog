@@ -4,8 +4,9 @@ mod-mono (1.9-1) unstable; urgency=low
   * Add Jo Shields to Uploaders
   * Integrate changes from latest NMU (Closes: #457109, #472847 #486605,
     #487069). Thanks to Christian Perrier.
+  * Update standards version to 3.8.0 (for easier importing into Ubuntu)
 
- -- Jo Shields <directhex@apebox.org>  Fri,  4 Jul 2008 08:45:53 +0100
+ -- Jo Shields <directhex@apebox.org> Fri, 4 Jul 2008 08:45:53 +0100
 
 mod-mono (1.2.5-2.1) unstable; urgency=low
 
