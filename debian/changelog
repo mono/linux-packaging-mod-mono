@@ -5,7 +5,7 @@ mod-mono (2.0-1) UNRELEASED; urgency=low
   * libapache2-mod-mono.config:
     + Prevent postinst failure by ensuring mod_mono.conf always exists
 
-  [ Mirco Bauer]
+  [ Mirco Bauer ]
   * debian/libapache2-mod-mono.conf:
     + Enhanced comments.
 
