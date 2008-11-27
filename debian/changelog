@@ -1,4 +1,4 @@
-mod-mono (2.0-1) UNRELEASED; urgency=low
+mod-mono (2.0-1) experimental; urgency=low
 
   [ Jo Shields ]
   * New upstream release
