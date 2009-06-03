@@ -122,6 +122,7 @@ binary-arch: build install
 	dh_builddeb
 
 get-orig-source:
+	[ -d ../tarballs ] || mkdir ../tarballs
 	uscan \
 		--package $(DEB_SOURCE_NAME) \
 		--watchfile $(DEBIAN_DIR)/watch \
