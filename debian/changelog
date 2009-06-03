@@ -1,3 +1,14 @@
+mod-mono (2.4-1) UNRELEASED; urgency=low
+
+  * New upstream release
+  * debian/rules:
+    + Implement a get-orig-source rule
+  * debian/control:
+    + Bump standards version to latest version
+    + Alter dependencies for new mono-runtime package in Mono 2.4.
+
+ -- Jo Shields <directhex@apebox.org>  Wed, 03 Jun 2009 11:30:52 +0100
+
 mod-mono (2.0-2) unstable; urgency=low
 
   * Upload to unstable.
