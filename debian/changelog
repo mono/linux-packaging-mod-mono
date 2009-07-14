@@ -1,13 +1,22 @@
-mod-mono (2.4-1) UNRELEASED; urgency=low
+mod-mono (2.4.2-1) UNRELEASED; urgency=low
+
+  TRANSLATION SHIZZLE NOT READY YET
 
   * New upstream release
   * debian/rules:
     + Implement a get-orig-source rule
   * debian/control:
-    + Bump standards version to latest version
+    + Bump standards version to latest version (No changes needed)
     + Alter dependencies for new mono-runtime package in Mono 2.4.
+    + Alter dependencies to pull in the "default" ASP.NET version
+      for preference, with explicit 2.0 or 1.1 as options
+  * debian/libapache2-mod-mono.conf,
+    debian/libapache2-mod-mono.config:
+    + Update for new executable names
+  * debian/libapache2-mod-mono.templates:
+    + ASP.NET 2.0 is default now, and option names have changed
 
- -- Jo Shields <directhex@apebox.org>  Wed, 03 Jun 2009 11:30:52 +0100
+ -- Jo Shields <directhex@apebox.org>  Tue, 14 Jul 2009 15:21:23 +0100
 
 mod-mono (2.0-2) unstable; urgency=low
 

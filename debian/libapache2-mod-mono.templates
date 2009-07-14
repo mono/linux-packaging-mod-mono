@@ -9,9 +9,10 @@
 
 Template: libapache2-mod-mono/mono-server
 Type: select
-Choices: mod-mono-server, mod-mono-server2
+Choices: mod-mono-server1, mod-mono-server2
+Default: mod-mono-server2
 _Description: Mono server to use:
  The libapache2-mod-mono module can be used with one of two different
  Mono ASP.NET backends:
-  - mod-mono-server : implements ASP.NET 1.1 features;
+  - mod-mono-server1: implements ASP.NET 1.1 features;
   - mod-mono-server2: implements ASP.NET 2.0 features.
