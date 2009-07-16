@@ -5,7 +5,8 @@ mod-mono (2.4.2-1) UNRELEASED; urgency=low
     + Implement a get-orig-source rule
   * debian/control:
     + Bump standards version to latest version (No changes needed)
-    + Alter dependencies for new mono-runtime package in Mono 2.4.
+    + Alter dependencies for new mono-runtime package in Mono 2.4 
+      (Closes: #536504)
     + Alter dependencies to pull in the "default" ASP.NET version
       for preference, with explicit 2.0 or 1.1 as options
   * debian/libapache2-mod-mono.conf,
