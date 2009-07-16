@@ -1,7 +1,5 @@
 mod-mono (2.4.2-1) UNRELEASED; urgency=low
 
-  TRANSLATION SHIZZLE NOT READY YET
-
   * New upstream release
   * debian/rules:
     + Implement a get-orig-source rule
@@ -13,10 +11,13 @@ mod-mono (2.4.2-1) UNRELEASED; urgency=low
   * debian/libapache2-mod-mono.conf,
     debian/libapache2-mod-mono.config:
     + Update for new executable names
-  * debian/libapache2-mod-mono.templates:
+  * debian/libapache2-mod-mono.templates,
+    debian/po/*:
     + ASP.NET 2.0 is default now, and option names have changed
+  * debian/po/nl.po:
+    + Fix line breaks
 
- -- Jo Shields <directhex@apebox.org>  Tue, 14 Jul 2009 15:21:23 +0100
+ -- Jo Shields <directhex@apebox.org>  Thu, 16 Jul 2009 15:33:23 +0100
 
 mod-mono (2.0-2) unstable; urgency=low
 
