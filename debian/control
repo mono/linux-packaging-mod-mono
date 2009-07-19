@@ -12,7 +12,7 @@ Standards-Version: 3.8.2
 Package: libapache2-mod-mono
 Architecture: any
 Section: web
-Depends: ${shlibs:Depends}, debconf (>= 1.2.0), apache2.2-common, mono-runtime (>= 2.4), mono-apache-server (>= ${current-version}) | mono-apache-server2 (>= ${current-version}) | mono-apache-server1 (>= ${current-version}), mono-apache-server (<< ${next-version}) | mono-apache-server2 (<< ${next-version}) | mono-apache-server1 (<< ${next-version})
+Depends: ${shlibs:Depends}, debconf (>= 1.2.0), apache2.2-common, mono-runtime (>= 2.4), mono-apache-server2 (>= ${current-version}) | mono-apache-server (>= ${current-version}), mono-apache-server2 (<< ${next-version}) | mono-apache-server (<< ${next-version})
 Description: Apache module for running ASP.NET applications on Mono
  The mod_mono module for Apache allows ASP.NET web applications to be
  run with the Mono .NET implementation.

@@ -1,3 +1,19 @@
+mod-mono (2.4.2-2) UNRELEASED; urgency=high
+
+  * debian/rules:
+    + Hack some package version numbers in here manually, to allow
+      installation against XSP 2.0. This ought to work, as XSP 2.0 and
+      mod-mono 2.4.2 both claim to share an internal protocol version of
+      9.
+  * debian/libapache2-mod-mono.templates,
+    debian/libapache2-mod-mono.config,
+    debian/control,
+    debian/po/*:
+    + Revert everything relating to mono-apache-server1 - XSP 2.0's 
+      package name scheme lives on.
+
+ -- Jo Shields <directhex@apebox.org>  Mon, 20 Jul 2009 00:33:23 +0100
+
 mod-mono (2.4.2-1) unstable; urgency=low
 
   * New upstream release
