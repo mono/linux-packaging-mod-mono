@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: modmono\n"
-"Report-Msgid-Bugs-To: pkg-mono-group@lists.alioth.debian.org\n"
-"POT-Creation-Date: 2007-07-23 07:43+0200\n"
+"Report-Msgid-Bugs-To: mod-mono@packages.debian.org\n"
+"POT-Creation-Date: 2009-07-16 15:24+0100\n"
 "PO-Revision-Date: 2007-07-23 21:34+0530\n"
 "Last-Translator: Dr.T.Vasudevan <agnihot3@gmail.com>\n"
 "Language-Team: TAMIL <ubuntu-l10n-tam@lists.ubuntu.com>\n"
@@ -25,13 +25,19 @@ msgstr "பயன்படுத்தவேண்டிய மோனோ சே�
 #. Type: select
 #. Description
 #: ../libapache2-mod-mono.templates:2001
+#, fuzzy
+#| msgid ""
+#| "The libapache2-mod-mono module can be used with one of two different Mono "
+#| "ASP.NET backends:\n"
+#| " - mod-mono-server : implements ASP.NET 1.1 features;\n"
+#| " - mod-mono-server2: implements ASP.NET 2.0 features."
 msgid ""
 "The libapache2-mod-mono module can be used with one of two different Mono "
 "ASP.NET backends:\n"
-" - mod-mono-server : implements ASP.NET 1.1 features;\n"
+" - mod-mono-server1: implements ASP.NET 1.1 features;\n"
 " - mod-mono-server2: implements ASP.NET 2.0 features."
 msgstr ""
 "libapache2-mod-mono கூறை இரண்டு வெவ்வேறு மோனோ ASP.NET பின்புலத்துடன் "
 "பயன்படுத்தலாம்:\n"
-" - mod-mono-server :  ASP.NET 1.1 சிறப்பு அம்சங்களை செயல்படுத்துகிறது.;\n"
+" - mod-mono-server1:  ASP.NET 1.1 சிறப்பு அம்சங்களை செயல்படுத்துகிறது.;\n"
 " - mod-mono-server2: ASP.NET 2.0 சிறப்பு அம்சங்களை செயல்படுத்துகிறது.."
