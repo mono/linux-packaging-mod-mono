@@ -1,2 +1,2 @@
 version=2
-http://go-mono.com/sources-stable/ .*/mod_mono-(.*)\.tar\.bz2
+http://ftp.novell.com/pub/mono/sources/mod_mono/mod_mono-(.*)\.tar\.bz2

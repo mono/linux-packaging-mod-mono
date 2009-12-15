@@ -1,3 +1,23 @@
+mod-mono (2.4.3-1) UNRELEASED; urgency=low
+
+  * New upstream release
+  * Integrate previous NMU changes
+  * Translation updates
+    + Include Galician translation update (Closes: #554990)
+    + Include Japanese translation update (Closes: #554575)
+  * debian/patches/dont_use_sigabrt_on_kfreebsd.patch,
+    debian/control,
+    debian/rules:
+    + Move direct file change from previous NMU into a patch, and 
+      add quilt into the build system
+  * debian/watch:
+    + Fix watchfile to support not downloading the current
+      stable release, for cases (like this) where stable isn't wanted
+  * debian/control:
+    + Bump to Standards 3.8.3
+
+ -- Jo Shields <directhex@apebox.org>  Tue, 15 Dec 2009 23:38:43 +0000
+
 mod-mono (2.4.2-1.1) unstable; urgency=low
 
   * Non-maintainer upload.

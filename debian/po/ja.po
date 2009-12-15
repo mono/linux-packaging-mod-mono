@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: mod-mono\n"
 "Report-Msgid-Bugs-To: mod-mono@packages.debian.org\n"
 "POT-Creation-Date: 2009-07-16 15:24+0100\n"
-"PO-Revision-Date: 2007-07-23 15:11+0900\n"
+"PO-Revision-Date: 2009-11-05 22:15+0900\n"
 "Last-Translator: Kenshi Muto <kmuto@debian.org>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,12 +23,6 @@ msgstr "利用する Mono サーバ:"
 #. Type: select
 #. Description
 #: ../libapache2-mod-mono.templates:2001
-#, fuzzy
-#| msgid ""
-#| "The libapache2-mod-mono module can be used with one of two different Mono "
-#| "ASP.NET backends:\n"
-#| " - mod-mono-server : implements ASP.NET 1.1 features;\n"
-#| " - mod-mono-server2: implements ASP.NET 2.0 features."
 msgid ""
 "The libapache2-mod-mono module can be used with one of two different Mono "
 "ASP.NET backends:\n"
