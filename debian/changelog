@@ -1,3 +1,25 @@
+mod-mono (2.4.2-1.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Protect SIGPWR use on kFreeBSD. Closes: #542798
+  * Bump debhelper compatibility level to 7
+  * As a consequence, replace "dh_clean -k" by "dh_prep"
+  * Add ${misc:Depends} to libapache2-mod-mono dependencies to properly
+    copy with debhelper-triggerred dependencies
+  * Fix pending l10n issues. Debconf translations:
+    - Russian (Yuri Kozlov).  Closes: #537515
+    - German (Helge Kreutzmann).  Closes: #537521
+    - French (Christian Perrier).  Closes: #537578
+    - Spanish (Francisco Javier Cuadrado).  Closes: #538426
+    - Swedish (Martin Bagge).  Closes: #539073
+    - Italian (Luca Monducci).  Closes: #540630
+    - Basque (Iñaki Larrañaga Murgoitio).  Closes: #553147
+    - Finnish (Esko Arajärvi).  Closes: #553641
+    - Czech (Miroslav Kure).  Closes: #553662
+    - Portuguese (Miguel Figueiredo).  Closes: #554101
+
+ -- Christian Perrier <bubulle@debian.org>  Wed, 04 Nov 2009 21:21:22 +0100
+
 mod-mono (2.4.2-1) unstable; urgency=low
 
   * New upstream release

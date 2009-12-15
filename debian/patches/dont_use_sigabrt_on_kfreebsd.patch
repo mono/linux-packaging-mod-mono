@@ -1,0 +1,15 @@
+Index: mod-mono-2.4.2/src/mod_mono.c
+===================================================================
+--- mod-mono-2.4.2.orig/src/mod_mono.c	2009-12-15 23:26:41.000000000 +0000
++++ mod-mono-2.4.2/src/mod_mono.c	2009-12-15 23:27:07.000000000 +0000
+@@ -1772,7 +1772,10 @@
+ 
+ 	/* Unblock signals Mono uses: see bug #472732 */
+ 	sigemptyset (&sigset);
++#ifdef SIGPWR
++	/* SIGPWR signal does not exist on GNU/kFreeBSD */
+ 	sigaddset (&sigset, SIGPWR);
++#endif
+ 	sigaddset (&sigset, SIGXCPU);
+ 	sigaddset (&sigset, 33);
+ 	sigaddset (&sigset, 35);

@@ -45,6 +45,7 @@ COMMON_CONFIG=	--build=$(DEB_BUILD_GNU_TYPE) \
 configure: configure-apache2-stamp
 configure-apache2-stamp:
 	dh_testdir
+	dh_quilt_patch
 	if [ -d apache2-build ]; then rm -rf apache2-build; fi
 	-mkdir apache2-build
 	cd apache2-build && \
@@ -59,6 +60,7 @@ build-apache2-stamp: configure-apache2-stamp
 
 clean:
 	dh_testdir
+	dh_quilt_unpatch
 	dh_testroot
 	rm -f *-stamp *-stamp-*
 	rm -rf apache-build apache2-build
@@ -69,7 +71,7 @@ install: build install-prereq install-apache2
 install-prereq: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 install-apache2:
 	dh_installdirs -plibapache2-mod-mono
 

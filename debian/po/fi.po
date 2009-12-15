@@ -21,12 +21,6 @@ msgstr "Käytettävä Mono-palvelin:"
 #. Type: select
 #. Description
 #: ../libapache2-mod-mono.templates:2001
-#, fuzzy
-#| msgid ""
-#| "The libapache2-mod-mono module can be used with one of two different Mono "
-#| "ASP.NET backends:\n"
-#| " - mod-mono-server : implements ASP.NET 1.1 features;\n"
-#| " - mod-mono-server2: implements ASP.NET 2.0 features."
 msgid ""
 "The libapache2-mod-mono module can be used with one of two different Mono "
 "ASP.NET backends:\n"
