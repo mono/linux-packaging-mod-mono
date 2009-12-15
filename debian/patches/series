@@ -1,1 +1,1 @@
-dont_use_sigabrt_on_kfreebsd.patch
+dont_use_sigpwr_on_kfreebsd.patch
