@@ -1,0 +1,1366 @@
+2009-11-09  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c: implemented a list of URLs in the control panel,
+	based on patch from Heiner Wolf <wolf.heiner@googlemail.com>,
+	thanks!
+
+2009-11-06  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c (fork_mod_mono_server): initialize supplementary
+	group ids after forking. Patch from Philip Tricca
+	<flihp@twobit.us>, thanks!
+
+2009-09-21  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c: added new directive to disable hidden file/directory
+	protection in the backend (MonoCheckHiddenFiles).
+	* mod_mono.8.in: documented MonoCheckHiddenFiles
+
+2009-08-22  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.conf.in: added X-Powered-By header. Fixes bug #400825
+
+2009-03-16  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c (ensure_dashboard_initialized): do the XXGLOBAL
+	detection based on the passed alias. Better fix for #476289
+
+2009-03-14  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c (ensure_dashboard_initialized): takes an argument
+	which tells it whether it's called as part of the XXGLOBAL (auto
+	app) server and, if yes, turns off the dashboard attachment
+	critical error which in this case is a false alarm. Fixes bug
+	#476289
+
+2009-03-09  Marek Habersack  <mhabersack@novell.com>
+
+	* autogen.sh: added support for detecting libtool on Mac, which
+	has it renamed to glibtool in versions 10.5+. Fixes bug #478381
+
+2009-03-08  Marek Habersack  <mhabersack@novell.com>
+
+	* configure.in: added detection of glib
+	* mod_mono.8.in: added documentation for the new MonoIOMAP
+	directive.
+	* mod_mono.c (send_entire_file): attempts to map file name using
+	mono_portability_find_file which is able to find files with the
+	same name but different case if MONO_IOMAP is in effect.
+	Added a new directive, MonoIOMAP which takes two parameters - the
+	alias and MONO_IOMAP-style value (all/case/drive). This directive
+	switches MONO_IOMAP on for that alias within mod_mono as well as
+	exports the MONO_IOMAP environment variable in the backend's
+	environment.
+
+	* mono-io-portability.c, mono-io-portability.h: added. Copied from
+	mono runtime and modified for mod_mono purposes.
+
+2009-02-16  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.c (fork_mod_mono_server): unblock the signals Mono
+	needs (SIGPWR, SIGXCPU, 33, 35) just before executing the
+	backend. It appears that some versions of Apache block signals and
+	Mono uses the above in the runtime and in the GC. As the result of
+	those signals being blocked, the forked backend would lock up as
+	soon as GC would start collecting. Thanks to Zoltan Varga for
+	noticing that the signals are blocked. Fixes bug #472732
+	(mono_execute_request): When a connection attempt fails, do not
+	start the backend immediately but first check if another backend
+	is restarting it. If yes, retry several times to connect to the
+	new backend pausing between attempts. If all connection attempts
+	fail and we've been waiting on another copy of mod_mono to start
+	the backend, make another round (helpful on heavily loaded
+	servers). When we get to the point where we are about to start the
+	backend, do NOT remove the socket file. Doing so introduces a race
+	condition and we can safely assume that the owner of the socket
+	file hasn't change and therefore creating a new socket on top of
+	it will succeed. Fixes bug #472732
+
+2009-01-21 Gonzalo Paniagua Javier <gonzalo@novell.com>
+
+	* src/mod_mono.c: redirect stdout to null when not in debug mode. Now
+	we can write large amounts of text to the console without slowing down
+	mod_mono.
+
+2009-01-08  Marek Habersack  <mhabersack@novell.com>
+
+	* configure.in: added the --with-remove-display configure
+	parameter to enable removing of the DISPLAY variable
+	from the mod-mono-server backend's environment. Fixes bug #464225
+
+	* src/mod_mono.c (fork_mod_mono_server): remove the DISPLAY
+	variable from the child process environment if mod_mono was
+	compiled with REMOVE_DISPLAY defined. Fixes bug #464225
+
+2008-10-27 Gonzalo Paniagua Javier <gonzalo@novell.com>
+
+	* src/mod_mono.c: hush warnings.
+
+2008-09-25  Joshua Tauberer  <jit@occams.info>
+
+	* src/mod_mono.c: Typo in error message "droping" now "dropping".
+
+2008-09-22  Juraj Skripsky  <js@hotfeet.ch>
+
+	* mod_mono.conf.in: Add new file types (as registered in
+	/etc/mono/2.0/web.config).
+
+2008-07-14  Joshua Tauberer  <jit@occams.info>
+
+	* src/mod_mono.c: Always acquire a lock at the start of processing
+	a request. The active requests counter function now assumes the
+	lock is already aquired. Also added a accepting_requests flag
+	to the dashboard so that xsp configurations can be paused. Now
+	when restarting mod-mono-server from the control panel, the
+	configuration is set to not accepting requests (503s returned)
+	until after the restart. This fixed a problem that when requests
+	came in during a restart, mod-mono-server would never successfully
+	come back but it would keep getting forked. The flag can also
+	be turned on and off through the control panel.
+
+2008-07-14  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.c (write_string_to_buffer, send_initial_data): use
+	32-bit integers explicitly.
+
+2008-07-11  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.h (PROTOCOL_VERSION): bumped to 9
+
+	* src/mod_mono.c: added new structure, initial_data_info, used to
+	optimize the send_initial_data function.
+	(write_string_to_buffer): added new parameter, str_length, which
+	optionally provides the string length.
+	(get_table_send_size, write_table_to_buffer): serialized table
+	contains the whole table size in addition to element count now.
+	(send_initial_data): when calculating the initial data size use
+	the initial_data_info structure to store the figures, so that we
+	don't have to do it again later on in the code.
+	Protocol version is followed by the total block size now, so that
+	mod_mono_server can retrieve the initial data in one recv call
+	instead of in a series of those.
+
+	* configure.in: added support for compiling with profiling
+	information (--enable-gprof)
+
+2008-05-20  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.c: work correctly with IPv6 sockets, by detecting
+	the socket family instead of hard-coding it to AF_INET.
+	Do not get the default server's socket name until it is known
+	which mode the server should work in (tcp or unix sockets).
+	Fixes bug #392235
+	Patches contributed by Alex Villacís Lasso
+	<avillaci@ceibo.fiec.espol.edu.ec>, thanks!
+
+2008-04-14  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.c: add several ifdefs for compilation with apache
+	1.3. Fixes bug #374272
+
+2008-01-28  Wade Berrier  <wberrier@novell.com>
+
+	* configure.in: Version bump -> 1.9
+
+2008-01-21  Joshua Tauberer  <jit@occams.info>
+
+	* src/mod_mono.c: Implemented configurable rate limiting
+	  with MonoMaxActiveRequests and MonoMaxWaitingRequests.
+
+2008-01-20  Joshua Tauberer  <jit@occams.info>
+
+	* src/mod_mono.c:
+	  ensure_dashboard_initialized:
+	  - Try to delete an existing lockfile before creating a mutex
+	    (relevant if the lock type uses files).
+	  - Don't always try to remove the shm file (as root). This
+	    means we could never attach to an existing shm. The file
+	    ought to always be created as the apache user anyway.
+	    Instead, only delete after a failed attach.
+	  - Don't always call apr_shm_baseaddr_get in every call to this.
+	  - Code cleanup and fixes (a return should have been a goto).
+	  mono_execute_request:
+	  - Check that dashboard was actually created before accessing it.
+	  start_xsp:
+	  - Don't use the xsp->status flag in Apache 2+ since this is
+	    handled by the new cross-process locking mechanism.
+	  terminate_xsp2:
+	  - No need to check if xsp->dashboard_shm was changed while
+	    waiting for a lock: that's impossible. (It's not multi-threaded.)
+	  - Don't call apr_shm_detach before apr_shm_destroy. That's not
+	    the right use of the API.
+
+2007-11-08  Wade Berrier  <wberrier@novell.com>
+
+	* configure.in: Version bump -> 1.2.6
+
+2007-11-07  Marek Habersack  <mhabersack@novell.com>
+
+	* configure.in: added a --with-apu-config option, which lets one
+	select an apu-config path different to the auto-detected
+	one. Fixes bug #324685
+
+2007-10-16  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.c (xsp_data): revert the flush logic - use
+	'no_flush' instead of 'do_flush' as it matches the managed side
+	more closely. Fixes (again) bug #325441
+
+	* src/mod_mono.h (cmdNames): reorder the names to match the enum.
+
+2007-10-03  Marek Habersack  <mhabersack@novell.com>
+
+	* man/mod_mono.8.in: removed documentation of the recently added
+	MonoFlushOnWrite directive. It is replaced by the new protocol
+	command described below.
+
+	* src/mod_mono.h: added the PROTOCOL_VERSION define (and bumped
+	the protocol value to 8, as a new command has been added).
+	Defined a new command, SET_CONFIGURATION, which is used to
+	configure mod_mono/apache from within the Mono ASP.NET runtime
+	(currently only HttpResponse.BufferOutput is sent)
+
+	* src/mod_mono.c: implemented new command, SET_CONFIGURATION.
+	Use PROTOCOL_VERSION macro when necessary instead of using the
+	literal integer value.
+	Removed the recently added MonoFlushOnWrite directive.
+
+2007-10-02  Marek Habersack  <grendello@gmail.com>
+
+	* man/mod_mono.8.in: added more info for  the MonoFlushOnWrite
+	directive.
+
+2007-10-01  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.c: implemented support for flushing the Apache
+	output buffers on every write, configurable via the
+	MonoFlushOnWrite directive.
+
+	* man/mod_mono.8.in: added documentation of the MonoFlushOnWrite
+	directive.
+
+2007-09-27  Marek Habersack  <mhabersack@novell.com>
+
+	* man/mod_mono.8.in: document the restart options as Apache 2.0+
+	only.
+
+	* src/mod_mono.h: move all apr includes to the APACHE2-only
+	section.
+
+	* src/mod_mono.c: disable dashboard (and restart) for Apache 1.3 -
+	the support requires apr, which cannot be used in 1.3 modules (as
+	far as I know). Module compiles fine with Apache 1.3 now
+
+2007-09-26  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.c: added three wrapper functions to get the apache
+	configured user id, group id and user name.
+	(ensure_dashboard_initialized): attempt to remove the dashboard
+	file (if dashboard hasn't been created yet) as root, not as the
+	target user.
+
+	* src/mod_mono.h: unixd.h is not found in APACHE 1.3
+
+2007-09-16  Joshua Tauberer  <jit@occams.info>
+
+	* src/mod_mono.c (mono_execute_request): if it can't establish a
+	connection after several attempts at forking, emit an error and
+	don't continue on assuming the connection is there (causes ENOTCONN).
+
+2007-08-22  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.c (terminate_xsp2): if apache is shutting down,
+	destroy the mutex too, to avoid a leak.
+
+2007-08-10  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.c (terminate_xsp2): take an extra argument telling
+	whether to acquire the dashboard lock before attempting to destroy
+	the dashboard.
+
+	* configure.in: typo fixed
+
+2007-08-08  Joshua Tauberer  <jit@occams.info>
+
+	* src/mod_mono.c: some fixes for the cross-process
+	locking and refactored process limits.
+	- Added a flag in the dashboard to ensure only one child process
+	issues an automated restart request to xsp.
+	- Don't assume the mutex is actually ever created in case of problems.
+	- Don't call apr_global_mutex_child_init if MOD_MONO_LOCKING_MECHANISM
+	is set, since for me this causes all locks to block forever.
+	- Improved some error messages and added one about command stream
+	corruption.
+	- When the auto-restart check cannot get a lock, don't return a
+	HTTP_SERVICE_UNAVAILABLE status code, since we've already successfully
+	sent page output.
+	- Don't reset the dashboard in start_xsp if no fork was necessary.
+	- Included dashboard info in the control panel.
+	- Refactored process limits in order to aid debugging on why it
+	doesn't work at all.
+
+2007-08-06  Marek Habersack  <mhabersack@novell.com>
+
+	* configure.in: added --enable-gcov option to enable gcov(1)
+	compilation options.
+
+	* src/mod_mono.c (get_apr_locking_mechanism): use the
+	MOD_MONO_LOCKING_MECHANISM environment variable which lets the
+	user choose the dashboard locking mechanism on the runtime. It
+	must be set through the envvar since the module must know the
+	value before launching the backends, and that happens before the
+	config is fully parsed and merged.
+
+	* man/mod_mono.8.in: documented new environment variable
+	MOD_MONO_LOCKING_MECHANISM.
+
+2007-07-30  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.h (HAVE_UNIXD): define HAVE_UNIXD if we're running
+	on a platform that uses it.
+
+	* src/mod_mono.c (mono_execute_request): initialize the global
+	mutex in the child process at the first request after we
+	initialize mod_mono. The call needs to be made in the child
+	process, so it can't stay in the initialization section of
+	ensure_dashboard_initialized.
+	(ensure_dashboard_initialized): if necessary, set the global mutex
+	permissions.
+	(ensure_dashboard_initialized): check if unixd_config has correct
+	data before attempting to use it.
+	(fork_mod_mono_server): as above.
+
+2007-07-26  Marek Habersack  <mhabersack@novell.com>
+
+	* man/mod_mono.8.in: added documentation for the new directives
+
+	* src/mod_mono.c: implemented backend auto-restart feature, along
+	with corresponding configuration directives, cross-process (or
+	cross-thread) locking. The housekeeping data is kept in a
+	per-backend shared memory segment (a dashboard) and is protected
+	with a mutex. The backends can be auto-restarted based on the
+	number of requests served, or their uptime.
+	Removed some debug statements.
+
+2007-07-19  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.c (mono_execute_request): added support for
+	restarting backends which disappeared.
+	(mono_cmds): defined two new configuration directives:
+	MonoXSPStartAttempts and MonoXSPStartWaitTime, used by code
+	introduced above.
+	
+	* man/mod_mono.8.in: added documentation for the two new
+	directives.
+
+2007-07-18  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.c: if APR has uid/gid support and
+	we're not compiling for WIN32, start the backends from the module
+	post config handler, it avoids launching of many backends on
+	startup.
+
+2007-07-14  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.c (do_command): added error logging
+	(write_data): as above
+	(read_data): as above
+
+	* src/mod_mono.h (STATCODE_AND_SERVER): new macro to add support
+	for non-zero status codes (the status code is ignored for Apache <
+	2.0).
+
+2007-06-20  Marek Habersack  <mhabersack@novell.com>
+
+	* src/mod_mono.c (send_initial_data): added support for
+	ServerAlias directive. Patch from Juraj Skripsky
+	<juraj@hotfeet.ch>, thanks! Closes bug #81878.
+
+2007-04-19  Wade Berrier  <wberrier@novell.com>
+
+	* configure.in: Version bump -> 1.2.4
+
+2007-04-03  Wade Berrier  <wberrier@novell.com>
+
+	* configure.in: add checking for headers as configured by
+	apu-config.  It's possible to have libapr headers in a different
+	location than libapr-util headers. (happens on suse 10.1)
+
+2007-03-29  Miguel de Icaza  <miguel@novell.com>
+
+	* src/mod_mono.c (do_command.GET_CLIENT_BLOCK): If we get a -1
+	from ap_get_client_block, send that value but not any further
+	data.   There is now a guard in xsp for this condition.
+
+2007-03-28  Marek Habersack  <grendello@gmail.com>
+
+	* src/mod_mono.c (do_command): abort when either xsp sends us size
+	of -1 in the GET_CLIENT_BLOCK command or when ap_get_client_block
+	returns -1 as the result of client breaking the connection. This
+	action prevents an exception later on in xsp.
+
+2006-11-21 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c:
+	* ChangeLog: revert r66281 and r66836. It should make mod_mono work
+	again for most of the people, while it will break for certain virtual
+	host configurations.
+
+2006-11-02  Wade Berrier  <wberrier@novell.com>
+
+	* configure.in: bump version -> 1.2
+
+2006-10-26  Marek Habersack  <grendello@gmail.com>
+
+	* man/mod_mono.8.in: describe the new MonoUnixUmask directive.
+	* src/mod_mono.c: add code to handle the new configurable umask
+	directive.
+
+2006-10-19 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: avoid using too much memory for long responses.
+	* src/mod_mono.h: defines for 1.3 to work with apr_pool. Fixes bug
+	#79701. Thanks to Cyrille Colin.
+
+2006-08-31 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: Fix problem in Solaris 9 due to alignment. Patch by
+	Jonathan Zimmerman. Closes bug #78232.
+
+2006-08-18 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* man/mod_mono.8.in:
+	* src/mod_mono.[ch]: From now on, we run the mod-mono-server or
+	mod-mono-server2 script instead of running mono directly. This is
+	needed after the latest changes in the runtime that will make
+	ShadowCopyFiles possible.
+
+2006-08-03  Sebastien Pouliot  <sebastien@ximian.com>
+
+	* man/mod_mono.8.in: Add documentation about MOD_MONO_CCV variable 
+	used to control the validation of X.509 client certificates.
+
+2006-08-02 Wade Berrier <wberrier@novell.com>
+
+	* configure.in: Make sure CPPFLAGS get propogated
+
+2006-08-02 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: make it work with the latest and greates apache 2.2.3
+	and simplified.
+
+2006-07-20 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: when using autoapplications, pass all the options that
+	don't have an explicit alias to XXGLOBAL, which is the internal name
+	used for the mod-mono-server instance that will create new applications
+	on demand. Using XXGLOBAL as an identifier is forbidden now.
+
+2006-07-13 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: allow setting MonoDebug when using automatic
+	applications. Before this fix, no mod-mono-server would be started.
+	Fixes bug #78672.
+
+2006-04-07 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: reuse the memory allocated when mod-mono-server reads
+	the request body. Patch by Dean Brettle.
+
+2006-03-27 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.[ch]: the number of arguments for apr_socket_create
+	depends on the apr version used when compiling. Fixes bug #77933.
+
+2006-03-27 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.h: fix compilation for systems that do not have stdint.h.
+	Patch by "CK Ng".
+
+2006-03-27 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: more hackery for 1.3 and apr-config. Fixes bug #77928.
+	Patch by jedynamic@bellsouth.net.
+
+2006-03-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: add apxs -q CFLAGS. Fixes bug #77764.
+
+2006-02-20 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: append --includes from apr-config to CFLAGS.
+
+2006-01-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: actually write the result of IS_CONNECTED. Patch by
+	Cyrille Colin.
+
+2005-12-08 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* src/mod_mono.[ch]: now apache 2.2 is supported.
+
+2005-12-08 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: patch by Dean Brettle that fixes chunked encoding
+	support.
+
+2005-11-29 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* man/mod_mono.8.in:
+	* INSTALL: add documentation about the control panel. Patch by Matthew
+	Law.
+
+2005-11-12 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: make auto-hosting work in apache 1.3.
+
+2005-11-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: fix problems in 1.1.10 regarding user-configured applications.
+	We were finding the global server instead of the default one.
+
+2005-11-09  Robert Jordan  <robertj@gmx.net>
+
+	* src/mod_mono.*: fixed compatibility issue with Apache 1.3.
+
+2005-11-02 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* mod_mono.conf.in: added ASP.NET extensions to the configuration file.
+	* src/mod_mono.c: added MonoAutoApplication directive and support for
+	automatically registering new ASP.NET applications as they are
+	discovered.
+
+2005-10-21 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: 1.1.9.99.
+	* src/mod_mono.[ch]: server variables are now written with the rest of
+	the initial data sent to mod-mono-server. Variables starting with HTTP_
+	are not sent, as those will be created by System.Web from the headers.
+
+2005-10-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: send all the server variables in one single write.
+	Before we did 2 writes per variable. Incremented version to 5. You'll
+	need to sync with xsp.
+	* src/mod_mono.h: add table defines for apache 1.3.
+
+2005-10-10 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.[ch]:
+	(get_default_socket_name): handle the NULL alias case setting it to
+	"default".
+	Style fixes and replaced sprintf with apr_psprintf.
+
+2005-09-23 Joshua Tauberer <tauberer@for.net>
+
+	* src/mod_mono.c:
+	
+	  The default alias for xsp's within vhosts is the name of the
+	  vhost server, so that vhosts with default aliases don't all
+	  use the same Unix socket file name.  A new is_default field
+	  tracks whether an XSP is the server default, rather than using
+	  the "default" alias.
+	  
+	  Aliases are never NULL except when passed to search_for_alias,
+	  start_xsp, and terminate_xsp2.
+	  
+	  The control panel is amended so that individual XSPs
+	  can be restarted.
+
+2005-09-19 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: if we read 0 bytes, stop the loop in apr_socket_recv
+	used in apache 1.3. Patch by Mathias Herberts.
+
+2005-09-01 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.[ch]: one single read for all the headers.
+	Update xsp too.
+
+2005-08-28 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.[ch]: new SEND_FILE command that uses apache's ap_send_fd
+	when sending a file. No more sucking when mod_mono serves static files.
+
+2005-07-26 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.h: updated to new default path for mod-mono-server.exe.
+	WARNING: this might break if you don't install an up-to-date xsp!!!
+
+2005-07-25 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL:
+	* man/mod_mono.8.in: the path for the xsp tests has changed.
+
+2005-07-18 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* mod_mono.conf.in: use <IfModule>
+
+2005-06-02 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Makefile.am: no need to set PREFIX for apxs.
+
+2005-05-07 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.[ch]: support for IS_CONNECTED and increased version
+	number.
+
+2005-05-03  Ben Maurer  <bmaurer@ximian.com>
+
+	* configure.in: 1.0.9
+
+2005-04-24 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: when checking for http_protocol.h, include httpd.h too.
+	Patch from Bill Middleton.
+
+2005-04-21 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: added control panel from Joshua Tauberer.
+	* src/mod_mono.h: uri_component 1.3 -> apr_uri_t in 2.0
+
+2005-04-20 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.h: forgot to add a define for apache 1.3 with the
+	equivalent apr_table_addn.
+
+2005-04-20 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: don't overwrite headers already set. Fixes bug #74507.
+
+2005-04-19 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: add CGI and other variables to the request.
+
+2005-03-14 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL:
+	* man/mod_mono.8.in: documented MonoSetEnv.
+
+2005-03-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: added MonoSetEnv directive. From a patch by Joel
+	Reed to 1.0.6.
+
+2005-03-05 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: try to connect to mod-mono-server before forking.
+	Patch by Rob Lyon.
+
+2005-03-05 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: 1.0.6.99.
+	* src/mod_mono.c: patch from Rob Lyon that fixes unix socket deletion
+	when the default name is used.
+
+2005-02-24 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: some small changes that make this work on amd64.
+	Thanks to Mike Morano.
+
+2005-02-24 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: make the new 'several mod-mono-server' schema work
+	when directives are inside <virtualhost>.
+
+2005-02-16 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: prevent execution of 'init' twice (parent and child)
+	under apache 1.3.
+	* src/mod_mono.h: added extern declaration for 2 apache 1.3 variables.
+
+2005-02-15 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.h: removed <apr_env.h>.
+
+2005-02-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: SERVER_PORT_SECURE returns true if we're https. Part
+	of the fix for bug #71680.
+
+2005-02-10 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL:
+	* man/mod_mono.8.in: updated.
+
+2005-02-10 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: no ranlib.
+
+	* src/mod_mono.c: fixed a few minor problems found under apache 1.3.
+	Don't pass the default mono config. directory to servers others than
+	the default one. Fixed the default socket file name for non-default
+	servers.
+
+	* src/mod_mono.h: MonoSetServerAlias takes 1 argument even on
+	apache 1.3.
+
+	* README: updated...
+
+2005-02-09 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: fixed autoscan warning and use 'if test'.
+	* src/mod_mono.[ch]: added support for starting more than one
+	mod-mono-server. All the existing directives can take now 2 parameters,
+	the first being an alias for a mod-mono-server instance. Added
+	MonoSetServerAlias to be used inside Location/Directory to choose which
+	mod-mono-server instance will be used. The alias 'default' is assumed
+	if the alias argument is omitted.
+
+2005-02-08 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: removed MonoDebug stuff and unused
+	apr_wait_for_io_or_timeout when compiling for apache 1.3.
+	New AddMonoApplications directive that takes 2 arguments, the first one
+	unused by now and the second one a set of applications to be appended
+	to the existing ones.
+
+	* src/mod_mono.h: #defined MAKE_CMD_ITERATE2.
+
+2005-02-07 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: added --enable-debug to compile mod_mono with verbose
+	logging.
+	* src/mod_mono.c: comment on DEBUG and remove the unix socket file upon
+	termination of mod-mono-server, just in case the finalizers are not
+	called.
+
+	Thanks to Rob Lyon.
+
+2005-02-06 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* src/mod_mono.h: define our own variable when building for a big-endian
+	architecture instead of using WORDS_BIGENDIAN, since some packages might
+	have that defined on little-endian machines !?. Thanks to Winfried
+	Harbecke for pointing this out.
+
+2005-02-04 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: 1.0.5.99
+	* src/mod_mono.c: start mod-mono-server in the child_init step. This
+	makes mod_mono work on all apache 2 MPM models and also works for 1.3.
+	Thanks to Rob Lyon for most of the patch.
+
+2005-01-08 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: patch by Raffaelle Sandrini that adds a new MonoDebug
+	directive to enable the debug mode when running mono.
+
+	* INSTALL:
+	* man/mod_mono.8.in: documented te previous change.
+
+2004-11-21 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: pass default applications directory to
+	mod-mono-server.
+	* src/Makefile.am: add new compilation flags.
+	* mod_mono.conf.in: added warning.
+	* Makefile.am: Modified file.
+
+	* INSTALL: 
+	* man/mod_mono.8.in: updated for <enabled> in .webapp files and the
+	default value for MonoApplicationsConfigDir.
+
+2004-11-15 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: added more tests for functions/headers. New option to
+	set the default MonoApplicationsConfigDir.
+
+	* src/mod_mono.c: don't use sleep and don't fork mod-mono-server if
+	we're terminating and mod-mono-server wasn't started.
+
+	* src/mod_mono.h: this should be ok to compile on windows now.
+
+	Thanks to Angel Marín.
+
+2004-10-27 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: patch by alois.belaska@monetplus.cz that fixes
+	mod_mono wrong behavior for big pages. Closes bugs #67938 and #68554.
+
+2004-09-24 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: double fork is back. When the configuration pool is
+	cleaned up, we tell mod-mono-server to terminate instead of sending a
+	SIGTERM, thus allowing unloading the applications and Application_End
+	event being triggered.
+
+	* configure.in: 1.0.2.99
+
+2004-09-17 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: disabled --debug option for mono.
+
+2004-09-10 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: patch from Anders (andersb@blacksun.ca) that fixes
+	crash in apache 1.3/Red Hat 7.3 environment due to gcc2 vs. gcc3 issues.
+
+2004-09-09 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: removed the timeout code by now. It's buggy.
+
+2004-09-09 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: FLUSH is a noop now. Will be removed. Added send, recv
+	and timeout functions for apache 1.3 module. Buffer initial data for
+	writing. Every read/write may timeout now.
+
+	* src/mod_mono.h: added new declarations and headers to fix all
+	warnings.
+
+2004-09-09 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL: renamed libmod_mono.so to mod_mono.so.
+	* configure.in: removed old module stuff. Fixed apr_socket_connect
+	test, check for http_protocol.h
+	* mod_mono.conf.in: renamed libmod_mono.so to mod_mono.so.
+	* src/.cvsignore:  renamed libmod_mono.so to mod_mono.so.
+	* src/Makefile.am: removed old module stuff, renamed to mod_mono.so,
+	added -Wall.
+
+	* src/ApacheApplicationHost.cs: Removed.
+	* src/ApacheWorkerRequest.cs: Removed.
+	* src/IApplicationHost.cs: Removed.
+	* src/MonoWorkerRequest.cs: Removed.
+	* src/Request.cs: Removed.
+	* src/makedll.mak: Removed.
+	* src/mod_mono_old.c: Removed.
+
+2004-08-25 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* Makefile.am:
+	* configure.in:
+	* src/Makefile.am: changes needed by our favourite packager to make
+	rpms out of this. Building the old module is no longer an option.
+
+2004-08-12  Geoff Norton <gnorton@customerdna.com>
+
+	* INSTALL:
+	* man/mod_mono.8.in:
+	* src/mod_mono.c:  Use RLIMIT_DATA as opposed to RLIMIT_AS; because
+	RLIMIT_AS isn't defined on all platforms.  Update documentation to
+	reflect this change.
+
+2004-07-29 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: 1.0.1
+	* src/mod_mono.c: attempt to address sigsegv seem on Fedora when all
+	defaults are used. Write to the error log if the user does not have
+	permission on .wapi directory.
+
+2004-07-28 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: s/apr-0/apr/
+
+	* INSTALL:
+	* man/mod_mono.8.in: documented MonoMaxMemory and MonoMaxCPUTime and
+	other minor updates.
+
+2004-07-14 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: set filename and listen_address defaults in the
+	post_config hook.
+
+2004-07-14 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: use RLIMIT_AS instead of RLIMIT_DATA. gcc 3.2 doesn't
+	like #ifdef inside macro parameters.
+
+2004-07-14 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: check for setrlimit.
+	* src/mod_mono.c: added MonoMaxMemory and MonoMaxCPUTime directives. If
+	set and setlimit is available, mod_mono will set those limits when
+	spwning mod-mono-server.
+
+2004-07-14 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Makefile.am:
+	* src/mod_mono.c:
+	* src/mod_mono.h: moved conditional cruft to a header file. Fixed note
+	on default value for MonoRunXSP. NOT_FOUND is defined in apache 1.3, so
+	changed it to MYNOT_FOUND. Removed a few simple functions. In short,
+	shuffling code.
+
+2004-07-13 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: ap_conn_flush does a *final* flush on the connection,
+	and that conflicts with mod_ssl handling of End-Of-Connection buckets,
+	so, connection_flush is a noop now.
+	See bug #60117 for details.
+
+2004-07-13 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: added NOT_FOUND command and prevent invalid commands
+	from crashing mod_mono.
+
+2004-07-11 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* src/mod_mono.c: seems like apr_socket_connect is post 0.9.2 version
+	of libapr.
+
+2004-07-10 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: added listen port and listen address used when
+	communicating with mod-mono-server over a TCP socket. Implemented
+	apr_sockaddr_info_get and apr_socket_connect for apache 1.3. Pass
+	--debug option when forking mono.
+
+2004-07-08 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: removed more commands and send their data upon
+	connection.
+
+2004-07-07 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: removed the mutex stuff that prevented multiple forks
+	no first request. It doesn't work on RH9 :-? (worked on debian sid with
+	apache2 and 1.3).
+
+2004-07-07 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: removed unused commands, unified setting status code
+	and message into one single command. Now apache handles closing the
+	socket used to connect to mod-mono-server and waiting, terminating or
+	killing the forked process when the configuration is reloaded or apache
+	is shut down. When we get several request, don't fork more than once.
+
+2004-07-06 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* COPYING:
+	* src/ApacheApplicationHost.cs:
+	* src/ApacheWorkerRequest.cs:
+	* src/IApplicationHost.cs:
+	* src/MonoWorkerRequest.cs:
+	* src/Request.cs:
+	* src/mod_mono.c:
+	* src/mod_mono_old.c: relicensed under apache license version 2.0.
+	Agreed with Daniel.
+
+2004-06-30 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* Released 1.0
+
+2004-06-12 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL:
+	* configure.in:
+	* src/Makefile.am:
+	* src/mod_mono.c: added --with-mono-prefix configure option so that
+	if mod_mono is installed in a different prefix from mono, the default
+	paths for locating mono and mod-mono-server.exe are right.
+
+2004-06-12 Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: fixed a couple of big-endian issues.
+
+2004-06-11  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: check for endian-ness.
+	* src/mod_mono.c: all the integers that are read/written from/to the
+	socket are swapped if the module is running in a big endian system.
+
+2004-06-03  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* man/mod_mono.8.in: 
+	* INSTALL: added .webapp sample. MonoApplications is not mandatory.
+
+	* src/mod_mono.c: at least one of MonoApplications,
+	MonoApplicationsConfigFile and MonoApplicationsConfigDir is mandatory.
+
+2004-06-02  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: check for setenv and putenv.
+	* src/mod_mono.c: use putenv when setenv is not available. Fixes build
+	problem under Solaris 8.
+
+2004-06-02  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* Released 0.10
+
+2004-05-29  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL:
+	* README: updated.
+
+	* src/mod_mono.c: no need to maintain 2 separated lists of commands and
+	descriptions for apache 1.3 and 2.0.
+
+2004-05-25  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: patch from Andrew Arnott that fixes parameters passed
+	to mod-mono-server.
+
+2004-05-19  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* NEWS: updated
+	* configure.in:
+	* man/Makefile.am:
+	* man/mod_mono.8.in: updated man page.
+
+	* man/mod_mono.8: Removed.
+
+2004-05-19  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: support for MonoApplicationsConfigFile and
+	MonoApplicationsConfigDir directives by Andrew Arnott.
+
+2004-05-14  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: patch by Christopher McGinnis
+	<christopherm@neopets.com> that adds MonoDocumentRootDir directive which
+	maps to --root argument for mod-mono-server.
+
+	* man/mod_mono.8: updated manual page.
+
+	* src/Makefile.am: added -module flag to libtool to fix the PPC install.
+
+2004-04-19  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* NEWS:
+	* man/.cvsignore:
+	* src/.cvsignore: updated.
+	
+	* src/Makefile.am:
+	* src/mod_mono.c: the default prefix is the one set with --prefix, not
+	/usr always.
+
+2004-04-16  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL: small update on PathInfo.
+	* man/mod_mono.8: documented.
+
+2004-04-15  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL: updated with new configuration information.
+
+2004-04-15  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* Makefile.am: added 'man' directory.
+	* autogen.sh: fixlet.
+	* configure.in: attempt to make 1.3/2.0 detection fool-proof.
+
+	* src/mod_mono.c: added the ability to spawn mod-mono-server if the
+	named pipe is not there or is refusing connections. Added new
+	configuration directives that control whether we want to spawn
+	mod-mono-server, paths, applications...
+
+	* man/.cvsignore:
+	* man/Makefile.am:
+	* man/mod_mono.8: empty man page (by now :).
+
+2004-04-13  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: substitute APXS and small fix for TRY_COMPILE.
+
+2004-04-08  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* NEWS: updated.
+	* INSTALL: details on the *NEW* setup for mod_mono. Existing
+	installations will break. Added sample configurations.
+
+	* autogen.sh: check for error when running autoheader.
+	* configure.in: created a new conditional (APACHE2) and added a new
+	AC_DEFINE with the same name so that mod_mono_config.h is updated if
+	we change the target apache version and the sources are recompiled.
+
+	* src/Makefile.am: use apxs to install the modules. It adds the
+	LoadModule line automatically to the apache configuration file.
+
+	* src/mod_mono.c: added some debug help. The request is accepted based
+	on the handler name, not the content type.
+
+2004-03-30  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* NEWS: old stuff here.
+	* src/Makefile.am: don't add libmod_mono_old.la to lib_LTLIBRARIES when
+	we're not building mod_mono_old.
+
+2004-02-12  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: fixed issues detecting the right version of apache in
+	debian.
+
+2003-12-10  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: make query string work. mod_rewrite for apache 1.3
+	and 2.0 uses ->args instead of parsed_uri.
+
+2003-12-10  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: use single quotes inside AC_ARG_WITH. Moved apache 1.3
+	CFLAGS modification to a better place.
+	
+	* src/Makefile.am: use $(top_builddir) instead of @top_builddir@.
+	Thanks to Benjamin Jemlich and Mark Crichton.
+
+2003-11-27  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: fixed 1.3/2.0 detection + apr-config
+
+2003-11-25  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in:
+	* src/Makefile.am: made compilation of mod_mono_old optional and
+	disabled by default. You need --enable-old-module to build it.
+
+2003-11-20  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: return a 503 (Temporarily Unavailable) when the unix
+	socket is not set up.
+
+2003-11-18  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: return 0 if OK for setup_client_block.
+
+2003-11-17  Duncan Mak  <duncan@ximian.com>
+
+	* src/Makefile.am (install): Fix install target.
+	
+2003-11-15  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: be smarter about apr-config.
+
+2003-10-20  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: added --with-apr-config useful for systems such as
+	debian that installs apr headers in a different directory from the
+	apache headers.
+
+2003-10-04  Pedro Martínez Juliá  <yoros@wanadoo.es>
+
+	* src/mod_mono.c: added a loop when reading from the socket, it
+	needs to read "l" bytes and "read" is getting "count" bytes.
+
+2003-10-03  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono.c: added more error checks and write basic request data
+	upon connection.
+
+2003-10-02  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* FAQ.txt: moved...
+	* FAQ-old.txt: ...here.
+	* INSTALL: only include installation instructions for mod_mono.
+	* INSTALL-old: this contains instructions for mod_mono_old
+	* NEWS: updated.
+	* README: updated.
+	* configure.in: Modified file.
+	* src/Makefile.am: Modified file.
+	* src/mod_mono.c: moved to mod_mono_old.c
+	* src/mod_mono_old.c:
+	* src/mod_mono_unix.c: moved to mod_mono.
+
+	Renamed mod_mono to mod_mono_old and mod_mono_unix to mod_mono.
+
+2003-09-20  Pedro Martínez Juliá  <yoros@wanadoo.es>
+
+	* INSTALL: Remove the doc lines related to <Location> directive
+	because they are not needed since the last change.
+
+2003-09-19  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: set version to 0.4.99.
+	* src/mod_mono_unix.c: ap_log_error is different in 1.3 and 2.0. Fixed.
+	It really works now for apache 1.3: send the headers, handle
+	ap_log_error difference between 1.3 and 2.0, set the mime type for the
+	handler.
+
+2003-09-19  Pedro Martínez Juliá  <yoros@wanadoo.es>
+
+	* doc/mod_mono.xml: Add a few lines explaining how to get working
+	mod_mono_unix.
+
+	* INSTALL: Talk about <Location> directive for apache to handle
+	right asp.net pages.
+
+
+2003-09-19  Pedro Martínez Juliá  <yoros@wanadoo.es>
+
+	* src/mod_mono_unix.c: Added #ifdef for adapt all the module to
+	apache 1.3.x. Now it loads and works right.
+
+	* configure.in: Added -DEAPI needed for apache 1.3.x.
+
+2003-09-18  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/mod_mono_unix.c: don't loop forever if mod-mono-server is
+	disconnected. content_type can be NULL.
+
+2003-09-18  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL: tell about AddType and Alias for mod_mono_unix.
+	* NEWS: updated.
+	* src/mod_mono_unix.c: check that the content type is
+	application/x-asp-net before trying to process the request and log
+	connection failures to mod-mono-server as debug.
+
+2003-08-25  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* INSTALL: updated. MonoApplicationUnix now only takes 1 argument.
+	* src/mod_mono_unix.c: removed alias matching code, added new
+	DECLINE_REQUEST command and take only 1 argument, the unix socket
+	file name. From now on, it lets mod-mono-server to choose if the request
+	is processed or declined based on the applications configured.
+
+2003-08-12  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* configure.in: fixed apache version detection. It was looking for
+	"-I/some/directory/apr.h", then failed and default to 1.3.
+
+2003-08-10  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* doc/modmono.xml: DocBook documentation
+	* src/mod_mono.c: ifde-ed out code since it only supports Apache 2 currently
+	* src/Makefile.am: consistent naming
+	
+2003-08-04  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* configure.in: 
+	* src/mod_mono_unix.c: Port to Apache 1.3
+
+2003-08-01  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/Makefile.am: added mod_mono_unix.
+	* src/mod_mono_unix.c: New module that communicates with an external
+	process through a unix socket.
+
+	* INSTALL: updated.
+
+2003-04-12  Miguel de Icaza  <miguel@ximian.com>
+
+	* src/mod_mono.c (create_application_host): Add call to
+	mono_config_parse to load the default configuration file.  Maybe
+	this should also be exposed to the Apache configuration file. 
+
+2003-04-11  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/ApacheWorkerRequest.cs: fixed compilation.
+
+2003-03-27  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/MonoWorkerRequest.cs: added a MapPathEvent that is fired before
+	doing the normal MapPath stuff and can provide alternate mappings.
+
+2003-03-11  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* src/Request.cs: We need to check for length returned equal to 0 in alias_matches
+	* src/mod_mono.c: fixed bug when matching prefix that made mod_mono handle all pages even those
+	outside MonoApplication scope. Also fixed the way alias_matches is exposed to Request
+	* FAQ.txt: Added some answers about Apache 1.3 and how to use proxypass
+	* packaging/redhat/mod_mono.spec: Update to 0.3.6
+	
+2003-02-25  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	Bring it up to date with Mono 0.20
+	* src/mod_mono.c: added mono_thread_attach (thanks Dick). Return NULL if header not found.
+	* src/ApacheApplicationHost.cs: Add an internal method so the call will
+	be made in the right domain, as suggested by Dietmar. This can be done from C, but was added after 
+	Mono 0.20. It also required a serialization constructor for IntPtr that Gonzalo promptly added, thanks!
+	* packaging/redhat/mod_mono.spec: Update for latest versions
+	
+2003-02-17  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/MonoWorkerRequest.cs: updated from xsp.
+
+2003-02-06  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* src/MonoWorkerRequest.cs: fixed buglet in GetAppPath.
+
+2003-02-04  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* Makefile.am: Add rpm spec files to packaging
+	
+2003-02-03  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* packaging/redhat: Added mod_mono.spec and mono.conf for RPM generation, thanks to David Hollis <dhollis@davehollis.com> for submitting it.
+	
+2003-02-02  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* src/mod_mono.c: Fixed returning null value when no query string is present. Thanks to "Ula? VURAL" <uvural@netorbits.com> and Geo <_geo@post.sk> for reporting this.
+	
+2003-01-22  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* INSTALL: Some typos and step by step instructions for Red Hat 8.0
+	* README: Removed reference to POST not working
+	* FAQ.txt: Added doc with more common problems people find installing mod_mono
+	* Makefile.am: Added FAQ.txt to the dist files
+	
+2003-01-18  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* INSTALL: Updated install instructions to cover --with-apxs
+	* configure.in: Check in /usr/sbin/apxs
+	* src/mod_mono.c: Expose function to help remove prefix
+	* src/Request.cs: RemovePrefix helper function to remove app virtual path
+	before using MapPath
+	* src/ApacheWorkerRequest.cs: MS docs seem to be wrong and GetFilePath returns uri path
+	
+2003-01-18  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	Submitted by Alp Toker <alp@atoker.com> :
+	* configure.in: Use --with-apxs instead of --with-apache2 
+	* src/Makefile.am: Install target
+
+2003-01-14  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+	* src/ApacheWorkerRequest.cs: added FIXME.
+	* src/MonoWorkerRequest.cs: synched with the one in xsp.
+
+2003-01-09  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* mcs/ApacheWorkerRequest.cs : Fixed typo, thanks Sergio Luis Valle Mayorga for catching it
+
+2003-01-07  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* INSTALL: Add new config instructions. Only a MonoApplication directive is needed right now
+	* src/mod_mono.c: Get rid of LoadModMonoDll, per Miguel suggestion, we look for the assembly
+	in the assembly path now. Add MonoApplication directive, this simplies compfiguration greatly.
+	* src/Makefile.am : makedll.mak was not being included in the distribution
+	* src/ApacheWorkerRequest.cs : Do nothing with Content-Length, it will be set by Apache
+	
+2003-01-06  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* src/mod_mono.c: Added setter macros and allow setting status
+	line and status code. Set r->content_type when Content-Type is set
+	* src/Request.cs: Added SetStatusLine and SetStatusCode
+	* src/ApacheWorkerRequest.cs: Added SendStatus
+	
+2003-01-03  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* src/mod_mono.c: Added support functions for reading HTTP bodies,
+	this enables POST support:
+	mono_apache_should_client_block,
+	mono_apache_setup_client_block,
+	mono_apache_get_client_block
+	* src/ApacheWorkerRequest : Added ReadEntityBody
+	* src/Request : Added ShouldClientBlock, SetupClientBlock, GetClientBlock
+	for reading HTTP bodies and enabling POST support
+
+2002-12-31  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* INSTALL: Added reference to machine.config
+	* configure.in: Update version to 0.2
+	* src/Makefile.am: Fix typo so 'make dist' works
+
+2002-12-30  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	* src/mod_mono.c: Fix ApacheApplicationHost creation:
+	Method signature uses intptr and method to invoke is static.
+	Pass request to ProcessRequest()	
+	* src/ApacheWorkerRequest.cs: Add GetFilePathTranslated, since
+	is not mapping correctly in MonoWorkerRequest
+
+2002-12-30  Gonzalo Paniagua Javier <gonzalo@ximian.com>
+
+	* AUTHORS: added myself.
+	* INSTALL: changed instructions on how to build ModMono.dll.
+	* src/IApplicationHost.cs: interface to be implemented by asp.net
+	application hosts.
+	* src/MonoWorkerRequest.cs: base class that will be shared between
+	mod_mono and xsp server.
+	* src/Request.cs: merged previous Connection and Request classes. Made
+	all methods non-static. Store results from calling internal calls in
+	private fields.
+	* src/ApacheApplicationHost.cs: application host for mod_mono.
+	* src/ApacheWorkerRequest.cs: it derives now from MonoWorkerRequest.
+
+	* src/mod_mono.c: it now creates an ApacheApplicationHost and then call
+	ProcessRequest on every request.
+
+	* src/Makefile.am: added MONO_CFLAGS and new source files.
+	* src/makedll.mak: use this to build ModMono.dll.
+
+	* src/ModMono.cs: Removed file. It's been splitted.
+
+2002-12-14  Daniel Lopez Ridruejo <daniel @ rawbyte.com>
+	
+	* Initial release
+	
+
