@@ -1,0 +1,296 @@
+.\" 
+.\" mod_mono manual page.
+.\" (C) 2004,2007 Novell, Inc. 
+.\" Author:
+.\"   Gonzalo Paniagua Javier (gonzalo@ximian.com)
+.\"   Marek Habersack (mhabersack@novell.com)
+.\"
+.de Sp \" Vertical space (when we can't use .PP)
+.if t .sp .5v
+.if n .sp
+..
+
+.TH mod_mono "8" "26 Jul 2007" "mod_mono @VERSION@" "ASP.NET Support for Apache"
+.SH NAME
+mod_mono \- apache module that enables ASP.NET pages. Works together with mod-mono-server.exe
+.SH DESCRIPTION
+\fImod_mono\fP is a simple module that works with both 1.3 and 2.0
+versions of apache.
+.PP
+It needs mod-mono-server.exe installed on the system. By default, it
+will attemp to run mod-mono-server.exe if it doesn't find it's running.
+.SH CONFIGURATION DIRECTIVES
+.PP
+All the directives but MonoSetServerAlias accept an optional first argument that
+is the mod-mono-server instance alias for which the directive applies.  If only
+one argument is provided for them, thr directive will apply to the 'default'
+mod-mono-server instance. Refer to the monodoc documentation on configuring
+mod_mono for more examples.
+
+.TP
+.I "MonoUnixUmask"
+It accepts an octal number as a parameter. The number must be a valid unix
+file creation mask value (see umask(2)). The mask will be applied whenever
+a directory or file is created from within an ASP.NET application.
+Default value: "0077".
+.TP
+.I "MonoUnixSocket"
+It accepts a file name as argument. That file will be a named pipe
+used to send/receive data from/to mod_mono to/from mod-mono-server.
+You cannot use MonoListenPort and MonoUnixSocket at the same time.
+Default value: "/tmp/mod_mono_server".
+.TP
+.I "MonoListenPort"
+TCP port on which mod-mono-server should listen/is listening on. Mutually
+exclusive with MonoUnixSocket. When this options is specified,
+mod-mono-server and mod_mono will use a TCP socket for communication.
+Default value: none
+.TP
+.I "MonoListenAddress"
+IP address where mod-mono-server should listen/is listening on. Can only be
+used when MonoListenPort is specified.
+Default value: "127.0.0.1"
+.TP
+.I "MonoRunXSP"
+If the value is True, it tells mod_mono to spawn mod-mono-server.exe
+if it's not already running. If set to False, most of these directives are
+useless.
+Default value: True
+.TP 
+.I "MonoXSPStartAttempts"
+Number of times mod_mono will attempt to start a backend which
+died. Value cannot be lower than 0.
+Default value: 3
+.TP
+.I "MonoXSPStartWaitTime"
+Number of seconds to wait after starting the backend. This is to let
+the backend initialize properly before attempting to connect to
+it. Value cannot be lower than 2.
+Default value: 2
+.TP
+.I "MonoAutoRestartMode (Apache 2.0+ only)"
+Set the auto-restart mode for the backend(s). Three modes are available:
+None - do not auto-restart, Requests - restart after a configured number of 
+requests served, Time - restart after the backend has been up for the specified
+period of time. 
+Note that if you enable auto-restart you should consider using
+off-process state server, since on every restart your application
+state will be lost.
+Default value: None
+.TP
+.I "MonoAutoRestartRequests (Apache 2.0+ only)"
+Number of requests for a backend to serve before auto-restarting. The value here 
+is taken into account only when MonoAutoRestartMode is set to Requests.
+Default value: 10000
+.TP
+.I "MonoAutoRestartTime (Apache 2.0+ only)"
+Time after which the backend should be auto-restarted. The time format is:
+DD[:HH[:MM[:SS]]]. Default value: 00:12:00:00
+.TP
+.I "MonoExecutablePath (Obsoleted, ignored)"
+Don't use this. It is ignored and has been left here for compatibility purposes.
+Default value: "/usr/bin/mono"
+.TP
+.I "MonoPath"
+This value will be used to set the MONO_PATH environment variable.
+Default value: ""
+.TP
+.I "MonoServerPath"
+The full path to the mod-mono-server script.
+Default value: "/usr/bin/mod-mono-server"
+.TP
+.I "MonoWapiDir"
+The directory where mono runtime will create the ".wapi" directory
+used to emulate windows I/O. It's used to set MONO_SHARED_DIR.
+Default value: "/tmp"
+.TP
+.I "MonoDocumentRootDir"
+The directory passed in --root argument when launching mod-mono-server.
+.TP
+.I "MonoMaxCPUTime"
+If MonoRunXSP is True, CPU time limit in seconds allowed for the
+spawned mono process. Beyond that, it will be restarted. If this
+capability is not available on your system, the directive will be
+ignored.
+Default value: system default
+.TP
+.I "MonoMaxMemory"
+If MonoRunXSP is True, the maximum size of the process's data
+segment (data size) in bytes allowed for the spawned mono process.
+It will be restarted when the limit is reached. If this capability
+is not available on your system, the directive will be ignored.
+Default value: system default
+.TP
+.I "MonoApplications"
+.TP
+.I "AddMonoApplications"
+This value will be passed to mod-mono-server.exe in the
+--applications option. See xsp(1) manual page for details.
+.TP
+.I "MonoApplicationsConfigFile"
+The argument passed in --appconfigfile argument to mod-mono-server.
+Default value: NULL.
+.TP
+.I "MonoApplicationsConfigDir"
+The argument passed in --appconfigdir argument to mod-mono-server.
+Default value: config/mod-mono-applications
+.PP
+Note that you must specify at least one of MonoApplications,
+MonoApplicationsConfigFile and MonoApplicationsConfigDir.
+.TP
+.I "MonoAutoApplication"
+Enables or disables automatic ASP.NET applications discovery. By default
+it is enabled if you have no application configured. Otherwise, it's
+disabled. The possible values are 'enabled' or 'disabled'.
+.TP
+.I "MonoDebug"
+Runs mono in debug mode, which produces stack traces with line numbers.
+Default value: False.
+.TP
+.I "MonoSetServerAlias"
+Takes a server alias name. This is to be used inside <Directory> or
+<Location>.
+Default value: 'default' if the directive is not used.
+.TP
+.I "MonoSetEnv"
+Takes a string of 'name=value' pairs separated by semicolons. For each
+pair, it calls setenv (name, value) before running mod-mono-server.
+.TP
+.I "MonoIOMAP"
+Takes alias name and a string of the same format and meaning as the MONO_IOMAP
+environment variable (see the mono(1) manpage). The effect is that mod_mono performs
+the same actions as mono runtime with MONO_IOMAP in effect, as well as that the
+MONO_IOMAP variable with the specified value is exported in the backend environment.
+This option is necessary when you're using MONO_IOMAP in your application and there
+might be static files with mixed case names - in such case mod_mono attempts to open
+the file directly and sends it using apache facilities.
+Default value: none
+.TP
+.I "MonoMaxActiveRequests"
+The maximum number of concurrent requests mod_mono will pass off to
+the ASP.NET backend. Set to zero to turn off the limit. Default value:
+20.
+.TP
+.I "MonoMaxWaitingRequests"
+The maximum number of concurrent requests mod_mono will hold while
+the ASP.NET backend is busy with the maximum number of requests
+specified by MonoMaxActiveRequests. Requests that can't be processed
+or held are dropped with Service Unavailable. Default value: 20.
+.TP
+.I "MonoCheckHiddenFiles"
+Do not protect hidden files/directories from being accessed by clients. Hidden files/directories are those with 
+Hidden attribute on Windows and whose name starts with a dot on Unix. Any file/directory below a hidden directory
+is inacessible. This option turns the default behavior of protecting such locations off. If your application
+does not contain any hidden files/directories, you might want to use this option as the checking process has a
+per-request cost. Accepts a boolean value - 'true' or 'false'
+Default value: true. 
+AppSettings key name: MonoServerCheckHiddenFiles.
+.SH SAMPLE CONFIGURATION
+This one using <Directory>:
+.nf
+      LoadModule mono_module /usr/lib/apache/1.3/libmod_mono.so
+      AddModule mod_mono.c
+      Alias /mono "/usr/lib/xsp/test"
+      AddMonoApplications default "/mono:/usr/lib/xsp/test"
+      <Directory /usr/lib/xsp/test>
+              SetHandler mono
+              <IfModule mod_dir.c>
+                    DirectoryIndex index.aspx
+              </IfModule>
+      </Directory>
+.fi
+.PP
+This one using <Location>:
+.nf
+      LoadModule mono_module modules/libmod_mono.so
+      Alias /demo "/usr/lib/xsp/test"
+      AddMonoApplications default "/demo:/usr/lib/xsp/test"
+      <Location /demo>
+              SetHandler mono
+      </Location>
+
+.fi
+.PP
+If you prefer to .webapp configuration file(s)
+(see manual page of xsp), you can change MonoApplications in the above
+samples by:
+.nf
+
+      MonoApplicationsConfigFile default "/var/www/applications.webapp"
+      
+.fi
+replacing the path to the file with yours.
+.PP
+If you want to use several .webapp files, use this instead:
+.nf
+
+      MonoApplicationsConfigDir default "/var/www/webapp"
+
+.fi
+and all the .webapp files found in the directory /var/www/webapp will be
+loaded.
+.PP
+Refer to monodoc documentation on configuring mod_mono for more examples.
+.SH THE MOD_MONO CONTROL PANEL
+.PP
+mod_mono provides a simple web-based control panel for restarting the 
+mod-mono-server, which is useful when assemblies need to be reloaded 
+from disk after they have been changed.  To activate the control panel,
+place the following in your httpd.conf:
+
+.nf
+            <Location /mono>
+              SetHandler mono-ctrl
+              Order deny,allow
+              Deny from all
+              Allow from 127.0.0.1
+            </Location>
+.fi
+
+The control panel is then accessible at http://yourdomain.com/mono. 
+Clicking the link to restart mod-mono-server will immediately restart 
+it.
+
+The Order/Deny/Allow access controls above restrict access to the 
+control panel to the computer with IP address 127.0.0.1. Replace this 
+(or add more Allow lines) with the IP address of your own computer so 
+that you can access the control panel.  You can also use Apache's 
+htaccess features to password protect it, too.
+.SH ENVIRONMENT VARIABLES
+.PP
+It may modify MONO_PATH, PATH and MONO_SHARED_DIR when starting
+mod-mono-server.
+.PP
+The MOD_MONO_CCV variable may be used to select which component will
+do client certificate validity (CCV) checks. By default both Apache and
+Mono will verify the client certificates. This can be changed to either
+"apache" or "mono" to limit the validity check to either environment.
+This variable can be set using MonoSetEnv to allow different vhost to 
+use separate validation techniques.
+.PP
+The MOD_MONO_LOCKING_MECHANISM variable may be used to choose the APR
+locking mechanism for the dashboard. The currently defined mechanism
+names are: DEFAULT, FCNT, FLOCK, SYSVSEM, PROC_PTHREAD, POSIXSEM. Note
+that not every mechanism may be available for your platform. In such
+case, mod_mono will fallback to using the DEFAULT value which lets the
+APR decide which locking mechanism to use. DEFAULT is also the default
+value for the option if the environment variable is not set or its
+value is unknown. This value 
+.B "MUST NOT" 
+be set using MonoSetEnv - it
+.B MUST 
+be present in the Apache environment before the module is
+initialized and its configuration parsed.
+.SH FILES
+.PP
+httpd.conf
+.SH AUTHORS
+mod_mono was started by Daniel Ridruejo (daniel rawbyte
+com). Currently, Marek Habersack (mhabersack@novell.com) is the maintainer.
+.SH MAILING LISTS
+See http://mail.ximian.com/mailman/mono-list for details.
+.SH WEB SITE
+Visit http://www.mono-project.com/ for details.
+.SH SEE ALSO
+.BR xsp (1), mod-mono-server (1), mono (1), mcs (1)
+

@@ -1,0 +1,52 @@
+May 19, 2004 - Gonzalo Paniagua
+---------------------------------------
+Added MonoApplicationsConfigFile and MonoApplicationsConfigDir
+directives that use the new --appconfigfile and --appconfigdir
+options of mod-mono-server to support virtual hosts.
+
+April 16, 2004 - Gonzalo Paniagua
+---------------------------------------
+More existing installation breakage. From now on, mod_mono is able to
+launch mod-mono-server.
+
+April 8, 2004 - Gonzalo Paniagua
+---------------------------------------
+The changes today will break existing installations.  Check out the
+INSTALL file for details on the new setup. It's easier.
+
+
+....
+December 2, 2003 - Gonzalo Paniagua
+---------------------------------------
+
+0.6 released.
+
+November 24, 2003 - Gonzalo Paniagua
+---------------------------------------
+
+0.6 is near.
+There have been several fixes to POST+body handling and building
+mod_mono_old is now optional. This way, you don't need mono-dev package
+to build mod_mono.
+
+
+October 2, 2003 - Gonzalo Paniagua
+---------------------------------------
+
+Preparing 0.5 release.
+
+Renamed:
+
+	* mod_mono to mod_mono_old
+	* mod_mono_unix to mod_mono
+
+The FAQ and INSTALL for the old mod_mono are in FAQ-old.txt and
+INSTALL-old.
+
+September 18, 2003 - Gonzalo Paniagua
+---------------------------------------
+
+From now on, mod_mono_unix uses content_type to determine if it will
+process a request or not. You *MUST* use the AddType directive in your
+apache configuration file. More info in the INSTALL file.
+
