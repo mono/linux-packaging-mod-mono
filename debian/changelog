@@ -10,6 +10,8 @@ mod-mono (2.6.3-1) UNRELEASED; urgency=low
   * debian/rules:
     + Hard-code PKG_VERSION and NEXT_PKG_VERSION due to mismatched
       upstream versions of xsp and mod-mono
+  * debian/control:
+    + Bump mono-runtime dependency to 2.6
 
  -- Jo Shields <directhex@apebox.org>  Mon, 07 Jun 2010 10:06:30 +0100
 
