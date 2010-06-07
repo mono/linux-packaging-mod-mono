@@ -1,0 +1,96 @@
+2010-01-19  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c (set_process_limits): if RLIMIT_AS is defined, set it
+	in addition to RLIMIT_DATA. Fixes bug #568843. Patch from Brett
+	Kiefer <brett@fogcreek.com>, thanks!
+
+2010-01-18  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c (fork_mod_mono_server): use waitpid to wait for the
+	1st child during the double fork. Fixes bug #569789. Patch from
+	John Lightsey <jd@cpanel.net>, thanks!
+
+2010-01-11  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c (increment_active_requests): moved variable
+	declaration to the top of a block so that code doesn't require a
+	C99-compliant compiler. Fixes bug #569794. Patch from John
+	Lightsey <jd@cpanel.net>, thanks!
+
+2009-12-07 Gonzalo Paniagua Javier <gonzalo@novell.com>
+
+	* mod_mono.c: fix compilation on systems that don't define SIGPWR.
+
+2009-11-09  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c: implemented a list of URLs in the control panel,
+	based on patch from Heiner Wolf <wolf.heiner@googlemail.com>,
+	thanks!
+
+2009-11-06  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c (fork_mod_mono_server): initialize supplementary
+	group ids after forking. Patch from Philip Tricca
+	<flihp@twobit.us>, thanks!
+
+2009-09-21  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c: added new directive to disable hidden file/directory
+	protection in the backend (MonoCheckHiddenFiles).
+
+2009-08-24  Marek Habersack  <mhabersack@novell.com>
+
+	* Makefile.am (mod_mono_la_CFLAGS): glib is no longer used
+
+	* glib_compat.c, glib_compat.h: added. Compatibility glib
+	functions/macros used in mono-io-portability.c
+
+2009-03-16  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c (ensure_dashboard_initialized): do the XXGLOBAL
+	detection based on the passed alias. Better fix for #476289
+
+2009-03-14  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c (ensure_dashboard_initialized): takes an argument
+	which tells it whether it's called as part of the XXGLOBAL (auto
+	app) server and, if yes, turns off the dashboard attachment
+	critical error which in this case is a false alarm. Fixes bug
+	#476289
+
+2009-03-08  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.c (send_entire_file): attempts to map file name using
+	mono_portability_find_file which is able to find files with the
+	same name but different case if MONO_IOMAP is in effect.
+	Added a new directive, MonoIOMAP which takes two parameters - the
+	alias and MONO_IOMAP-style value (all/case/drive). This directive
+	switches MONO_IOMAP on for that alias within mod_mono as well as
+	exports the MONO_IOMAP environment variable in the backend's
+	environment.
+
+	* mono-io-portability.c, mono-io-portability.h: added. Copied from
+	mono runtime and modified for mod_mono purposes.
+
+2009-02-20  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.h: removed Apache 1.3 support.
+	Defined several macros used in mod_mono.c
+
+	* mod_mono.c: removed Apache 1.3 support.
+	Replaced atoi calls with own function to convert strings to
+	integers with a fall back to a provided default (string_to_long).
+	Adjusted levels of several DEBUG_PRINT messages.
+	Improved dashboard initialization code.
+	Some refactoring to make code more granular.
+	Redirecting stdout to /dev/null depends on whether we run with
+	debugging on or not and whether we were compiled with
+	--enable-debug or not.
+
+	* Makefile.am: removed Apache 1.3 support
+
+2009-01-28  Marek Habersack  <mhabersack@novell.com>
+
+	* mod_mono.h, mod_mono.c, Makefile.am: removed all the traces of
+	Apache 1.3 support
+
