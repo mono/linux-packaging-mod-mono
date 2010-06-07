@@ -17,6 +17,11 @@ DPKG_VERSION ?= $(shell head -n 1 debian/changelog  | cut -f 2 -d '(' | cut -f 1
 PKG_VERSION ?= $(shell echo $(DPKG_VERSION) | cut -f 1 -d '-' | cut -f 1-3 -d '.')
 NEXT_PKG_VERSION ?= $(shell echo $(PKG_VERSION) | perl -e '$$_=<>;/\.(\d+)$$/;$$a=$$1+1;s/\.(\d+)$$/.$$a/;print;')
 
+# Hard-code some values for the above, as we make an assumption that the 
+# XSP and mod-mono versions match (which they don't today)
+PKG_VERSION = 2.6.4
+NEXT_PKG_VERSION = 2.6.5
+
 MAKEFILE = $(firstword $(MAKEFILE_LIST))
 DEBIAN_DIR = $(dir $(MAKEFILE))
 SOURCE_DIR = $(DEBIAN_DIR)/..
