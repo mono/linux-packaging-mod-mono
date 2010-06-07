@@ -26,11 +26,6 @@ msgstr "Servidor Mono a empregar:"
 #. Type: select
 #. Description
 #: ../libapache2-mod-mono.templates:2001
-#| msgid ""
-#| "The libapache2-mod-mono module can be used with one of two different Mono "
-#| "ASP.NET backends:\n"
-#| " - mod-mono-server : implements ASP.NET 1.1 features;\n"
-#| " - mod-mono-server2: implements ASP.NET 2.0 features."
 msgid ""
 "The libapache2-mod-mono module can be used with one of two different Mono "
 "ASP.NET backends:\n"
@@ -41,4 +36,3 @@ msgstr ""
 "NET de Mono:\n"
 " - mod-mono-server1: implementa as características de ASP.NET 1.1;\n"
 " - mod-mono-server2: implementa as características de ASP.NET 2.0."
-
