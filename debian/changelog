@@ -1,4 +1,4 @@
-mod-mono (2.6.3-2) UNRELEASED; urgency=low
+mod-mono (2.6.3-2) experimental; urgency=low
 
   * debian/rules:
     + Bump the expected XSP version to 2.6.5
