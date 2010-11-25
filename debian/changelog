@@ -1,3 +1,15 @@
+mod-mono (2.6.3-4) unstable; urgency=low
+
+  * [8b34845] Remove obsolete gbp.conf
+  * [07a4ab2] As it turns out, the change in 2.0-1 to prevent postinst
+    failure has an unwanted side effect - it is possible that
+    mod_mono.conf will be created (via touch) before dpkg handles the
+    conffiles - meaning it will prompt users about replacing the empty
+    file. Instead, just exit without an error when the config file is
+    missing (Closes: #604206)
+
+ -- Jo Shields <directhex@apebox.org>  Thu, 25 Nov 2010 09:13:34 +0000
+
 mod-mono (2.6.3-3) unstable; urgency=low
 
   * Upload to Debian Unstable.
