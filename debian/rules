@@ -1,16 +1,4 @@
 #!/usr/bin/make -f
-# -*- makefile -*-
-# Sample debian/rules that uses debhelper.
-# GNU copyright 1997 to 1999 by Joey Hess.
-
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
-#export DH_COMPAT=4
-
-# These are used for cross-compiling and for saving the configure script
-# from having to guess our platform (since we know it already)
-DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
-DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
 # Perl code to figure out the current version and the next "potential" version
 DPKG_VERSION ?= $(shell head -n 1 debian/changelog  | cut -f 2 -d '(' | cut -f 1 -d ')')
@@ -30,103 +18,20 @@ DEB_VERSION = $(shell dpkg-parsechangelog -l$(DEBIAN_DIR)/changelog | grep ^Vers
 DEB_SOURCE_NAME = $(shell dpkg-parsechangelog -l$(DEBIAN_DIR)/changelog | grep ^Source | cut -d" " -f2)
 VERSION = $(shell echo $(DEB_VERSION) | cut -d"-" -f1 | sed 's/+dfsg.*//')
 
-CFLAGS = -Wall -g
+override_dh_install:
+	dh_install
 
-ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -O0
-else
-	CFLAGS += -O2
-endif
-ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
-	INSTALL_PROGRAM += -s
-endif
-
-COMMON_CONFIG=	--build=$(DEB_BUILD_GNU_TYPE) \
-		--host=$(DEB_HOST_GNU_TYPE) \
-		--prefix=/usr \
-		--mandir=\$${prefix}/share/man \
-		--infodir=\$${prefix}/share/info
-
-configure: configure-apache2-stamp
-configure-apache2-stamp:
-	dh_testdir
-	dh_quilt_patch
-	if [ -d apache2-build ]; then rm -rf apache2-build; fi
-	-mkdir apache2-build
-	cd apache2-build && \
-		../configure $(COMMON_CONFIG) --with-apxs=/usr/bin/apxs2
-	touch $@
-
-build: configure build-apache2-stamp
-build-apache2-stamp: configure-apache2-stamp
-	dh_testdir
-	cd apache2-build && $(MAKE)
-	touch $@
-
-clean:
-	dh_testdir
-	dh_quilt_unpatch
-	dh_testroot
-	rm -f *-stamp *-stamp-*
-	rm -rf apache-build apache2-build
-	debconf-updatepo
-	dh_clean 
-
-install: build install-prereq install-apache2
-install-prereq: build
-	dh_testdir
-	dh_testroot
-	dh_prep
-install-apache2:
-	dh_installdirs -plibapache2-mod-mono
-
-	# Install into debian/libapache2-mod-mono.
-	# We need APXS = /bin/true, otherwise mod_mono will install everything
-	# in /usr instead of debian/libapache2-mod-mono.
-	cd apache2-build && $(MAKE) install \
-		DESTDIR=../debian/libapache2-mod-mono \
-		APXS=/bin/true
-	install -m755 apache2-build/src/.libs/mod_mono.so \
-		debian/libapache2-mod-mono/`apxs2 -q LIBEXECDIR`
-	install -m644 debian/libapache2-mod-mono.load \
-		debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono.load
-	install -m644 debian/libapache2-mod-mono.conf \
-		debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono.conf
-
-#	Install a Debian version of the AutoConfiguration stuff that fits
-#	with the apache2 a2{en,dis}mod stuff. We use the existing version
-#	because of the autoconf substitutions.
+	# Install a Debian version of the AutoConfiguration stuff that fits
+	# with the apache2 a2{en,dis}mod stuff. We use the existing version
+	# because of the autoconf substitutions.
 	grep LoadModule debian/libapache2-mod-mono/etc/apache2/mod_mono.conf \
 		> debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono_auto.load
 	chmod 0644 debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono_auto.load
-	cp debian/libapache2-mod-mono.conf_auto \
-		debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono_auto.conf
-	chmod 0644 debian/libapache2-mod-mono/etc/apache2/mods-available/mod_mono_auto.conf
 	rm -f debian/libapache2-mod-mono/etc/apache2/mod_mono.conf
 
-# Build architecture-independent files here.
-binary-indep: build install
-# We have nothing to do by default.
-
-# Build architecture-dependent files here.
-binary-arch: build install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs ChangeLog
-	dh_installdocs
-	dh_installexamples
-	dh_installdebconf
-	dh_installman
-	dh_link
-	dh_strip
-	dh_compress
-	dh_fixperms
-	dh_installdeb
-	dh_shlibdeps
+override_dh_gencontrol:
 	dh_gencontrol -- \
 		-Vcurrent-version=$(PKG_VERSION) -Vnext-version=$(NEXT_PKG_VERSION)
-	dh_md5sums
-	dh_builddeb
 
 get-orig-source:
 	uscan \
@@ -138,5 +43,6 @@ get-orig-source:
 		--force-download \
 		--rename
 
-binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install 
+%:
+	dh --with quilt $@
+
