@@ -98,6 +98,12 @@ Default value: ""
 The full path to the mod-mono-server script.
 Default value: "/usr/bin/mod-mono-server"
 .TP
+.I "MonoTargetFramework"
+If MonoRunXSP is True, this option selects the .NET framework version to use. This
+affects the backend that is started to service the requests. The MonoServerPath option
+takes precedence over this setting. Available values are "2.0", "3.5" and "4.0". 
+Default value: "2.0"
+.TP
 .I "MonoWapiDir"
 The directory where mono runtime will create the ".wapi" directory
 used to emulate windows I/O. It's used to set MONO_SHARED_DIR.
@@ -168,13 +174,13 @@ Default value: none
 .I "MonoMaxActiveRequests"
 The maximum number of concurrent requests mod_mono will pass off to
 the ASP.NET backend. Set to zero to turn off the limit. Default value:
-20.
+0.
 .TP
 .I "MonoMaxWaitingRequests"
 The maximum number of concurrent requests mod_mono will hold while
 the ASP.NET backend is busy with the maximum number of requests
 specified by MonoMaxActiveRequests. Requests that can't be processed
-or held are dropped with Service Unavailable. Default value: 20.
+or held are dropped with Service Unavailable. Default value: 150.
 .TP
 .I "MonoCheckHiddenFiles"
 Do not protect hidden files/directories from being accessed by clients. Hidden files/directories are those with 

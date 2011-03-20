@@ -113,6 +113,7 @@ typedef struct xsp_data {
 	char *executable_path;
 	char *path;
 	char *server_path;
+	char *target_framework;
 	char *applications;
 	char *wapidir;
 	char *document_root;
@@ -588,7 +589,8 @@ add_xsp_server (apr_pool_t *pool, const char *alias, module_cfg *config, int is_
 	server->run_xsp = "True";
 	/* (Obsolete) server->executable_path = EXECUTABLE_PATH; */
 	server->path = NULL;
-	server->server_path = MODMONO_SERVER_PATH;
+	server->server_path = NULL;
+	server->target_framework = NULL;
 	server->applications = NULL;
 	server->wapidir = WAPIDIR;
 	server->document_root = DOCUMENT_ROOT;
@@ -717,6 +719,7 @@ store_config_xsp (cmd_parms *cmd, void *notused, const char *first, const char *
 		alias = "default";
 		if (cmd->server->is_virtual && cmd->server->server_hostname)
 			alias = cmd->server->server_hostname;
+
 		value = first;
 		is_default = 1;
 	} else {
@@ -726,7 +729,7 @@ store_config_xsp (cmd_parms *cmd, void *notused, const char *first, const char *
 		value = second;
 		is_default = (!strcmp (alias, "default"));
 	}
-
+	
 	/* Disable autoapp if there's any other application. MonoDebug is excluded. */
 	if (!config->auto_app_set)
 		config->auto_app = FALSE;
@@ -984,7 +987,7 @@ send_entire_file (request_rec *r, const char *filename, int *result, xsp_data *x
 
 	st = ap_send_fd (file, r, 0, info.size, &nbytes);
 	apr_file_close (file);
-	if (nbytes < 0) {
+	if (nbytes < 0 || st != APR_SUCCESS) {
 		DEBUG_PRINT (2, "SEND FAILED");
 		*result = HTTP_INTERNAL_SERVER_ERROR;
 		retval = -1;
@@ -1335,11 +1338,11 @@ try_connect (xsp_data *conf, apr_socket_t **sock, apr_int32_t family, apr_pool_t
 			error = strerror (err);
 			if (conf->listen_port == NULL)
 				ap_log_error (APLOG_MARK, APLOG_ERR, STATUS_AND_SERVER,
-					      "mod_mono: file %s exists, but wrong permissions.", fn);
+					      "mod_mono: file %s exists, but wrong permissions. %s", fn, error);
 			else
 				ap_log_error (APLOG_MARK, APLOG_ERR, STATUS_AND_SERVER,
-					      "mod_mono: no permission to listen on %s.",
-					      conf->listen_port);
+					      "mod_mono: no permission to listen on %s. %s",
+					      conf->listen_port, error);
 
 
 			apr_socket_close (*sock);
@@ -1496,6 +1499,7 @@ fork_mod_mono_server (apr_pool_t *pool, xsp_data *config)
 	char *path;
 	char *tmp;
 	char *serverdir;
+	char *server_path;
 	char *wapidir;
 	int max_memory = 0;
 	int max_cpu_time = 0;
@@ -1567,11 +1571,6 @@ fork_mod_mono_server (apr_pool_t *pool, xsp_data *config)
 	if (config->max_cpu_time != NULL)
 		max_cpu_time = (int)string_to_long (config->max_cpu_time, "MonoMaxCPUTime", -1);
 
-	set_environment_variables (pool, config->env_vars);
-
-	if (config->iomap && *config->iomap)
-		SETENV (pool, "MONO_IOMAP", config->iomap);
-
 	pid = fork ();
 	if (pid > 0) {
 		waitpid (pid, &status, 0);
@@ -1584,6 +1583,11 @@ fork_mod_mono_server (apr_pool_t *pool, xsp_data *config)
 		exit (0);
 
 	setsid ();
+	set_environment_variables (pool, config->env_vars);
+
+	if (config->iomap && *config->iomap)
+		SETENV (pool, "MONO_IOMAP", config->iomap);
+
 	status = chdir ("/");
 
 #if defined (APR_HAS_USER)
@@ -1641,7 +1645,30 @@ fork_mod_mono_server (apr_pool_t *pool, xsp_data *config)
 	if (tmp == NULL)
 		tmp = "";
 
-	serverdir = get_directory (pool, config->server_path);
+	if (config->server_path && config->server_path [0])
+		server_path = config->server_path;
+	else if (config->target_framework && config->target_framework [0]) {
+		switch (config->target_framework [0]) {
+			case '2':
+			case '3':
+				server_path = MODMONO_SERVER_PATH;
+			break;
+
+			case '4':
+				server_path = MODMONO_SERVER_BASEPATH "4";
+				break;
+
+			default:
+				ap_log_error (APLOG_MARK, APLOG_ERR, STATUS_AND_SERVER,
+					      "Unsupported target framework version: %s",
+					      config->target_framework);
+				exit (1);
+		}
+
+	} else
+		server_path = MODMONO_SERVER_PATH;
+
+	serverdir = get_directory (pool, server_path);
 	DEBUG_PRINT (1, "serverdir: %s", serverdir);
 	path = apr_pcalloc (pool, strlen (tmp) + strlen (serverdir) + 2);
 	sprintf (path, "%s:%s", serverdir, tmp);
@@ -1671,7 +1698,7 @@ fork_mod_mono_server (apr_pool_t *pool, xsp_data *config)
 #endif
 	memset (argv, 0, sizeof (char *) * MAXARGS);
 	argi = 0;
-	argv [argi++] = config->server_path;
+	argv [argi++] = server_path;
 	if (config->listen_port != NULL) {
 		char *la;
 
@@ -1808,6 +1835,9 @@ write_string_to_buffer (char *buffer, int offset, const char *str, size_t str_le
 {
 	uint32_t le;
 	uint32_t tmp;
+
+	if (!str && str_length > 0)
+		str_length = 0;
 
 	buffer += offset;
 	if (str && !str_length) {
@@ -1979,7 +2009,7 @@ send_initial_data (request_rec *r, apr_socket_t *sock, char auto_app)
 	else
 		ptr = str = apr_pcalloc (r->pool, size);
 	*ptr++ = (char)PROTOCOL_VERSION; /* version. Keep in sync with ModMonoRequest. */
-	i = LE_FROM_INT (size);
+	i = LE_FROM_INT (size) - (1 + sizeof (size)); /* Subtract the command the data size from the buffer size */
 	memcpy (ptr, &i, sizeof (i));
 	ptr += sizeof (int32_t);
 	ptr += write_string_to_buffer (ptr, 0, r->method, info.method_len);
@@ -2029,7 +2059,7 @@ inline static void clear_uri_item (uri_item* list, int nitems, int32_t id)
 inline static void set_uri_item (uri_item* list, int nitems, request_rec* r, int32_t id)
 {
 	int i;
-	int uri_len;
+	int uri_len = 0;
 	int args_len;
 
 	for (i = 0; i < nitems; i++) {
@@ -2188,7 +2218,6 @@ mono_execute_request (request_rec *r, char auto_app)
 	xsp_data *conf;
 	uint32_t connect_attempts;
 	uint32_t start_wait_time;
-	char *socket_name = NULL;
 	int retrying, was_starting;
 	int32_t id = -1;
 
@@ -2217,7 +2246,6 @@ mono_execute_request (request_rec *r, char auto_app)
 
 	conf = &config->servers [idx];
 	ensure_dashboard_initialized (config, conf, pconf);
-	socket_name = get_unix_socket_path (r->pool, conf);
 	connect_attempts = (uint32_t)string_to_long (conf->start_attempts, "MonoXSPStartAttempts", START_ATTEMPTS);
 	start_wait_time = (uint32_t)string_to_long (conf->start_wait_time, "MonoXSPStartWaitTime", START_WAIT_TIME);
 	if (start_wait_time < 2)
@@ -2930,6 +2958,12 @@ static const command_rec mono_cmds [] = {
 		    "Default: " MODMONO_SERVER_PATH
 	),
 
+	MAKE_CMD12 (MonoTargetFramework, target_framework,
+		    "If MonoRunXSP is True, this option selects the .NET framework version to use. This "
+		    "affects the backend that is started to service the requests. The MonoServerPath option "
+		    "takes precedence over this setting. Default: " MONO_DEFAULT_FRAMEWORK
+	),
+
 	MAKE_CMD12 (MonoApplications, applications,
 		    "Comma separated list with virtual directories and real directories. "
 		    "One ASP.NET application will be created for each pair. Default: \"\" "
@@ -3005,7 +3039,7 @@ static const command_rec mono_cmds [] = {
 	),
 
 	MAKE_CMD12 (MonoIOMAP, iomap,
-		    "A string with format the same as the MONO_IOMAP variable (see mod_mono (1))."
+		    "A string with format the same as the MONO_IOMAP variable (see mod_mono (8))."
 		    " Default value: none"),
 
 	MAKE_CMD_ITERATE2 (AddMonoApplications, applications,
@@ -3035,12 +3069,12 @@ static const command_rec mono_cmds [] = {
 
 	MAKE_CMD12 (MonoMaxActiveRequests, max_active_requests,
 		    "The maximum number of concurrent requests mod_mono will pass off to the ASP.NET backend. "
-		    "Set to zero to turn off the limit. Default value: 20"),
+		    "Set to zero to turn off the limit. Default value: 150"),
 	MAKE_CMD12 (MonoMaxWaitingRequests, max_waiting_requests,
 		    "The maximum number of concurrent requests mod_mono will hold while the ASP.NET backend is busy "
 		    "with the maximum number of requests specified by MonoMaxActiveRequests. "
 		    "Requests that can't be processed or held are dropped with Service Unavailable."
-		    "Default value: 20"),
+		    "Default value: 150"),
 	MAKE_CMD12 (MonoCheckHiddenFiles, hidden,
 		    "Do not protect hidden files/directories from being accessed by clients. Hidden files/directories are those with "
 		    "Hidden attribute on Windows and whose name starts with a dot on Unix. Any file/directory below a hidden directory "

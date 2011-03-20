@@ -89,7 +89,9 @@
 #define DIRECTORY_SEPARATOR	"/"
 #endif
 
-#define MODMONO_SERVER_PATH	MONO_PREFIX "/bin/mod-mono-server"
+#define MODMONO_SERVER_BASEPATH MONO_PREFIX "/bin/mod-mono-server"
+#define MONO_DEFAULT_FRAMEWORK  "2.0"
+#define MODMONO_SERVER_PATH	MODMONO_SERVER_BASEPATH "2"
 #define WAPIDIR			"/tmp"
 #define DOCUMENT_ROOT		NULL
 #define APPCONFIG_FILE		NULL
@@ -98,8 +100,8 @@
 #define LISTEN_ADDRESS		"127.0.0.1"
 #define DASHBOARD_FILE		"/tmp/mod_mono_dashboard"
 #define GLOBAL_SERVER_NAME	"XXGLOBAL"
-#define MAX_ACTIVE_REQUESTS	20
-#define MAX_WAITING_REQUESTS	20
+#define MAX_ACTIVE_REQUESTS	0
+#define MAX_WAITING_REQUESTS	150
 #define START_ATTEMPTS		3
 #define START_WAIT_TIME		2
 
@@ -145,7 +147,13 @@ enum Cmd {
 	LAST_COMMAND
 };
 
-static char *cmdNames [] = {
+#ifdef __GNUC__
+#define UNUSED __attribute__ ((unused))
+#else
+#define UNUSED
+#endif
+
+static char UNUSED *cmdNames [] = {
 	"SEND_FROM_MEMORY",
 	"GET_SERVER_VARIABLES",
 	"SET_RESPONSE_HEADERS",
@@ -194,7 +202,7 @@ static char *cmdNames [] = {
 	}
 #else
 #define DEBUG_PRINT dummy_print
-static void
+static void UNUSED
 dummy_print (int a, ...)
 {
 }
