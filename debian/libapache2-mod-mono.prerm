@@ -10,6 +10,7 @@ fi
 
 if [ -e /etc/apache2/apache2.conf ]; then
 	/usr/sbin/a2dismod mod_mono || true
+	/usr/sbin/a2dismod mod_mono_auto || true
 fi
 
 exit 0
