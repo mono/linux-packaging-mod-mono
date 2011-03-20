@@ -44,5 +44,5 @@ get-orig-source:
 		--rename
 
 %:
-	dh --with quilt $@
+	dh $@
 
