@@ -3,13 +3,14 @@
 #
 # Jacobo Tarrio <jtarrio@debian.org>, 2007.
 # Marce Villarino <mvillarino@gmail.com>, 2009.
+# Miguel Anxo Bouzada <mbouzada@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: mod-mono\n"
 "Report-Msgid-Bugs-To: mod-mono@packages.debian.org\n"
 "POT-Creation-Date: 2011-03-20 23:00+0000\n"
-"PO-Revision-Date: 2009-11-07 20:09+0100\n"
-"Last-Translator: Marce Villarino <mvillarino@gmail.com>\n"
+"PO-Revision-Date: 2011-04-03 12:52+0100\n"
+"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
@@ -27,19 +28,17 @@ msgstr "Servidor Mono a empregar:"
 #. Type: select
 #. Description
 #: ../libapache2-mod-mono.templates:2001
-#, fuzzy
 #| msgid ""
 #| "The libapache2-mod-mono module can be used with one of two different Mono "
 #| "ASP.NET backends:\n"
 #| " - mod-mono-server1: implements ASP.NET 1.1 features;\n"
 #| " - mod-mono-server2: implements ASP.NET 2.0 features."
 msgid ""
-"The libapache2-mod-mono module can be used with one of two different Mono "
-"ASP.NET backends:\n"
+"The libapache2-mod-mono module can be used with one of two different Mono ASP.NET backends:\n"
 " - mod-mono-server2: implements ASP.NET 2.0 features;\n"
 " - mod-mono-server4: implements ASP.NET 4.0 features."
 msgstr ""
-"Pódese empregar o módulo libapache2-mod-mono con calquera destes motores ASP."
-"NET de Mono:\n"
+"Pódese empregar o módulo libapache2-mod-mono cun dos dous diferentes motores ASP.NET de Mono:\n"
 " - mod-mono-server2: implementa as características de ASP.NET 2.0;\n"
 " - mod-mono-server4: implementa as características de ASP.NET 4.0."
+
