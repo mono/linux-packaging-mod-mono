@@ -1,14 +1,14 @@
 # Portuguese translation for mod-mono's debconf messages
 # Copyright (C) 2007 Miguel Figueiredo
 # This file is distributed under the same license as the mod-mono package.
-# Miguel Figueiredo <elmig@debianpt.org>, 2007-2009.
+# Miguel Figueiredo <elmig@debianpt.org>, 2007-2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: mod-mono\n"
 "Report-Msgid-Bugs-To: mod-mono@packages.debian.org\n"
 "POT-Creation-Date: 2011-03-20 23:00+0000\n"
-"PO-Revision-Date: 2009-11-02 22:38+0000\n"
+"PO-Revision-Date: 2011-04-03 12:27+0100\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
 "Language: pt\n"
@@ -25,7 +25,6 @@ msgstr "Servidor mono a utilizar:"
 #. Type: select
 #. Description
 #: ../libapache2-mod-mono.templates:2001
-#, fuzzy
 #| msgid ""
 #| "The libapache2-mod-mono module can be used with one of two different Mono "
 #| "ASP.NET backends:\n"
@@ -38,7 +37,7 @@ msgid ""
 " - mod-mono-server4: implements ASP.NET 4.0 features."
 msgstr ""
 "O módulo libapache2-mod-mono pode ser utilizado com um de dois diferentes "
-"backends Mono de ASP.NET.\n"
+"backends Mono de ASP.NET:\n"
 " - mod-mono-server2: implementa funcionalidades ASP.NET 2.0;\n"
 " - mod-mono-server4: implementa funcionalidades ASP.NET 4.0."
 
