@@ -1,22 +1,23 @@
+# translation of mod-mono_2.10-1_eu.po to Basque
+# Piarres Beobide <pi@beobide.net>, 2007, 2009.
+# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2009, 2011.
 # translation of mod-mono_eu.po to
 # translation of mod-mono to Euskara
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Piarres Beobide <pi@beobide.net>, 2007, 2009.
-# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: mod-mono_eu\n"
+"Project-Id-Version: mod-mono_2.10-1_eu\n"
 "Report-Msgid-Bugs-To: mod-mono@packages.debian.org\n"
 "POT-Creation-Date: 2011-03-20 23:00+0000\n"
-"PO-Revision-Date: 2009-10-29 12:35+0100\n"
+"PO-Revision-Date: 2011-04-07 15:30+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <debian-l10n-basque@lists.debian.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #. Type: select
@@ -28,7 +29,6 @@ msgstr "Mono zerbitzaria:"
 #. Type: select
 #. Description
 #: ../libapache2-mod-mono.templates:2001
-#, fuzzy
 #| msgid ""
 #| "The libapache2-mod-mono module can be used with one of two different Mono "
 #| "ASP.NET backends:\n"
@@ -42,5 +42,6 @@ msgid ""
 msgstr ""
 "'libapache2-mod-mono' modulua Mono ASP.NET motor desberdinetako batekin "
 "erabili daiteke:\n"
-" - mod-mono-server2: ASP.NET 2.0 ezaugarriak inplementatzen ditu;\n"
-" - mod-mono-server4: ASP.NET 4.0 ezaugarriak inplementatzen ditu."
+" - mod-mono-server2: ASP.NET 2.0 eginbideak inplementatzen ditu;\n"
+" - mod-mono-server4: ASP.NET 4.0 eginbideak inplementatzen ditu."
+
