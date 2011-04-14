@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: mod-mono\n"
 "Report-Msgid-Bugs-To: mod-mono@packages.debian.org\n"
 "POT-Creation-Date: 2011-03-20 23:00+0000\n"
-"PO-Revision-Date: 2009-11-01 17:00+0100\n"
+"PO-Revision-Date: 2011-04-09 12:16+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "Language: cs\n"
@@ -33,7 +33,6 @@ msgstr "Mono server, který se má použít:"
 #. Type: select
 #. Description
 #: ../libapache2-mod-mono.templates:2001
-#, fuzzy
 #| msgid ""
 #| "The libapache2-mod-mono module can be used with one of two different Mono "
 #| "ASP.NET backends:\n"
