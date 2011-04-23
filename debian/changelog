@@ -1,3 +1,52 @@
+mod-mono (2.10-1) experimental; urgency=low
+
+  * [416f2fa] Imported Upstream version 2.10
+  * [eaf9d4a] Bump package dependencies to look for 4.0 and 2.0 versions
+    of ASP.NET support, not 2.0 and 1.0
+  * [850d4d6] Bump package dependencies in debian/rules to the latest
+    XSP version
+  * [8fe987d] Stop repackaging .tar.bz2 sources as .tar.gz - it's 2011
+    and we have amazing new archive format powers
+  * [1ec2fe6] Switch to Debian source format 3.0
+  * [9c83896] Convert packaging to Debhelper 7, and clean up
+    debian/rules significantly
+  * [70e9b24] Finish changes to debian/control for binary version
+    requirements
+  * [37d465f] Update config script to 2.0/4.0 versions of ASP.NET
+    backend
+  * [96f7690] Update debconf templates and translations to offer 2.0/4.0
+    rather than 1.1/2.0
+  * [750d2c3] Ensure we disable both possible versions of mod_mono when
+    removing the package, otherwise mod_mono_auto might be kept
+  * [7161553] No longer force a build-depends on Quilt, since it's
+    handled at the dpkg level with Debian source format 3.0
+  * [c2106e0] Bump Standards to 3.9.1
+  * [7729138] Don't use Debhelper Quilt rule anymore
+  * [1ceb779] Version our debhelper requirement, since we use overrides
+  * [7658daf] Updated German translation. Thanks to Helge Kreutzmann.
+    (Closes: #620653)
+  * [f7c5cf8] Updated Russian translation. Thanks to Yuri Kozlov.
+    (Closes: #620654)
+  * [d064926] Updated Galician translation. Thanks to Miguel Bouzada.
+  * [e68dc09] Updated Portugese translation. Thanks to Miguel
+    Figueiredo. (Closes: #620666)
+  * [4ccef0a] Updated French translation. Thanks to Christian Perrier.
+    (Closes: #620688)
+  * [9ffc341] Updated Finnish translation. Thanks to Esko Arajärvi.
+    (Closes: #621010)
+  * [8709926] Updated Basque translation. Thanks to Iñaki Larrañaga
+    Murgoitio. (Closes: #621669)
+  * [eeb664d] Updated Czech translation. Thanks to Miroslav Kure.
+    (Closes: #622099)
+  * [1916357] Updated Basque translation. Thanks to Iñaki Larrañaga
+    Murgoitio. (Closes: #621669)
+  * [c4bf624] Updated Spanish translation. Thanks to Francisco Javier
+    Cuadrado. (Closes: #622613)
+  * [9cbfb7d] Updated Swedish translation. Thanks to Martin Bagge.
+    (Closes: #623405)
+
+ -- Jo Shields <directhex@apebox.org>  Sat, 23 Apr 2011 15:03:08 +0100
+
 mod-mono (2.6.3-4) unstable; urgency=low
 
   * [8b34845] Remove obsolete gbp.conf
