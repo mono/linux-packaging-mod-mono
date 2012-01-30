@@ -6,7 +6,7 @@ Vcs-Browser: http://svn.debian.org/wsvn/pkg-mono/mod-mono/trunk/
 Vcs-Svn: svn://svn.debian.org/pkg-mono/mod-mono/trunk
 Maintainer: Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>
 Uploaders: Dylan R. E. Moonfire <debian@mfgames.com>, Mirco Bauer <meebey@debian.org>, Jo Shields <directhex@apebox.org>
-Build-Depends: debhelper (>= 7.0.50~), apache2-threaded-dev (>= 2.2), po-debconf, pkg-config
+Build-Depends: debhelper (>= 7.0.50~), apache2-threaded-dev (>= 2.2), po-debconf, pkg-config, mono-runtime
 Standards-Version: 3.9.1
 
 Package: libapache2-mod-mono
