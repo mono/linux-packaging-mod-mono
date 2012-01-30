@@ -1,3 +1,11 @@
+mod-mono (2.10-3) unstable; urgency=low
+
+  * [07fb0a9] Add a build-dependency on mono-runtime as a cheap way to 
+    ensure that this package can only be built on architectures with 
+    Mono (Closes: #657800)
+
+ -- Jo Shields <directhex@apebox.org>  Mon, 30 Jan 2012 20:26:02 +0000
+
 mod-mono (2.10-2) unstable; urgency=low
 
   * Upload to Unstable
