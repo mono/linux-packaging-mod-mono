@@ -9,6 +9,9 @@
 /* Compiling for Apache >= 2.2 */
 #undef APACHE22
 
+/* Compiling for Apache >= 2.4 */
+#undef APACHE24
+
 /* apr_socket_connect is present */
 #undef HAVE_APR_SOCKET_CONNECT
 
@@ -132,6 +135,9 @@
 
 /* Define to the one symbol short name of this package. */
 #undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
