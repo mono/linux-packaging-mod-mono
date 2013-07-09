@@ -1,3 +1,11 @@
+mod-mono (2.11+git20130708.6b73e85-1) unstable; urgency=low
+
+  * [b41e546] Imported Upstream version 2.11+git20130708.6b73e85 (Closes:
+    #666836)
+  * [aa892a9] Fix up package dependencies for Apache 2.4
+
+ -- Jo Shields <directhex@apebox.org>  Tue, 09 Jul 2013 22:59:45 +0100
+
 mod-mono (2.10-3) unstable; urgency=low
 
   * [07fb0a9] Add a build-dependency on mono-runtime as a cheap way to 
