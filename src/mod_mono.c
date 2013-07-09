@@ -121,6 +121,8 @@ typedef struct xsp_data {
 	char *appconfig_dir;
 	char *listen_port;
 	char *listen_address;
+	char *listen_backlog;
+	char *minthreads;
 	char *max_cpu_time;
 	char *max_memory;
 	char *debug;
@@ -386,7 +388,11 @@ inline static uid_t
 apache_get_userid ()
 {
 #ifdef HAVE_UNIXD
-	return unixd_config.user_id;
+#if defined(APACHE24)
+  return ap_unixd_config.user_id;
+#else
+  return unixd_config.user_id;
+#endif
 #else
 	return ap_user_id;
 #endif
@@ -396,7 +402,11 @@ inline static gid_t
 apache_get_groupid ()
 {
 #ifdef HAVE_UNIXD
-	return unixd_config.group_id;
+#if defined(APACHE24)
+	return ap_unixd_config.user_id;
+#else
+  return unixd_config.user_id;
+#endif
 #else
 	return ap_group_id;
 #endif
@@ -406,7 +416,11 @@ inline static const char *
 apache_get_username ()
 {
 #ifdef HAVE_UNIXD
+#if defined(APACHE24)
+	return ap_unixd_config.user_name;
+#else 
 	return unixd_config.user_name;
+#endif
 #else
 	return ap_user_name;
 #endif
@@ -485,8 +499,12 @@ ensure_dashboard_initialized (module_cfg *config, xsp_data *xsp, apr_pool_t *p)
 
 #if defined (AP_NEED_SET_MUTEX_PERMS) && defined (HAVE_UNIXD)
 		DEBUG_PRINT (1, "Setting mutex permissions for %s", xsp->dashboard_lock_file);
+#if defined(APACHE24)
+		rv = ap_unixd_set_global_mutex_perms (xsp->dashboard_mutex);
+#else 
 		rv = unixd_set_global_mutex_perms (xsp->dashboard_mutex);
-		if (rv != APR_SUCCESS) {
+#endif
+    if (rv != APR_SUCCESS) {
 			ap_log_error (APLOG_MARK, APLOG_CRIT, STATCODE_AND_SERVER (rv),
 				      "Failed to set mutex permissions for %s",
 				      xsp->dashboard_lock_file);
@@ -600,6 +618,8 @@ add_xsp_server (apr_pool_t *pool, const char *alias, module_cfg *config, int is_
 
 	server->listen_port = NULL;
 	server->listen_address = NULL;
+	server->listen_backlog = NULL;
+	server->minthreads = NULL;
 	server->max_cpu_time = NULL;
 	server->max_memory = NULL;
 	server->debug = NULL;
@@ -850,9 +870,13 @@ connection_get_remote_port (conn_rec *c)
 #if defined(APACHE22)
 	return c->remote_addr->port;
 #else
+#if defined(APACHE24)
+  return c->client_addr->port;
+#else 
 	apr_port_t port;
 	apr_sockaddr_port_get (&port, c->remote_addr);
 	return port;
+#endif
 #endif
 
 }
@@ -863,9 +887,13 @@ connection_get_local_port (request_rec *r)
 #if defined(APACHE22)
 	return r->connection->local_addr->port;
 #else
+#if defined(APACHE24)
+	return r->connection->local_addr->port;
+#else
 	apr_port_t port;
 	apr_sockaddr_port_get (&port, r->connection->local_addr);
 	return port;
+#endif
 #endif
 }
 
@@ -1565,6 +1593,7 @@ fork_mod_mono_server (apr_pool_t *pool, xsp_data *config)
 		return;
 	}
 
+
 	if (config->max_memory != NULL)
 		max_memory = (int)string_to_long (config->max_memory, "MonoMaxMemory", -1);
 
@@ -1713,6 +1742,16 @@ fork_mod_mono_server (apr_pool_t *pool, xsp_data *config)
 		DEBUG_PRINT (0, "Backend socket path: %s", fn);
 		argv [argi++] = "--filename";
 		argv [argi++] = fn;
+	}
+
+	if (config->listen_backlog != NULL) {
+		argv [argi++] = "--backlog";
+		argv [argi++] = config->listen_backlog;
+	}
+
+	if (config->minthreads != NULL) {
+		argv [argi++] = "--minThreads";
+		argv [argi++] = config->minthreads;
 	}
 
 	if (config->applications != NULL) {
@@ -1977,9 +2016,12 @@ send_initial_data (request_rec *r, apr_socket_t *sock, char auto_app)
 	size += info.local_ip_len + sizeof (int32_t);
 
 	size += sizeof (int32_t);
-
-	info.remote_ip_len = strlen (r->connection->remote_ip);
-	size += info.remote_ip_len + sizeof (int32_t);
+#if defined(APACHE24)
+  info.remote_ip_len = strlen (r->connection->client_ip);
+#else 
+  info.remote_ip_len = strlen (r->connection->remote_ip);
+#endif
+  size += info.remote_ip_len + sizeof (int32_t);
 
 	size += sizeof (int32_t);
 
@@ -2026,7 +2068,11 @@ send_initial_data (request_rec *r, apr_socket_t *sock, char auto_app)
 	i = LE_FROM_INT (i);
 	memcpy (ptr, &i, sizeof (i));
 	ptr += sizeof (int32_t);
+#if defined(APACHE24)
+	ptr += write_string_to_buffer (ptr, 0, r->connection->client_ip, info.remote_ip_len);
+#else 
 	ptr += write_string_to_buffer (ptr, 0, r->connection->remote_ip, info.remote_ip_len);
+#endif
 	i = connection_get_remote_port (r->connection);
 	i = LE_FROM_INT (i);
 	memcpy (ptr, &i, sizeof (i));
@@ -2928,6 +2974,14 @@ static const command_rec mono_cmds [] = {
 		    "IP address where mod-mono-server should listen/is listening on. Can "
 		    "only be used when MonoListenPort is specified."
 		    "Default: \"127.0.0.1\""
+	),
+	MAKE_CMD12 (MonoListenBacklog, listen_backlog,
+		    "The socket listen backlog to set on mod-mono-server."
+		    "Default: 500"
+	),
+	MAKE_CMD12 (MonoMinThreads, minthreads,
+		    "The minimum number of threads the thread pool allocates in mod-mono-server."
+		    "Default: (mono runtime default)"
 	),
 
 	MAKE_CMD12 (MonoRunXSP, run_xsp,
