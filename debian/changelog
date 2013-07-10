@@ -1,3 +1,9 @@
+mod-mono (2.11+git20130708.6b73e85-2) unstable; urgency=low
+
+  * Use dh_apache2 and drop apache2.4-common dependency (Closes: #666836).
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 10 Jul 2013 11:14:53 +0100
+
 mod-mono (2.11+git20130708.6b73e85-1) unstable; urgency=low
 
   * [b41e546] Imported Upstream version 2.11+git20130708.6b73e85 (Closes:
