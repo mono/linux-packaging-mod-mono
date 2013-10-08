@@ -31,7 +31,8 @@ override_dh_install:
 
 override_dh_gencontrol:
 	dh_gencontrol -- \
-		-Vcurrent-version=$(PKG_VERSION) -Vnext-version=$(NEXT_PKG_VERSION)
+		-Vcurrent-version=3.0.11 -Vnext-version=3.0.11.1
+#		-Vcurrent-version=$(PKG_VERSION) -Vnext-version=$(NEXT_PKG_VERSION)
 
 get-orig-source:
 	uscan \
