@@ -1,3 +1,12 @@
+mod-mono (2.11+git20130708.6b73e85-3) unstable; urgency=low
+
+  * [bb502f8] Updated Japanese translation. Thanks to victory 
+    <victory.deb@gmail.com> (Closes: #717704)
+  * [3a88e58] Work around misalignment of version numbers between xsp 
+    and mod-mono (Closes: #716896)
+
+ -- Jo Shields <directhex@apebox.org>  Tue, 08 Oct 2013 18:01:13 +0200
+
 mod-mono (2.11+git20130708.6b73e85-2) unstable; urgency=low
 
   * Use dh_apache2 and drop apache2.4-common dependency (Closes: #666836).
