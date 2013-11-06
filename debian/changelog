@@ -1,3 +1,9 @@
+mod-mono (2.11+git20130708.6b73e85-4) unstable; urgency=low
+
+  * [e37d95d] Version mono-runtime dependency to vaguely match XSP/mod_mono
+
+ -- Jo Shields <directhex@apebox.org>  Wed, 06 Nov 2013 22:08:46 +0000
+
 mod-mono (2.11+git20130708.6b73e85-3) unstable; urgency=low
 
   * [bb502f8] Updated Japanese translation. Thanks to victory 
