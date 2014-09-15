@@ -1,3 +1,9 @@
+mod-mono (3.8-0xamarin1+compat1) wheezy-apache24-compat; urgency=medium
+
+  * [f3bb482] Imported Upstream version 3.8
+
+ -- Jo Shields <jo.shields@xamarin.com>  Mon, 15 Sep 2014 11:31:41 +0100
+
 mod-mono (2.11+git20130708.6b73e85-4) unstable; urgency=low
 
   * [e37d95d] Version mono-runtime dependency to vaguely match XSP/mod_mono
