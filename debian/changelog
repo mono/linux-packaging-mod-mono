@@ -1,3 +1,10 @@
+mod-mono (3.8-0xamarin1) stable; urgency=medium
+
+  * [3397503] Revert "Use dh_apache2 and drop apache2.4-common dependency"
+  * [719d99c] Revert to Apache 2.2 dependencies
+
+ -- Jo Shields <jo.shields@xamarin.com>  Mon, 15 Sep 2014 11:50:06 +0100
+
 mod-mono (3.8-0xamarin1+compat1) wheezy-apache24-compat; urgency=medium
 
   * [f3bb482] Imported Upstream version 3.8
