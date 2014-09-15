@@ -45,5 +45,5 @@ get-orig-source:
 		--rename
 
 %:
-	dh $@ --with apache2
+	dh $@
 
