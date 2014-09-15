@@ -1,3 +1,10 @@
+mod-mono (3.8-0xamarin2) stable; urgency=medium
+
+  * [8010521] Correct package description
+  * [6461a06] Point to correct version of XSP
+
+ -- Jo Shields <jo.shields@xamarin.com>  Mon, 15 Sep 2014 12:09:23 +0100
+
 mod-mono (3.8-0xamarin1) stable; urgency=medium
 
   * [3397503] Revert "Use dh_apache2 and drop apache2.4-common dependency"
