@@ -1,3 +1,9 @@
+mod-mono (3.8-0xamarin2+compat1) wheezy-apache24-compat; urgency=medium
+
+  * [29510d0] Point to correct version of XSP
+
+ -- Jo Shields <jo.shields@xamarin.com>  Mon, 15 Sep 2014 12:05:15 +0100
+
 mod-mono (3.8-0xamarin1+compat1) wheezy-apache24-compat; urgency=medium
 
   * [f3bb482] Imported Upstream version 3.8
