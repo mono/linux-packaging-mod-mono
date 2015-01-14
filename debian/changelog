@@ -1,3 +1,9 @@
+mod-mono (3.12-0xamarin1) stable; urgency=medium
+
+  * [8938b54] Imported Upstream version 3.12
+
+ -- Jo Shields <jo.shields@xamarin.com>  Wed, 14 Jan 2015 00:38:39 +0000
+
 mod-mono (3.8-0xamarin2) stable; urgency=medium
 
   * [8010521] Correct package description
