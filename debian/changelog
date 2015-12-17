@@ -1,3 +1,9 @@
+mod-mono (3.12-0xamarin2) stable; urgency=medium
+
+  * [4ed2df6] Hardcode XSP 4.2
+
+ -- Jo Shields <jo.shields@xamarin.com>  Thu, 17 Dec 2015 13:16:59 +0000
+
 mod-mono (3.12-0xamarin1) stable; urgency=medium
 
   * [8938b54] Imported Upstream version 3.12
