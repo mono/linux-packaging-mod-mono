@@ -7,8 +7,8 @@ NEXT_PKG_VERSION ?= $(shell echo $(PKG_VERSION) | perl -e '$$_=<>;/\.(\d+)$$/;$$
 
 # Hard-code some values for the above, as we make an assumption that the 
 # XSP and mod-mono versions match (which they don't today)
-PKG_VERSION = 3.8
-NEXT_PKG_VERSION = 3.8.1
+PKG_VERSION = 4.2
+NEXT_PKG_VERSION = 4.4
 
 MAKEFILE = $(firstword $(MAKEFILE_LIST))
 DEBIAN_DIR = $(dir $(MAKEFILE))
