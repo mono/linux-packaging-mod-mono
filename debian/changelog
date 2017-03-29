@@ -1,3 +1,9 @@
+mod-mono (3.12-0xamarin3) alpha; urgency=medium
+
+  * Packaging bugfix:
+
+ -- Xamarin Public Jenkins (auto-signing) <releng@xamarin.com>  Wed, 29 Mar 2017 14:22:20 +0000
+
 mod-mono (3.12-0xamarin2) stable; urgency=medium
 
   * [4ed2df6] Hardcode XSP 4.2
