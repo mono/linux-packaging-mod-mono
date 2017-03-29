@@ -1,3 +1,18 @@
+mod-mono (3.12-1) UNRELEASED; urgency=medium
+
+  [ Jo Shields ]
+  * [48a9b64] Add piped deps/build deps so it builds on Apache 2.2 and 2.4
+
+  [ Xamarin Public Jenkins (auto-signing) ]
+
+ -- Jo Shields <joshield@microsoft.com>  Wed, 29 Mar 2017 14:47:01 +0000
+
+mod-mono (3.12-0xamarin4) alpha; urgency=medium
+
+  * Packaging bugfix:
+
+ -- Xamarin Public Jenkins (auto-signing) <releng@xamarin.com>  Wed, 29 Mar 2017 14:47:00 +0000
+
 mod-mono (3.12-0xamarin3) alpha; urgency=medium
 
   * Packaging bugfix:
