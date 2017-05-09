@@ -30,7 +30,7 @@ Obsoletes:      mod_mono
 %define apache_mmn        %(MMN=$(%{apxs} -q LIBEXECDIR)_MMN; test -x $MMN && $MMN)
 Url:            http://go-mono.com/
 Version:        3.12
-Release:        1.xamarin.0
+Release:	0.xamarin.1
 Summary:        Run ASP.NET Pages on Unix with Apache and Mono
 License:        Apache-2.0
 Group:          Productivity/Networking/Web/Servers
