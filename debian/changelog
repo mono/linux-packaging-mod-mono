@@ -1,3 +1,9 @@
+mod-mono (3.13-0xamarin1) preview; urgency=medium
+
+  * New release - mod-mono-3.13.tar.gz
+
+ -- Xamarin Public Jenkins (auto-signing) <releng@xamarin.com>  Fri, 06 Apr 2018 15:39:39 +0000
+
 mod-mono (3.12-1xamarin3) preview; urgency=medium
 
   * Packaging bugfix:
